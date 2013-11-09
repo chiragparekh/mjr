@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 09, 2013 at 08:50 AM
+-- Generation Time: Nov 09, 2013 at 10:36 AM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -30,17 +30,14 @@ CREATE TABLE IF NOT EXISTS `tbl_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `tbl_category`
 --
 
 INSERT INTO `tbl_category` (`id`, `name`) VALUES
-(7, 'zzz'),
-(8, 'xxx'),
-(9, 'New Cat'),
-(10, 'Mala');
+(11, 'Mala');
 
 -- --------------------------------------------------------
 
@@ -57,20 +54,19 @@ CREATE TABLE IF NOT EXISTS `tbl_product` (
   `image_path` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sub_category_id` (`sub_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `tbl_product`
 --
 
 INSERT INTO `tbl_product` (`id`, `sub_category_id`, `name`, `weight`, `description`, `image_path`) VALUES
-(20, 21, 'New Sub Cat1 - 20', 12.5, 'hgvf fgf', 'NewSubCat1_12.50_07112013215124.jpg'),
-(21, 16, 'SC1 Prod Test', 1.112, 'xxx sc1 desc', 'sc1_1.112_09112013131852.jpg'),
-(22, 16, 'Sc1 - 22', 1.2, 'xxx sc1 desc', 'sc1_1.2_09112013131752_1.jpg'),
-(23, 16, 'Sc1 - 23', 1.4, 'xxx sc1 desc', 'sc1_1.4_09112013131752_2.jpg'),
-(24, 16, 'Sc1 - 24', 1.5, 'xxx sc1 desc', 'sc1_1.5_09112013131753_3.jpg'),
-(25, 16, 'Sc1 - 25', 1.6, 'xxx sc1 desc', 'sc1_1.6_09112013131753_4.jpg'),
-(26, 16, 'Sc1 - 26', 13.3, 'xxx sc1 desc', 'sc1_13.3_09112013131754_5.jpg');
+(27, 22, 'Moti Mala - 27', 1.1, 'Moti mala desc', 'MotiMala_1.1_09112013150040_0.jpg'),
+(28, 22, 'Moti Mala - 28', 1.2, 'Moti mala desc', 'MotiMala_1.2_09112013150040_1.jpg'),
+(29, 22, 'Moti Mala - 29', 1.4, 'Moti mala desc', 'MotiMala_1.4_09112013150041_2.jpg'),
+(30, 22, 'Moti Mala - 30', 1.5, 'Moti mala desc', 'MotiMala_1.5_09112013150041_3.jpg'),
+(31, 22, 'Moti Mala - 31', 1.6, 'Moti mala desc', 'MotiMala_1.6_09112013150042_4.jpg'),
+(32, 22, 'Moti Mala - 32', 13.3, 'Moti mala desc', 'MotiMala_13.3_09112013150042_5.jpg');
 
 -- --------------------------------------------------------
 
@@ -84,17 +80,14 @@ CREATE TABLE IF NOT EXISTS `tbl_sub_category` (
   `name` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
 
 --
 -- Dumping data for table `tbl_sub_category`
 --
 
 INSERT INTO `tbl_sub_category` (`id`, `category_id`, `name`) VALUES
-(16, 8, 'sc1'),
-(17, 8, 'sc2'),
-(18, 7, 'sc3'),
-(21, 9, 'New Sub Cat1');
+(22, 11, 'Moti Mala');
 
 -- --------------------------------------------------------
 
