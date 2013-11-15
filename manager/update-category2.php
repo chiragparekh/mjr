@@ -89,6 +89,13 @@
                     }
                     $con->CloseConnection();
                 }
+                else {
+                    ?>
+                    <div class="nNote nWarning hideit">
+                       <p><strong>WARNING: </strong>Please provide all of the fields.</p>
+                    </div>
+                    <?php
+                }
              }
         ?>
     </div>

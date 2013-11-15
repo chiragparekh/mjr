@@ -317,10 +317,11 @@
                                     <td align="left"><?php echo $r["parent"]; ?></td>                        
                                     <td class="actBtns">
                                         <a class="tipS" title="Update" href="update-category.php?q=<?php echo $r["id"];?>">
-                                            <img alt="" src="images/icons/edit.png" />
+                                            <img style="height: 12px;width: 12px" alt="" src="images/icons/edit.png" />
                                         </a>
+                                        &nbsp;&nbsp;
                                         <a onclick="javascript: return confirm('Do you really want to delete this category?');" class="tipS" title="Remove" href="delete-category.php?q=<?php echo $r["id"];?>">
-                                            <img alt="" src="images/icons/remove.png" />
+                                            <img style="height: 12px;width: 12px" alt="" src="images/icons/remove.png" />
                                         </a>
                                     </td>
                                 </tr>

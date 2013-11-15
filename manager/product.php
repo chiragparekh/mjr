@@ -161,7 +161,7 @@
                         <td class="sortCol">Sub Category Name</td>
                         <td class="sortCol">Weight</td>
                         <td class="sortCol">Description</td>
-                        <td>Image</td>
+                        <td style="width: 10%;">Image</td>
                         <td style="width: 11%;">Actions</td>
                     </tr>
                 </thead>
@@ -327,20 +327,22 @@
                                 <td align="left"><?php echo $r["sub_category"]; ?></td>
                                 <td align="left"><?php echo $r["weight"]; ?></td>
                                 <td align="left"><?php echo $r["description"]; ?></td>
-                                <td align="left">
+                                <td align="center">
                                     <a rel="lightbox" title="" href="uploads/original/<?php echo $r["sub_category"]."/".$r["image_path"]; ?>">
                                         <img style="height: 60px;width: 60px;border:2px solid #cecece" alt="" src="uploads/thumbs/<?php echo $r["sub_category"]."/".$r["image_path"]; ?>" />
                                     </a>
                                 </td>                    
                                 <td class="actBtns">
                                     <a class="tipS" title="Update(weight manually)" href="update-product.php?q=<?php echo $r["id"];?>">
-                                        <img alt="" src="images/icons/edit.png" />
+                                        <img style="height: 12px;width: 12px" alt="" src="images/icons/edit.png" />
                                     </a>
+                                    &nbsp;&nbsp;
                                     <a class="tipS" title="Update(weight from image)" href="update-product-image-weight.php?q=<?php echo $r["id"];?>">
-                                        <img alt="" src="images/icons/edit.png" />
+                                        <img style="height: 12px;width: 12px" alt="" src="images/icons/edit.png" />
                                     </a>
+                                    &nbsp;&nbsp;
                                     <a onclick="javascript: return confirm('Do you really want to delete this product?');" class="tipS" title="Remove" href="delete-product.php?q=<?php echo $r["id"];?>">
-                                        <img alt="" src="images/icons/remove.png" />
+                                        <img style="height: 12px;width: 12px" alt="" src="images/icons/remove.png" />
                                     </a>
                                 </td>
                             </tr>
