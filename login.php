@@ -30,7 +30,17 @@
                 });
             });
         </script>
-
+        <style>
+            #divLogin,#divRegister{
+                margin:20px;
+            }
+            #divLogin{
+                
+            }
+            #divRegister{
+                
+            }
+        </style>
 
     </head>
     <body>
@@ -41,6 +51,63 @@
             <div class="pro-name">
                 <h1>Login</h1>
                 <div class="content">
+                    <div id="divLogin">
+                        <table style="float: left">
+                            <caption>
+                                Login
+                            </caption>
+                            <tr>
+                                <td>
+                                    Email
+                                </td>
+                                <td>
+                                    <input type="text" name="txtEmail" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Password
+                                </td>
+                                <td>
+                                    <input type="password" name="txtPassword" />
+                                </td>
+                            </tr>                        
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <input type="submit" name="btnLogin" value="Login" />
+                                </td>
+                            </tr>                        
+                        </table>
+                    </div>
+                    <div id="divRegister">
+                        <table style="float: right">
+                            <caption>
+                                Register
+                            </caption>                            
+                            <tr>
+                                <td>
+                                    Email
+                                </td>
+                                <td>
+                                    <input type="text" name="txtEmail" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Password
+                                </td>
+                                <td>
+                                    <input type="password" name="txtPassword" />
+                                </td>
+                            </tr>                        
+                            <tr>
+                                <td colspan="2" align="center">
+                                    <input type="submit" name="btnLogin" value="Login" />
+                                </td>
+                            </tr>                        
+                        </table>
+                    </div>
+                    <div style="clear: both"></div>
                 </div>
             </div>
         </div>
