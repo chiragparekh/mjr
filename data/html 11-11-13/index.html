@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Manojkumar Jayantilal Ranpara</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/easySlider1.7.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){	
+			$("#slider").easySlider({
+				auto: true, 
+				continuous: true
+				
+			});
+		});	
+	</script>
+
+<script type="text/javascript">
+<!--//---------------------------------+
+//  Developed by Roshan Bhattarai 
+//  Visit http://roshanbh.com.np for this script and more.
+//  This notice MUST stay intact for legal use
+// --------------------------------->
+$(document).ready(function()
+{
+	//slides the element with class "menu_body" when paragraph with class "menu_head" is clicked 
+	$("#firstpane p.menu_head").click(function()
+    {
+		$(this).css({backgroundImage:"url(down.png)"}).next("div.menu_body").slideToggle(300).siblings("div.menu_body").slideUp("slow");
+       	$(this).siblings().css({backgroundImage:"url(left.png)"});
+	});
+	//slides the element with class "menu_body" when mouse is over the paragraph
+	$("#secondpane p.menu_head").mouseover(function()
+    {
+	     $(this).css({backgroundImage:"url(down.png)"}).next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
+         $(this).siblings().css({backgroundImage:"url(left.png)"});
+	});
+});
+</script>
+
+
+</head>
+<body>
+<div id="wrapper">
+  <div id="header">
+    <div class="header-top">
+      <div class="logo"><a href="index.html"><img src="images/Logo.png" height="104" width="103" alt="" /></a></div>
+      <div class="logo-name"><a href="index.html"><img src="images/Logo-name.png" height="35" width="378" alt="" /></a></div>
+      <div class="login">
+        <div class="cart"><img src="images/cart.png" width="36" height="40" alt="" /></div>
+        <span><a href="#">Your Account </a>| <a href="#">Welcome Login</a></span> </div>
+    </div>
+    <!--Navigation-->
+    <div class="menu">
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="latest-arival.html">Latest Arival</a></li>
+        <li><a href="contact-us.html">Contact Us</a></li>
+        <li><a href="adv-search.html">Advance Search</a></li>
+      </ul>
+    </div>
+    <!--Navigation-->
+  </div>
+  <div id="content-area">
+    <!--Category-->
+    <div class="category"> <img src="images/category-heading.png" width="187" height="40" alt="" />
+		<!--<div id="navigation">
+        <ul class="top-level">
+          <li><a href="#">Lorem Ipsum</a>
+            <ul class="sub-level">
+              <li><a href="#">Sub Menu Item 1</a></li>
+              <li><a href="#">Sub Menu Item 2</a></li>
+              <li><a href="#">Sub Menu Item 3</a></li>
+              <li><a href="#">Sub Menu Item 3</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Lorem Ipsum</a></li>
+          <li><a href="#">Lorem Ipsum</a></li>
+          <li> <a href="#">Lorem Ipsum</a>
+            <ul class="sub-level">
+              <li><a href="#">Sub Menu Item 1</a></li>
+              <li><a href="#">Sub Menu Item 2</a></li>
+            </ul>
+          </li>
+          <li><a href="#">Lorem Ipsum</a>
+            <ul class="sub-level">
+              <li><a href="#">Sub Menu Item 1</a></li>
+              <li><a href="#">Sub Menu Item 2</a></li>
+              <li><a href="#">Sub Menu Item 3</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>-->
+      <div id="firstpane" class="menu_list"> <!--Code for menu starts here-->
+		<p class="menu_head"><a href="#">Header-1</a></p>
+		<div class="menu_body">
+		<a href="#">Link-1</a>
+         <a href="#">Link-2</a>
+         <a href="#">Link-3</a>	
+		</div>
+		<p class="menu_head"><a href="#">Header-2</a></p>
+		<div class="menu_body">
+			<a href="#">Link-1</a>
+         <a href="#">Link-2</a>
+         <a href="#">Link-3</a>	
+		</div>
+		<p class="menu_head"><a href="#">Header-3</a></p>
+		<div class="menu_body">
+          <a href="#">Link-1</a>
+         <a href="#">Link-2</a>
+         <a href="#">Link-3</a>			
+       </div>
+  </div>  <!--Code for menu ends here-->
+    </div>
+    <!--Category-->
+    <!--Slider-->
+    <div class="slider">
+    <div id="slider">
+			<ul>				
+				<li><img src="images/01.jpg" alt=" " /></li>
+				<li><img src="images/02.jpg" alt=" " /></li>
+				<li><<img src="images/03.jpg" alt=" " /></li>
+				<li><img src="images/04.jpg" alt=" " /></li>
+				<li><img src="images/05.jpg" alt=" " /></li>			
+			</ul>
+		</div>
+    </div>
+    <!--Slider-->
+  </div>
+  <div id="footer">
+    <span>Maintain by : Nirav Patadiya</span>
+  </div>
+</div>
+</body>
+</html>
