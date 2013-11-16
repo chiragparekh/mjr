@@ -416,12 +416,6 @@ li:hover .sub-level .sub-level {
 	border:1px solid #ddceff;
 	margin:25px 28px 15px 15px;
 }
-.pro-heading{
-	float:left;
-	width:200px;
-	height:35px;
-	background:url(../images/pro-heading-bg.jpg) repeat-x;
-}
 .product h1{
 	float:left;
 	font-family:Arial, Helvetica, sans-serif;
@@ -429,7 +423,29 @@ li:hover .sub-level .sub-level {
 	color:#25181f;
 	text-align:center;
 }
+/* category thumb*/
+.category-thumb{
+	float:left;
+	width:200px;
+	height:220px;
+	border:1px solid #ddceff;
+	margin:25px 28px 15px 15px;
+}
+.category-thumb h1{
+	float:left;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	color:#25181f;
+	text-align:center;
+}
+/* /category thumb*/
 
+.pro-heading{
+	float:left;
+	width:200px;
+	height:35px;
+	background:url(../images/pro-heading-bg.jpg) repeat-x;
+}
 .pro-img{
 	float:left;
 	width:180px;
@@ -624,3 +640,25 @@ li:hover .sub-level .sub-level {
 	font-size:11px;
 }
 
+
+/* general */
+.pull-right
+{
+    text-align: right;
+    font-weight: bold;
+}
+.valign-top
+{
+    vertical-align: top;
+    padding-top: 4px;
+}
+.clear
+{
+    clear:both;
+}
+.tbl-caption
+{
+    font-weight: bold;
+    font-size: large;
+}
+/* /general */

@@ -16,6 +16,7 @@
 // --------------------------------->
 $(document).ready(function()
 {
+    $("#about-us").addClass("active");
 	//slides the element with class "menu_body" when paragraph with class "menu_head" is clicked 
 	$("#firstpane p.menu_head").click(function()
     {

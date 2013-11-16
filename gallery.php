@@ -14,6 +14,7 @@
  	
 	<script type="text/javascript">
 		$(document).ready(function() {
+            $("#gallery").addClass("active");
 			/*
 			*   Examples - images
 			*/
@@ -120,46 +121,24 @@ $(document).ready(function()
 <?php include_once 'includes/sidebar.php'; ?>        
     <!--right-content-->
     <div class="right-content">
-    <div class="pro-name">
-    <h1>Product Name</h1>
-    <span><a href="#">Item 01</a></span>
-    <span><a href="#">Item 02</a></span>
-    <span><a href="#">Item 03</a></span>
-	</div>
-    <div class="product">
-    	<div class="pro-heading"><h1 class="center">Product Name</h1></div>
-        <div class="pro-img"><a rel="example_group" href="./images/large1.jpg" title="Hello"><img src="images/tumb1.jpg" width="180" height="160" alt="" /></a></div>
-        <div class="pro-detail"><a href="product.php">View Detail</a><a href="product.php">Add to Cart</a></div>
-    </div>
-    <div class="product">
-    	<div class="pro-heading"><h1 class="center">Product Name</h1></div>
-		<div class="pro-img"><a rel="example_group" href="./images/large1.jpg" title="Hello"><img src="images/tumb1.jpg" width="180" height="160" alt="" /></a></div>
-        <div class="pro-detail"><a href="product.php">View Detail</a><a href="product.php">Add to Cart</a></div>
-
-    </div>
-    <div class="product">
-    	<div class="pro-heading"><h1 class="center">Product Name</h1></div>
-		<div class="pro-img"><a rel="example_group" href="./images/large1.jpg" title="Hello"><img src="images/tumb1.jpg" width="180" height="160" alt="" /></a></div>
-        <div class="pro-detail"><a href="product.php">View Detail</a><a href="product.php">Add to Cart</a></div>
-
-    </div>
-     <div class="product">
-    	<div class="pro-heading"><h1 class="center">Product Name</h1></div>
-        <div class="pro-img"><a rel="example_group" href="./images/large1.jpg" title="Hello"><img src="images/tumb1.jpg" width="180" height="160" alt="" /></a></div>
-        <div class="pro-detail"><a href="product.php">View Detail</a><a href="product.php">Add to Cart</a></div>
-    </div>
-    <div class="product">
-    	<div class="pro-heading"><h1 class="center">Product Name</h1></div>
-		<div class="pro-img"><a rel="example_group" href="./images/large1.jpg" title="Hello"><img src="images/tumb1.jpg" width="180" height="160" alt="" /></a></div>
-        <div class="pro-detail"><a href="product.php">View Detail</a><a href="product.php">Add to Cart</a></div>
-
-    </div>
-    <div class="product">
-    	<div class="pro-heading"><h1 class="center">Product Name</h1></div>
-		<div class="pro-img"><a rel="example_group" href="./images/large1.jpg" title="Hello"><img src="images/tumb1.jpg" width="180" height="160" alt="" /></a></div>
-        <div class="pro-detail"><a href="product.php">View Detail</a><a href="product.php">Add to Cart</a></div>
-
-    </div>
+        <div class="pro-name">
+            <h1>Products of Sub Category</h1>
+            <span><a href="gallery.php">Sub Category 01</a></span>
+            <span><a href="gallery.php">Sub Category 02</a></span>
+            <span><a href="gallery.php">Sub Category 03</a></span>
+    	</div>
+        <?php
+            for($i=1;$i<=9;$i++)
+            {
+        ?>
+        <div class="product">
+        	<div class="pro-heading"><h1 class="center">Product <?php echo $i;?></h1></div>
+            <div class="pro-img"><a rel="example_group" href="./images/large1.jpg" title=""><img src="images/tumb1.jpg" width="180" height="160" alt="" /></a></div>
+            <div class="pro-detail"><a href="product.php">View Detail</a><a href="product.php">Add to Cart</a></div>
+        </div>
+        <?php
+            }
+        ?>
     </div>
     <!--right-content-->
 <?php include_once 'includes/footer.php'; ?>

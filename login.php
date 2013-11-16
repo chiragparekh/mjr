@@ -31,14 +31,23 @@
             });
         </script>
         <style>
-            #divLogin,#divRegister{
-                margin:20px;
-            }
             #divLogin{
-                
+                background-image: url("images/div-bg.png");
+                border-radius: 4px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border: 1px solid transparent;
+                float: left;
+                padding: 10px;
             }
             #divRegister{
-                
+                background-image: url("images/div-bg.png");
+                border-radius: 4px;
+                -moz-border-radius: 4px;
+                -webkit-border-radius: 4px;
+                border: 1px solid transparent;
+                float: right;
+                padding: 10px;
             }
         </style>
 
@@ -49,15 +58,15 @@
         <!--search-->   
         <div class="right-content">
             <div class="pro-name">
-                <h1>Login</h1>
-                <div class="content">
+                <h1>Login / Register</h1>
+                <div class="content" style="background-color: transparent;">
                     <div id="divLogin">
-                        <table style="float: left">
-                            <caption>
+                        <table cellpadding="5">
+                            <caption class="tbl-caption">
                                 Login
                             </caption>
                             <tr>
-                                <td>
+                                <td class="pull-right">
                                     Email
                                 </td>
                                 <td>
@@ -65,7 +74,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td class="pull-right">
                                     Password
                                 </td>
                                 <td>
@@ -80,12 +89,28 @@
                         </table>
                     </div>
                     <div id="divRegister">
-                        <table style="float: right">
-                            <caption>
+                        <table cellpadding="5">
+                            <caption class="tbl-caption">
                                 Register
-                            </caption>                            
+                            </caption>
                             <tr>
+                                <td class="pull-right">
+                                    Company Name
+                                </td>
                                 <td>
+                                    <input type="text" name="txtEmail" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pull-right">
+                                    Contact Person
+                                </td>
+                                <td>
+                                    <input type="text" name="txtEmail" />
+                                </td>
+                            </tr>                        
+                            <tr>
+                                <td class="pull-right">
                                     Email
                                 </td>
                                 <td>
@@ -93,21 +118,69 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>
+                                <td class="pull-right">
                                     Password
                                 </td>
                                 <td>
                                     <input type="password" name="txtPassword" />
                                 </td>
+                            </tr>
+                            <tr>
+                                <td class="pull-right">
+                                    Repeat Password
+                                </td>
+                                <td>
+                                    <input type="password" name="txtPassword" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pull-right">
+                                    Contact Number
+                                </td>
+                                <td>
+                                    <input type="text" name="txtEmail" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pull-right valign-top">
+                                    Address
+                                </td>
+                                <td>
+                                    <textarea name="txtAddr" style="min-width: 150px;max-width: 150px;width: 150px;"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pull-right">
+                                    State
+                                </td>
+                                <td>
+                                    <input type="text" name="txtEmail" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pull-right">
+                                    City
+                                </td>
+                                <td>
+                                    <input type="text" name="txtEmail" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pull-right">
+                                    Zip Code
+                                </td>
+                                <td>
+                                    <input type="text" name="txtEmail" />
+                                </td>
                             </tr>                        
                             <tr>
                                 <td colspan="2" align="center">
-                                    <input type="submit" name="btnLogin" value="Login" />
+                                    <input type="submit" name="btnLogin" value="Register" />
                                 </td>
                             </tr>                        
                         </table>
                     </div>
-                    <div style="clear: both"></div>
+                    <div class="clear"></div>
                 </div>
             </div>
         </div>

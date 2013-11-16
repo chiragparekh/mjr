@@ -14,6 +14,7 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
+                $("#latest-arrivals").addClass("active");
                 /*
                  *   Examples - images
                  */

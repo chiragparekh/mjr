@@ -39,7 +39,7 @@ $(document).ready(function()
 <!--cart-->   
 <div class="right-content">
     <div class="pro-name">
-    <h1>Order Cart</h1>
+    <h1>Order / Inquiry Cart</h1>
 	<div class="content">
     </div>
     </div>

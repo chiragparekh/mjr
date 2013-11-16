@@ -123,7 +123,7 @@ $(document).ready(function()
     <!--right-content-->
     <div class="right-content">
     <div class="pro-name">
-    <h1>Product Name<a href="gallery.html">Back</a></h1>
+    <h1>Product Name</h1>
     <span><a href="#">Item 01</a></span>
     <span><a href="#">Item 02</a></span>
     <span><a href="#">Item 03</a></span>
@@ -139,7 +139,7 @@ $(document).ready(function()
         <label>MATERIAL : <span>123</span></label> 
         <label>GEMSTONE : <span>123</span></label> 
         <label>COLOR : <span>123</span></label> 
-        <samp><img src="images/cart.png" width="36" height="40" alt="" /><a href="$">Add to Cart </a><a href="#">View Selected Items</a></samp>
+        <samp><img src="images/cart.png" width="36" height="40" alt="" /><a href="#">Add to Cart </a><a href="#">View Selected Items</a></samp>
         <div class="next"><a href="#">Next</a></div>
     </div>
      <div class="pro-slider">
