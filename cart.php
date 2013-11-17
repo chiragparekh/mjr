@@ -39,8 +39,45 @@ $(document).ready(function()
 <!--cart-->   
 <div class="right-content">
     <div class="pro-name">
-    <h1>Order / Inquiry Cart</h1>
+    <h1>Order / Inquiry Cart</h1><div class="clear"></div>
+    <div style="float: right;margin-right: 55px;margin-top: 5px;">
+        <a style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
+    </div>
 	<div class="content">
+        <table cellpadding="5" border="1" rules="all" style="margin:10px 10px">
+            <tr class="heading">
+                <th style="width:130px">Product Name</th>
+                <th>Weight</th>
+                <th>Quantity</th>
+                <th style="width:200px">Description</th>
+                <th style="width: 70px;">Image</th>
+                <th style="width: 100px;">Edit</th>
+            </tr>
+            <?php
+                for($i=1;$i<=9;$i++)
+                {
+            ?>
+            <tr>
+                <td>Product Name <?php echo $i; ?></td>
+                <td>Weight <?php echo $i; ?></td>
+                <td>Quantity <?php echo $i; ?></td>
+                <td>Description <?php echo $i; ?></td>
+                <td>Image <?php echo $i; ?></td>
+                <td>Edit | Delete</td>
+            </tr>
+            <?php
+                }
+            ?>
+            <tr>
+                        <td colspan="6">
+                           <div align="center" style="text-align: center;">                     
+                                <input value="Confirm" type="submit" name="btnConfirm" id="btnConfirm" />
+                                <input value="Delete All" type="submit" name="btnClear" id="btnClear" />
+                                <input value="Print" onclick="printDiv()" type="button" name="btnPrint" id="btnPrint" />                        
+                            </div> 
+                        </td>
+                    </tr>
+        </table>
     </div>
     </div>
 </div>

@@ -4,6 +4,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Contact Us :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    #address
+    {
+        float:left;
+        margin-left: 20px;
+    }
+    #feedback
+    {
+        float: right;
+        margin-right: 20px;
+    }
+</style>
 <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
 <script>
 		!window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
@@ -42,6 +54,75 @@ $(document).ready(function()
     <div class="pro-name">
     <h1>Contact Us</h1>
 	<div class="content">
+        <br />
+        <div id="address">
+            <table>
+                <caption class="tbl-caption">Address</caption>
+                <tr>
+                    <td>
+                        12-Panna Manek Complex,<br />
+                        Opp. Ashapura Temple, Palace Road,<br />
+                        Rajkot Ph:0281-2220075<br />
+                        email: <a href="mailto:manojranpara@ymail.com">manojranpara@ymail.com</a><br />
+                        website: <a href="http://www.mjrjewels.com">www.mjrjewels.com</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="feedback">
+            <table>
+                <caption class="tbl-caption">Feedback</caption>
+                <tr>
+                <td class="pull-right">
+                    Name 
+                </td>
+                <td>
+                    <input type="text" name="name" />
+                </td>
+            </tr>
+            <tr>
+                <td class="pull-right">
+                    Email 
+                </td>
+                <td>
+                    <input type="text" name="email" />
+                </td>
+            </tr>
+            <tr>
+                <td class="pull-right">
+                    Mobile
+                </td>
+                <td>
+                    <input type="text" name="mobile" />
+                </td>
+            </tr>   
+            <tr>
+                <td class="pull-right valign-top">
+                    Description 
+                </td>
+                <td>
+                    <textarea name="description" ></textarea>
+                </td>
+            </tr>
+            <tr>
+                        <td class="pull-right valign-top">
+                                <span >Enter Image Text</span>
+                        </td>
+                        <td>
+                            <input name="captcha" type="text" style="margin-bottom:  5px;" /><br />
+                            <img src="captcha.php" />
+                        </td>      
+            </tr>
+            <tr>
+                        <td colspan="2" align="center">
+                                <input type="submit" name="btnSubmit" value="Send" />
+                        </td>                              
+            </tr>            
+            </table>
+        </div>
+        <div class="clear">
+            
+        </div>
     </div>
     </div>
 </div>

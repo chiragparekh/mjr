@@ -11,7 +11,10 @@
                 </a>
                 <span>
                     Welcome, company name ! OR
-                    <a href="login.php">Login / Register</a>
+                    <a style="font-weight: bold;color: #DBCBFF;" href="login.php">Login / Register</a>
+                    <div style="margin-top: 6px;">
+                        <a style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
+                    </div>
                 </span>
             </div>
         </div>

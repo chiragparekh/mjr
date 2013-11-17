@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Order Log :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
+<title>Order History :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
 <script>
@@ -16,7 +16,6 @@
 // --------------------------------->
 $(document).ready(function()
 {
-    $("#about-us").addClass("active");
 	//slides the element with class "menu_body" when paragraph with class "menu_head" is clicked 
 	$("#firstpane p.menu_head").click(function()
     {
@@ -37,15 +36,45 @@ $(document).ready(function()
 <body>
 <?php include_once 'includes/header.php'; ?>
 <?php include_once 'includes/sidebar.php'; ?>
-<!--about-us-->   
+<!--cart-->   
 <div class="right-content">
     <div class="pro-name">
-    <h1>Order Log/History</h1>
+    <h1>Order / Inquiry History</h1>
 	<div class="content">
+        <table cellpadding="5" border="1" rules="all" style="margin:10px auto">
+            <tr class="heading">
+                <th style="width:130px">Product Name</th>
+                <th>Weight</th>
+                <th>Quantity</th>
+                <th style="width:200px">Description</th>
+                <th style="width: 70px;">Image</th>
+            </tr>
+            <?php
+                for($i=1;$i<=9;$i++)
+                {
+            ?>
+            <tr>
+                <td>Product Name <?php echo $i; ?></td>
+                <td>Weight <?php echo $i; ?></td>
+                <td>Quantity <?php echo $i; ?></td>
+                <td>Description <?php echo $i; ?></td>
+                <td>Image <?php echo $i; ?></td>
+            </tr>
+            <?php
+                }
+            ?>
+            <tr>
+                        <td colspan="5">
+                           <div align="center" style="text-align: center;">                     
+                                <input value="Export to Excel" type="submit" name="btnConfirm" id="btnConfirm" />                        
+                            </div> 
+                        </td>
+                    </tr>
+        </table>
     </div>
     </div>
 </div>
-<!--endo-of-about-us-->
+<!--endo-of-cart-->
 <?php include_once 'includes/footer.php'; ?>
 </body>
 </html>

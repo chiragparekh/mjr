@@ -14,6 +14,8 @@
  	
 	<script type="text/javascript">
 		$(document).ready(function() {
+		      $("#gallery").addClass("active");
+              $("#pro-detail-form").css("display","none");
 			/*
 			*   Examples - images
 			*/
@@ -91,6 +93,18 @@
 				'transitionOut'		: 'none'
 			});
 		});
+        
+        
+        function openDetailForm()
+        {
+            $("#txtQty,#txtDesc").val("");
+            $("#pro-detail-form").css("display","inline");
+            $("#txtQty").focus();
+        }
+        function closeDetailForm()
+        {
+            $("#pro-detail-form").css("display","none");
+        }
 	</script>
     
 <script type="text/javascript">
@@ -134,12 +148,42 @@ $(document).ready(function()
     </div>   
     
     <div class="product-detail">
-        <label>REF : <span>123</span></label> 
-        <label>PRICE RANGE : <span>123</span></label> 
-        <label>MATERIAL : <span>123</span></label> 
-        <label>GEMSTONE : <span>123</span></label> 
-        <label>COLOR : <span>123</span></label> 
-        <samp><img src="images/cart.png" width="36" height="40" alt="" /><a href="#">Add to Cart </a><a href="#">View Selected Items</a></samp>
+        <label>NAME : <span>Product Name</span></label> 
+        <label>WEIGHT : <span>Weight</span></label> 
+        <label>DESCRIPTION : <span>Desc.   </span></label>  
+        <samp>
+            <img src="images/cart.png" width="36" height="40" alt="" />
+            <a href="javascript:openDetailForm()">Add to Cart </a><a href="#">View Selected Items</a>
+        </samp>
+        <div class="clear"></div>
+        <div id="pro-detail-form" style="background: white;width: 300px;margin: 4px auto;border: 1px solid gray">
+            <form>
+            <table>
+                <tr>
+                    <td class="pull-right">
+                        Quantity
+                    </td>
+                    <td>
+                        <input type="text" name="txtQty" id="txtQty" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pull-right valign-top">
+                        Description
+                    </td>
+                    <td>
+                        <textarea name="txtDesc" id="txtDesc"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="OK" />
+                        <input onclick="closeDetailForm()" type="button" value="Close" />
+                    </td>
+                </tr>
+            </table>
+            </form>
+        </div>
         <div class="next"><a href="#">Next</a></div>
     </div>
      <div class="pro-slider">

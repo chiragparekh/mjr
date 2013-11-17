@@ -2,7 +2,8 @@
 /* CSS Document */
 
 body{margin:0 0 0 0; background:url(../images/Bg.jpg) repeat-x;}
-a { text-decoration:none;}
+a { text-decoration:none;font-family: arial;
+    font-size: 12px;}
 
 .center{
 	margin-left:auto;
@@ -54,9 +55,10 @@ a { text-decoration:none;}
 	float:left;
 	margin:20px 20px 0 10px;
 	color:#FFFFFF;
+    text-align: right;
 }
 .login span a{
-	color:#FFFFFF;
+	/*color:#FFFFFF;*/
 }
 
 .cart{
@@ -506,9 +508,9 @@ li:hover .sub-level .sub-level {
 .product-detail{
 	float:left;
 	width:350px;
-	height:295px;
+	/*height:295px;*/
 	margin:25px 0 0 0;
-	background:url(../images/product-detail-bg.jpg) repeat-x;
+    background:#E4D5FF url(../images/product-detail-bg.jpg) repeat-x top left;
 	border:5px solid #322453;
 }
 .product-detail label{
@@ -553,7 +555,7 @@ li:hover .sub-level .sub-level {
 .next{
 	float:right;
 	width:300px;
-	margin:50px 15px 0 0;
+	margin:0px 15px 5px 0;
 }
 .next a{
 	float:right;
