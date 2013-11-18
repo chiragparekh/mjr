@@ -187,15 +187,12 @@ $(document).ready(function()
         <div class="next"><a href="#">Next</a></div>
     </div>
      <div class="pro-slider">
+      <a href="#"><div class="left-arrow"></div></a>
       <div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
       <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
       <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-      <div class="scroll-image-last"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-
-      <div class="paging">
-      <span><a href="#">Previous</a></span>&nbsp;<span><a href="#">Next</a></span>
-      </div>
-      
+      <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+      <a href="#"><div class="right-arrow"></div></a>
       </div>
     </div>
     <!--right-content-->
