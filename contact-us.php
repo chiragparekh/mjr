@@ -62,7 +62,8 @@ $(document).ready(function()
                     <td>
                         12-Panna Manek Complex,<br />
                         Opp. Ashapura Temple, Palace Road,<br />
-                        Rajkot Ph:0281-2220075<br />
+                        Rajkot<br /> 
+                        Ph:0281-2220075<br />
                         email: <a href="mailto:manojranpara@ymail.com">manojranpara@ymail.com</a><br />
                         website: <a href="http://www.mjrjewels.com">www.mjrjewels.com</a>
                     </td>
@@ -70,7 +71,7 @@ $(document).ready(function()
             </table>
         </div>
         <div id="feedback">
-            <table>
+            <table cellpadding="5">
                 <caption class="tbl-caption">Feedback</caption>
                 <tr>
                 <td class="pull-right">
