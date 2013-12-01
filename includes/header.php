@@ -4,17 +4,28 @@
             <div class="logo"><a href="index.php"><img src="images/Logo.png" height="104" width="103" alt="" /></a></div>
             <div class="logo-name"><a href="index.php"><img src="images/Logo-name.png" height="35" width="378" alt="" /></a></div>
             <div class="login">
-                <a href="cart.php">
-                    <div class="cart">
-                        <img src="images/cart.png" width="36" height="40" alt="" />
-                    </div>
-                </a>
                 <span>
-                    Welcome, company name ! OR
-                    <a style="font-weight: bold;color: #DBCBFF;" href="login.php">Login / Register</a>
-                    <div style="margin-top: 6px;">
-                        <a style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
-                    </div>
+                    <?php
+                    if (isset($_SESSION['userid'])) {
+                        ?>
+                    <a title="View Order Cart" href="cart.php">
+                            <div class="cart">
+                                <img src="images/cart.png" width="36" height="40" alt="" />
+                            </div>
+                        </a>
+                        Welcome, <?php echo $_SESSION['company'] ?> ! | 
+                        <a style="font-weight: bold;color: #DBCBFF;" href="logout.php">Logout</a>    
+                        <div style="margin-top: 6px;">
+                            <a style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
+                        </div>
+                        <?php
+                    } else {
+                        ?>
+                        <a style="font-weight: bold;color: #DBCBFF;" href="login.php">Login / Register</a>    
+                        <?php
+                    }
+                    ?>
+
                 </span>
             </div>
         </div>
