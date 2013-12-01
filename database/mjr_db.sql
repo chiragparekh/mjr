@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.2.2
+-- version 3.1.3.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 09, 2013 at 10:36 AM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
+-- Host: localhost
+-- Generation Time: Dec 01, 2013 at 06:52 PM
+-- Server version: 5.1.33
+-- PHP Version: 5.2.9
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,14 +29,14 @@ CREATE TABLE IF NOT EXISTS `tbl_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `tbl_category`
 --
 
 INSERT INTO `tbl_category` (`id`, `name`) VALUES
-(11, 'Mala');
+(1, 'Mala');
 
 -- --------------------------------------------------------
 
@@ -54,19 +53,18 @@ CREATE TABLE IF NOT EXISTS `tbl_product` (
   `image_path` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sub_category_id` (`sub_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `tbl_product`
 --
 
 INSERT INTO `tbl_product` (`id`, `sub_category_id`, `name`, `weight`, `description`, `image_path`) VALUES
-(27, 22, 'Moti Mala - 27', 1.1, 'Moti mala desc', 'MotiMala_1.1_09112013150040_0.jpg'),
-(28, 22, 'Moti Mala - 28', 1.2, 'Moti mala desc', 'MotiMala_1.2_09112013150040_1.jpg'),
-(29, 22, 'Moti Mala - 29', 1.4, 'Moti mala desc', 'MotiMala_1.4_09112013150041_2.jpg'),
-(30, 22, 'Moti Mala - 30', 1.5, 'Moti mala desc', 'MotiMala_1.5_09112013150041_3.jpg'),
-(31, 22, 'Moti Mala - 31', 1.6, 'Moti mala desc', 'MotiMala_1.6_09112013150042_4.jpg'),
-(32, 22, 'Moti Mala - 32', 13.3, 'Moti mala desc', 'MotiMala_13.3_09112013150042_5.jpg');
+(1, 1, 'Moti Mala 1', 45.6, 'sdfsdfs', 'MotiMala_45.6_17112013190850.jpg'),
+(2, 1, 'Moti Mala - 2', 12.3, 'dfsdfsdsdf', 'MotiMala_12.3_17112013190949_1.jpg'),
+(3, 1, 'Moti Mala - 3', 45.6, 'dfsdfsdsdf', 'MotiMala_45.6_17112013190949_2.jpg'),
+(4, 1, 'Moti Mala - 4', 12.3, 'sdfsd', 'MotiMala_12.3_01122013182043_0.jpg'),
+(5, 1, 'Moti Mala - 5', 45.6, 'sdfsd', 'MotiMala_45.6_01122013182043_1.jpg');
 
 -- --------------------------------------------------------
 
@@ -80,14 +78,14 @@ CREATE TABLE IF NOT EXISTS `tbl_sub_category` (
   `name` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=23 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `tbl_sub_category`
 --
 
 INSERT INTO `tbl_sub_category` (`id`, `category_id`, `name`) VALUES
-(22, 11, 'Moti Mala');
+(1, 1, 'Moti Mala');
 
 -- --------------------------------------------------------
 
@@ -107,15 +105,16 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
   `state` text NOT NULL,
   `zip_code` varchar(12) NOT NULL,
   `type` varchar(5) NOT NULL,
+  `is_approve` char(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `tbl_user`
 --
 
-INSERT INTO `tbl_user` (`id`, `company_name`, `contact_person`, `email`, `password`, `contact_no`, `address`, `city`, `state`, `zip_code`, `type`) VALUES
-(1, '', '', 'mjr', 'mjr', '', '', '', '', '', 'admin');
+INSERT INTO `tbl_user` (`id`, `company_name`, `contact_person`, `email`, `password`, `contact_no`, `address`, `city`, `state`, `zip_code`, `type`, `is_approve`) VALUES
+(1, '', '', 'mjr', 'mjr', '', '', '', '', '', 'admin', '0');
 
 --
 -- Constraints for dumped tables
@@ -132,7 +131,3 @@ ALTER TABLE `tbl_product`
 --
 ALTER TABLE `tbl_sub_category`
   ADD CONSTRAINT `tbl_sub_category_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `tbl_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
