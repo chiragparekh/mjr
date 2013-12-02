@@ -1,3 +1,4 @@
+<?php include_once './includes/checksession.php';?>
 <?php
 if (!isset($_GET['q']) || $_GET['q']=="") {
     header("location:category.php");
