@@ -1,4 +1,4 @@
-<?php include_once './includes/checksession.php';?>
+<?php include_once './includes/checksession.php'; ?>
 <?php
 if (!isset($_GET['q']) || $_GET['q'] == "") {
     header("location:category.php");
@@ -111,6 +111,56 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             {
                 $("#pro-detail-form").css("display", "none");
             }
+            function showNextImages(proid, operation) {
+                var start = parseInt(document.getElementById("start_paging").value);                
+                var formData = {start: start, operation: operation, pro_id: proid};
+                $.ajax({
+                    url: "show-paging-products.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        if (data.trim() == "0")
+                            alert("No products found.");
+                        else
+                            $("#product-slider").html(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+
+                    }
+                });
+            }
+            function showProductData(pid) {                
+                var formData = {pro_id: pid};
+                $.ajax({
+                    url: "ajax-get-product-details.php",
+                    dataType: 'json',
+                    type: "POST",
+                    data: formData,
+                    beforeSend: function(x) {
+                        if (x && x.overrideMimeType) {
+                            x.overrideMimeType("application/json;charset=UTF-8");
+                        }
+                    },
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        //alert(data.name+" - "+data.weight+" - "+data.desc+" - "+data.path+" - "+data.id+" - "+data.sc_name);
+                        document.getElementById("pro-name-main-head").innerHTML = data.name;
+                        document.getElementById("pro-name-h2").innerHTML = data.name;
+                        document.getElementById("pro-name").innerHTML = data.name;
+                        document.getElementById("pro-weight").innerHTML = data.weight;
+                        document.getElementById("pro-desc").innerHTML = data.desc;
+                        document.getElementById("pro-image").src =  "manager/uploads/thumbs/"+data.sc_name+"/"+data.path;
+                        document.getElementById("pro-image-link").href =  "manager/uploads/original/"+data.sc_name+"/"+data.path;
+                        showNextImages(data.p_id,"update-image");
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+
+                    }
+                });
+            }
         </script>
 
         <script type="text/javascript">
@@ -152,12 +202,12 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 $array = mysql_fetch_array($result);
                 $name = $array["name"];
                 $weight = $array["weight"];
-                $desc = $array["description"];                
-                $path = $array["image_path"]; 
-                $sub_cat_id=$array["sub_category_id"];
-                $sub_name = $array["sub_name"];                
+                $desc = $array["description"];
+                $path = $array["image_path"];
+                $sub_cat_id = $array["sub_category_id"];
+                $sub_name = $array["sub_name"];
                 ?>        
-                <h1><?php echo $name ?></h1>
+                <h1 id="pro-name-main-head"><?php echo $name ?></h1>
                 <?php
                 $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id group by sub_name";
                 $result = mysql_query($q);
@@ -176,14 +226,14 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 ?>                                       
             </div>
             <div class="sub-product">
-                <div class="sub-pro-heading"><h1 class="center"><?php echo $name ?></h1></div>
-                <div class="sub-pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="Hello"><img src="manager/uploads/thumbs/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="240" alt="" /></a></div>
+                <div class="sub-pro-heading"><h1 class="center"  id="pro-name-h2"><?php echo $name ?></h1></div>
+                <div class="sub-pro-img"><a id="pro-image-link" rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="Hello"><img id="pro-image" src="manager/uploads/thumbs/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="240" alt="" /></a></div>
             </div>   
 
             <div class="product-detail">
-                <label>NAME : <span><?php echo $name ?></span></label> 
-                <label>WEIGHT : <span><?php echo $weight ?></span></label> 
-                <label>DESCRIPTION : <span><?php echo $desc ?></span></label>  
+                <label>NAME : <span id="pro-name"><?php echo $name ?></span></label> 
+                <label>WEIGHT : <span id="pro-weight"><?php echo $weight ?></span></label> 
+                <label>DESCRIPTION : <span id="pro-desc"><?php echo $desc ?></span></label>  
                 <samp>
                     <img src="images/cart.png" width="36" height="40" alt="" />
                     <a href="javascript:openDetailForm()">Add to Cart </a><a href="#">View Selected Items</a>
@@ -219,14 +269,35 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 </div>
                 <div class="next"><a href="#">Next</a></div>
             </div>
-            <div class="pro-slider">
-                <a href="#"><div class="left-arrow"></div></a>
-                <div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                <a href="#"><div class="right-arrow"></div></a>
-            </div>
+            <?php
+            //code for thumbnails in product for a category selected
+            $start = 0;
+            $total_display = 4;
+            $q = "select p.id as p_id,p.image_path as path,sc.name as sc_name from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where sub_category_id in ( select sub_category_id from tbl_product where id=" . $pro_id . ") and p.id not in (" . $pro_id . ") order by p.id desc limit " . $start . "," . $total_display;
+            $result = mysql_query($q);
+            if (mysql_num_rows($result) > 0) {
+                ?>
+                <div class="pro-slider" id="product-slider">
+                    <!--<a href="#"><div class="left-arrow"></div></a>-->
+                    <input type="hidden" name="start_paging" value="<?php echo $start ?>" id="start_paging" />                    
+                    <input type="button" onclick="javascript:showNextImages(<?php echo $pro_id ?>, 'previous')"  value="" class="left-arrow" style="border:0"/>
+                    <?php
+                    while ($r = mysql_fetch_array($result)) {
+                        ?>
+                                                <!--<div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
+                        <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image"><img src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
+                        <?php
+                    }
+                    ?>
+                    <input type="button" onclick="javascript:showNextImages(<?php echo $pro_id ?>, 'next')" value="" class="right-arrow" style="border:0"/>
+                    <!--<a href="#"><div class="right-arrow"></div></a>-->
+                </div>
+                <?php
+            }
+            ?>
         </div>
         <!--right-content-->
         <?php include_once 'includes/footer.php'; ?>

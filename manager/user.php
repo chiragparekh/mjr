@@ -338,7 +338,7 @@ width:86px;
                                     <?php echo $r['state']; ?>
                                 </td>
                                 <td>
-                                    <?php echo $r['zip_code ']; ?>
+                                    <?php echo $r['zip_code']; ?>
                                 </td>
                                 <!--
 <td class="actBtns">
