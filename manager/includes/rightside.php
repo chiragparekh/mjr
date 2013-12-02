@@ -27,12 +27,40 @@
                 <li class="dash"><a href="home.php" title=""><span>Dashboard</span></a></li>
                 <li class="forms">
                     <a href="#" title=""  >
-                        <span>Photo Gallery</span><strong>3</strong>
+                        <span>Category</span><strong>3</strong>
                     </a>
                     <ul class="sub">
-                        <li><a href="photo-album.php" title="">Album</a></li>
-                        <li><a href="photo.php" title="">Photos</a></li>
-                        <li><a href="add-new-photo.php" title="">Add Photo</a></li>
+                        <li><a href="photo-album.php" title="">List Category</a></li>
+                        <li><a href="photo.php" title="">Add New Category</a></li>
+                    </ul>
+                </li>
+                <li class="forms">
+                    <a href="#" title=""  >
+                        <span>Sub Category</span><strong>3</strong>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="photo-album.php" title="">List Sub Category</a></li>
+                        <li><a href="photo.php" title="">Add New Sub Category</a></li>
+                    </ul>
+                </li>
+                <li class="forms">
+                    <a href="#" title=""  >
+                        <span>Product</span><strong>3</strong>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="photo-album.php" title="">List Products</a></li>
+                        <li><a href="photo.php" title="">Add New Product</a></li>
+                        <li><a href="add-new-photo.php" title="">Add New Multiple Products</a></li>
+                    </ul>
+                </li>
+                <li class="forms">
+                    <a href="#" title=""  >
+                        <span>Users</span><strong>3</strong>
+                    </a>
+                    <ul class="sub">
+                        <li><a href="photo-album.php" title="">Approved Users</a></li>
+                        <li><a href="photo.php" title="">Unapproved Users</a></li>
+                        <li><a href="add-new-photo.php" title="">Add New User</a></li>
                     </ul>
                 </li>
             </ul>
