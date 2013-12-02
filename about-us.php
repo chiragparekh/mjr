@@ -45,7 +45,7 @@ $(document).ready(function()
     <div class="pro-name">
     <h1>About Us</h1>
 	<div class="content">
-    </div>
+        </div>
     </div>
 </div>
 <!--endo-of-about-us-->

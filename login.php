@@ -79,8 +79,8 @@
                         txtCompName: "<br/>Company Name required",
                         txtContPerson: "<br/>Contact Perosn required",
                         txtPassword: "<br/>Password required",
-                        txtEmail: "<br/>Email required",
-                        txtRepeatPassword: {equalTo:"<br/>Passwords must be match.",required:"<br/>Repeat Passowrd required"},
+                        txtEmail: {required: "<br/>Email required", email:"<br/>Invalid email"},
+                        txtRepeatPassword: {equalTo: "<br/>Passwords must be match.", required: "<br/>Repeat Passowrd required"},
                         txtContNumber: "<br/>Contact Number required",
                         txtAddr: "<br/>Address required",
                         txtState: "<br/>State required",
@@ -169,16 +169,25 @@
                                                     if (mysql_num_rows($rs) > 0) {
                                                         $r = mysql_fetch_array($rs);
                                                         $id = $r['id'];
-                                                        $sel = "select is_approve,company_name from tbl_user where id=" . $id;
+                                                        $sel = "select is_confirm from tbl_user where id=" . $id;
                                                         $rs = mysql_query($sel);
                                                         $r = mysql_fetch_array($rs);
-                                                        if (intval($r['is_approve']) == 1) {
-                                                            echo "Logged in successfully. Please wait...";
-                                                            $_SESSION['userid'] = $id;
-                                                            $_SESSION['company'] = $r['company_name'];
-                                                            echo '<script> window.location="index.php"; </script>';
-                                                        } else {
-                                                            echo "Your approval is still pending.";
+                                                        if (intval($r['is_confirm']) == 1) {
+
+                                                            $sel = "select is_approve,company_name from tbl_user where id=" . $id;
+                                                            $rs = mysql_query($sel);
+                                                            $r = mysql_fetch_array($rs);
+                                                            if (intval($r['is_approve']) == 1) {
+                                                                echo "Logged in successfully. Please wait...";
+                                                                $_SESSION['userid'] = $id;
+                                                                $_SESSION['company'] = $r['company_name'];
+                                                                echo '<script> window.location="index.php"; </script>';
+                                                            } else {
+                                                                echo "Your approval is still pending.";
+                                                            }
+                                                        }
+                                                        else{
+                                                            echo "Please confirm your account.";
                                                         }
                                                     } else {
                                                         echo "Invalid email or password. Please try again";
@@ -310,11 +319,21 @@
                                                         if (mysql_num_rows($rs) > 0) {
                                                             echo "This email is already registered.";
                                                         } else {
+                                                            $random = md5(rand());
                                                             $md5password = md5($password);
-                                                            $ins = "insert into tbl_user(company_name,contact_person,email,password,contact_no,address,city,state,zip_code,type)"
-                                                                    . " values('$compName','$contPerson','$email','$md5password','$contNumber','$address','$city','$state','$zipCode','user')";
+                                                            $ins = "insert into tbl_user(company_name,contact_person,email,password,contact_no,address,city,state,zip_code,type,random)"
+                                                                    . " values('$compName','$contPerson','$email','$md5password','$contNumber','$address','$city','$state','$zipCode','user','$random')";
                                                             if (mysql_query($ins)) {
-                                                                echo "You are registered successfully.<br/> Your account is in pending approval";
+                                                                $id = md5(mysql_insert_id());
+                                                                $subject = 'Manojkumar Jayntilal Ranpara Jewels - Confirmation link';
+                                                                $message = 'Click this link to confirm your account : ';
+                                                                //$message .= 'http://www.mjrjewels.com/confirm-account.php?auth='. $random.'&id='.$id;
+                                                                $message .= 'http://localhost/mjr/confirm-account.php?auth=' . $random . '&id=' . $id;
+                                                                $headers = "From: admin@mjrjewels.com" . "\r\n";
+                                                                $message = stripslashes($message);
+                                                                mail($email, $subject, $message, $headers);
+                                                                mail("manojranpara@ymail.com", "New User Registration", "A new user has registered recently.Please go to admin panel and approve as per condition. Please note that user may or may not have confirmed his/her email", $headers);
+                                                                echo "You are registered.<br/>A confirmation link is sent to your email address.<br/>Please confirm your account from there.";
                                                             } else {
                                                                 echo "Unable to register";
                                                             }
