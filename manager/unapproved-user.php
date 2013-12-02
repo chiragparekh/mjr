@@ -9,7 +9,7 @@ $msg = new Message();
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-        <title>Approved User</title>
+        <title>Unapproved User</title>
 
         <?php include_once "includes/common-css-js.php"; ?>
 
@@ -45,7 +45,7 @@ $msg = new Message();
             <div class="titleArea">
             <div class="wrapper">
                 <div class="pageTitle">
-                    <h5>Approved User</h5>
+                    <h5>Unapproved User</h5>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -74,7 +74,7 @@ $msg = new Message();
                     }
                     $qid = substr($qid, 0, strlen($qid) - 1);
                     $con = new MySQL();
-                    if (mysql_query("delete from tbl_user where type like 'user' and is_approve=1 and id in(" . $qid . ")")) {
+                    if (mysql_query("delete from tbl_user where type like 'user' and is_approve=0 and id in(" . $qid . ")")) {
                         $msg->success("Selected users deleted successfully");
                     } else {
                         $msg->error("We are unable to delete selected users. Please try again.");
@@ -93,7 +93,7 @@ $msg = new Message();
                     }
                     $qid = substr($qid, 0, strlen($qid) - 1);
                     $con = new MySQL();
-                    $rs = mysql_query("select email from tbl_user where type like 'user' and is_approve=1 and id in(" . $qid . ")");
+                    $rs = mysql_query("select email from tbl_user where type like 'user' and is_approve=0 and id in(" . $qid . ")");
                     ?>
                     <form method="post" action="user-send-mail.php" class="form">
                         <fieldset>
@@ -148,17 +148,17 @@ $msg = new Message();
                     $id = $_GET['q'];
                     include_once './includes/connection.php';
                     $con = new MySQL();
-                    $uq = "update tbl_user set is_approve=0 where id=" . $id;
+                    $uq = "update tbl_user set is_approve=1 where id=" . $id;
                     if (mysql_query($uq)) {
-                        $msg->success("Selected user is unapproved successfully");
+                        $msg->success("Selected user is approved successfully");
                     } else {
-                        $msg->error("Unable to unapprove selected user");
+                        $msg->error("Unable to approve selected user");
                     }
                     $con->CloseConnection();
                 }
                 ?>
                 <div class="widget" style="margin-top:20px;">
-                    <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck" /></span><h6>Approved User</h6></div>
+                    <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck" /></span><h6>Unapproved User</h6></div>
                     <form  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                         <table width="100%" cellspacing="0" cellpadding="0" id="checkAll" class="sTable withCheck mTable">
                             <thead>
@@ -172,11 +172,7 @@ $msg = new Message();
                                     <td class="sortCol">City</td>
                                     <td class="sortCol">State</td>
                                     <td class="sortCol">Zip Code</td>
-                                    <td style="width: 11%;">Actions</td>
-
-                                    <!--
-            <td style="width: 11%;">Actions</td>
-                                    -->
+                                    <td style="width: 11%;">Actions</td>    
                                 </tr>
                             </thead>
                             <tfoot>
@@ -198,7 +194,7 @@ $msg = new Message();
 
                                 $tbl_name = "tbl_user";
                                 $adjacents = 3;
-                                $query = "SELECT COUNT(*) as num FROM $tbl_name where type like 'user' and is_approve=1";
+                                $query = "SELECT COUNT(*) as num FROM $tbl_name where type like 'user' and is_approve=0";
                                 $total_pages = mysql_fetch_array(mysql_query($query));
                                 $totalcount = $total_pages;
                                 $total_pages = $total_pages['num'];
@@ -211,7 +207,7 @@ $msg = new Message();
                                 else
                                     $start = 0;
 
-                                $sql = "select * from $tbl_name where type like 'user' and is_approve=1 order by id desc LIMIT $start, $limit";
+                                $sql = "select * from $tbl_name where type like 'user' and is_approve=0 order by id desc LIMIT $start, $limit";
                                 $result = mysql_query($sql);
 
                                 if ($page == 0)
@@ -306,7 +302,7 @@ $msg = new Message();
                                             <td>
                                                 <?php echo $r['company_name']; ?><br />
                                                 <!--
-            <a onclick="javascript: return confirm('Do you really want to delete this user?');" class="tipS" title="Delete" href="delete-user.php?q=<?php //echo $r["id"];  ?>">
+            <a onclick="javascript: return confirm('Do you really want to delete this user?');" class="tipS" title="Delete" href="delete-user.php?q=<?php //echo $r["id"];     ?>">
                                                     <img alt="Delete" src="images/icons/remove.png" />
                                                 </a>
                                                 -->
@@ -334,11 +330,13 @@ $msg = new Message();
                                             <td>
                                                 <?php echo $r['zip_code']; ?>
                                             </td>
+
                                             <td class="actBtns">
-                                                <a onclick="javascript:return confirm('Are you sure to unapprove?')" class="tipS" title="Unapprove" href="user.php?q=<?php echo $r["id"]; ?>">
+                                                <a onclick="javascript:return confirm('Are you sure to approve?')" class="tipS" title="Approve" href="unapproved-user.php?q=<?php echo $r["id"]; ?>">
                                                     <img alt="" src="images/icons/edit.png" />
                                                 </a>
                                             </td>
+
                                         </tr>
                                         <?php
                                     }

@@ -9,6 +9,7 @@
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
+        <script src="js/jquery.validate.min.js"></script>
         <script type="text/javascript">
             <!--//---------------------------------+
             //  Developed by Roshan Bhattarai 
@@ -28,6 +29,67 @@
                 {
                     $(this).css({backgroundImage: "url(down.png)"}).next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
                     $(this).siblings().css({backgroundImage: "url(left.png)"});
+                });
+
+                $("#login-form").validate({
+                    // Specify the validation rules
+                    rules: {
+                        txtLoginEmail: {
+                            required: true,
+                            email: true
+                        },
+                        txtLoginPassword: {
+                            required: true
+                        }
+                    },
+                    // Specify the validation error messages
+                    messages: {
+                        txtLoginPassword: {
+                            required: "<br/>Password required"
+                        },
+                        txtLoginEmail: "<br/>Invalid email address"
+                    },
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
+                });
+
+                $("#reg-form").validate({
+                    // Specify the validation rules
+                    rules: {
+                        txtCompName: "required",
+                        txtContPerson: "required",
+                        txtEmail: {
+                            required: true,
+                            email: true
+                        },
+                        txtPassword: "required",
+                        txtRepeatPassword: {
+                            required: true,
+                            equalTo: "#txtPassword"
+                        },
+                        txtContNumber: "required",
+                        txtAddr: "required",
+                        txtState: "required",
+                        txtCity: "required",
+                        txtZipCode: "required"
+                    },
+                    // Specify the validation error messages
+                    messages: {
+                        txtCompName: "<br/>Company Name required",
+                        txtContPerson: "<br/>Contact Perosn required",
+                        txtPassword: "<br/>Password required",
+                        txtEmail: "<br/>Email required",
+                        txtRepeatPassword: {equalTo:"<br/>Passwords must be match.",required:"<br/>Repeat Passowrd required"},
+                        txtContNumber: "<br/>Contact Number required",
+                        txtAddr: "<br/>Address required",
+                        txtState: "<br/>State required",
+                        txtCity: "<br/>City required",
+                        txtZipCode: "<br/>Zip Code required"
+                    },
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
                 });
             });
         </script>
@@ -62,25 +124,25 @@
                 <h1>Login / Register</h1>
                 <div class="content" style="background-color: transparent;">
                     <div id="divLogin">
-                        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+                        <form id="login-form" onsubmit="javascript:validateLoginForm()" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
                             <table cellpadding="5">
                                 <caption class="tbl-caption">
                                     Login
                                 </caption>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Email
                                     </td>
                                     <td>
-                                        <input type="text" name="txtLoginEmail" />
+                                        <input type="text" name="txtLoginEmail" id="txtLoginEmail" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Password
                                     </td>
                                     <td>
-                                        <input type="password" name="txtLoginPassword" />
+                                        <input type="password" name="txtLoginPassword" id="txtLoginPassword" />
                                     </td>
                                 </tr>                        
                                 <tr>
@@ -90,7 +152,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="center">
-                                        <div id="regmsg">
+                                        <div id="loginmsg">
                                             <?php
                                             if (isset($_POST['btnLogin'])) {
 
@@ -132,57 +194,57 @@
                         </form>
                     </div>
                     <div id="divRegister">
-                        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                        <form id="reg-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                             <table cellpadding="5">
                                 <caption class="tbl-caption">
                                     Register
                                 </caption>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Company Name
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtCompName'])) ? $_POST['txtCompName'] : "" ?>" type="text" name="txtCompName" />
+                                        <input value="<?php echo (isset($_POST['txtCompName'])) ? $_POST['txtCompName'] : "" ?>" type="text" name="txtCompName" id="txtCompName" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Contact Person
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtContPerson'])) ? $_POST['txtContPerson'] : "" ?>" type="text" name="txtContPerson" />
+                                        <input value="<?php echo (isset($_POST['txtContPerson'])) ? $_POST['txtContPerson'] : "" ?>" type="text" name="txtContPerson" id="txtContPerson" />
                                     </td>
                                 </tr>                        
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Email
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtEmail'])) ? $_POST['txtEmail'] : "" ?>" type="text" name="txtEmail" />
+                                        <input value="<?php echo (isset($_POST['txtEmail'])) ? $_POST['txtEmail'] : "" ?>" type="text" name="txtEmail" id="txtEmail" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Password
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtPassword'])) ? $_POST['txtPassword'] : "" ?>" type="password" name="txtPassword" />
+                                        <input value="<?php echo (isset($_POST['txtPassword'])) ? $_POST['txtPassword'] : "" ?>" type="password" name="txtPassword" id="txtPassword" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Repeat Password
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtRepeatPassword'])) ? $_POST['txtRepeatPassword'] : "" ?>" type="password" name="txtRepeatPassword" />
+                                        <input value="<?php echo (isset($_POST['txtRepeatPassword'])) ? $_POST['txtRepeatPassword'] : "" ?>" type="password" name="txtRepeatPassword" id="txtRepeatPassword" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Contact Number
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtContNumber'])) ? $_POST['txtContNumber'] : "" ?>" type="text" name="txtContNumber" />
+                                        <input value="<?php echo (isset($_POST['txtContNumber'])) ? $_POST['txtContNumber'] : "" ?>" type="text" name="txtContNumber" id="txtContNumber" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -190,31 +252,31 @@
                                         Address
                                     </td>
                                     <td>
-                                        <textarea name="txtAddr" style="min-width: 150px;max-width: 150px;width: 150px;"><?php echo (isset($_POST['txtAddr'])) ? $_POST['txtAddr'] : "" ?></textarea>
+                                        <textarea name="txtAddr" id="txtAddr" style="min-width: 150px;max-width: 150px;width: 150px;"><?php echo (isset($_POST['txtAddr'])) ? $_POST['txtAddr'] : "" ?></textarea>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         State
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtState'])) ? $_POST['txtState'] : "" ?>" type="text" name="txtState" />
+                                        <input value="<?php echo (isset($_POST['txtState'])) ? $_POST['txtState'] : "" ?>" type="text" name="txtState" id="txtState" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         City
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtCity'])) ? $_POST['txtCity'] : "" ?>" type="text" name="txtCity" />
+                                        <input value="<?php echo (isset($_POST['txtCity'])) ? $_POST['txtCity'] : "" ?>" type="text" name="txtCity" id="txtCity" />
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="pull-right">
+                                    <td class="pull-right valign-top">
                                         Zip Code
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtZipCode'])) ? $_POST['txtZipCode'] : "" ?>" type="text" name="txtZipCode" />
+                                        <input value="<?php echo (isset($_POST['txtZipCode'])) ? $_POST['txtZipCode'] : "" ?>" type="text" name="txtZipCode" id="txtZipCode" />
                                     </td>
                                 </tr>                        
                                 <tr>
@@ -275,6 +337,6 @@
             </div>
         </div>
         <!--endo-of-search-->
-<?php include_once 'includes/footer.php'; ?>
+        <?php include_once 'includes/footer.php'; ?>
     </body>
 </html>
