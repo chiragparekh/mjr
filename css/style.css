@@ -691,3 +691,19 @@ li:hover .sub-level .sub-level {
     font-size: large;
 }
 /* /general */
+
+/* this style created for display message in pages */
+.custom-message{    
+    border: 1px solid #d8c6ff;    
+    color:white;
+    margin: 15px;
+    padding:10px;
+    font-family: arial;
+    font-size: 12px;
+}
+.custom-message-sidebar{           
+    color:white;
+    padding:10px;
+    font-family: arial;
+    font-size: 12px;
+}
