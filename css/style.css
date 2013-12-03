@@ -508,9 +508,9 @@ li:hover .sub-level .sub-level {
 .product-detail{
 	float:left;
 	width:350px;
-	/*height:295px;*/
-	margin:25px 0 0 0;
-    background:#E4D5FF url(../images/product-detail-bg.jpg) repeat-x top left;
+	min-height:324px;
+	margin:20px 0 0 0;
+        background:#E4D5FF;
 	border:5px solid #322453;
 }
 .product-detail label{
