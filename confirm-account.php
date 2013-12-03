@@ -52,12 +52,12 @@ if (!isset($_GET['id']) || !isset($_GET["auth"])) {
                     $rs = mysql_query($query);
                     $n = mysql_fetch_array($rs);
                     if (intval($n[0]) > 0) {
-                        $query = "update tbl_user set is_confirm='1' where md5(id)='" . $_GET['id'] . "'";
+                        $query = "update tbl_user set is_approve='1' where md5(id)='" . $_GET['id'] . "'";
                         if (mysql_query($query)) {
                             ?>
                             <h2>
-                                Your account is confirmed successfully.<br />
-                                <a href="login.php" style="font-size:18px">Click here to login</a>
+                                <?php echo (isset($_GET['flg']) && $_GET['flg']=="manager")?"User is approved successfully.":"Your account is confirmed successfully.<br/><a href=\"login.php\" style=\"font-size:18px\">Click here to login</a>"?><br />
+                                
                             </h2>
                             <?php
                         }

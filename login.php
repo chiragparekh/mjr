@@ -79,7 +79,7 @@
                         txtCompName: "<br/>Company Name required",
                         txtContPerson: "<br/>Contact Perosn required",
                         txtPassword: "<br/>Password required",
-                        txtEmail: {required: "<br/>Email required", email:"<br/>Invalid email"},
+                        txtEmail: {required: "<br/>Email required", email: "<br/>Invalid email"},
                         txtRepeatPassword: {equalTo: "<br/>Passwords must be match.", required: "<br/>Repeat Passowrd required"},
                         txtContNumber: "<br/>Contact Number required",
                         txtAddr: "<br/>Address required",
@@ -169,26 +169,26 @@
                                                     if (mysql_num_rows($rs) > 0) {
                                                         $r = mysql_fetch_array($rs);
                                                         $id = $r['id'];
-                                                        $sel = "select is_confirm from tbl_user where id=" . $id;
+                                                        //$sel = "select is_confirm from tbl_user where id=" . $id;
+                                                        //$rs = mysql_query($sel);
+                                                        //$r = mysql_fetch_array($rs);
+                                                        //if (intval($r['is_confirm']) == 1) {
+
+                                                        $sel = "select is_approve,company_name from tbl_user where id=" . $id;
                                                         $rs = mysql_query($sel);
                                                         $r = mysql_fetch_array($rs);
-                                                        if (intval($r['is_confirm']) == 1) {
-
-                                                            $sel = "select is_approve,company_name from tbl_user where id=" . $id;
-                                                            $rs = mysql_query($sel);
-                                                            $r = mysql_fetch_array($rs);
-                                                            if (intval($r['is_approve']) == 1) {
-                                                                echo "Logged in successfully. Please wait...";
-                                                                $_SESSION['userid'] = $id;
-                                                                $_SESSION['company'] = $r['company_name'];
-                                                                echo '<script> window.location="index.php"; </script>';
-                                                            } else {
-                                                                echo "Your approval is still pending.";
-                                                            }
+                                                        if (intval($r['is_approve']) == 1) {
+                                                            echo "Logged in successfully. Please wait...";
+                                                            $_SESSION['userid'] = $id;
+                                                            $_SESSION['company'] = $r['company_name'];
+                                                            echo '<script> window.location="index.php"; </script>';
+                                                        } else {
+                                                            echo "Your approval is still pending.";
                                                         }
-                                                        else{
-                                                            echo "Please confirm your account.";
-                                                        }
+                                                        //}
+                                                        //else{
+                                                        //    echo "Please confirm your account.";
+                                                        //}
                                                     } else {
                                                         echo "Invalid email or password. Please try again";
                                                     }
@@ -332,8 +332,10 @@
                                                                 $headers = "From: admin@mjrjewels.com" . "\r\n";
                                                                 $message = stripslashes($message);
                                                                 mail($email, $subject, $message, $headers);
-                                                                mail("manojranpara@ymail.com", "New User Registration", "A new user has registered recently.Please go to admin panel and approve as per condition. Please note that user may or may not have confirmed his/her email", $headers);
-                                                                echo "You are registered.<br/>A confirmation link is sent to your email address.<br/>Please confirm your account from there.";
+                                                                $message.="&flg=manager";
+                                                                $message = stripslashes($message);
+                                                                mail("manojranpara@ymail.com", "New User Registration", "A new user has recently registered.(Company Name: $compName, Contact Person: $contPerson, Email: $email, Contact No.: $contNumber, Address: $address, City: $city, State: $state, Zip Code: $zipCode). Click this link to approve this account or approve from admin panel. ".$message, $headers);
+                                                                echo "You are registered.<br/>Your account is still in pending approval.";
                                                             } else {
                                                                 echo "Unable to register";
                                                             }
