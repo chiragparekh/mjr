@@ -12,6 +12,7 @@
         <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
         <script type="text/javascript">
             $(document).ready(function()
             {
@@ -99,14 +100,14 @@
                         $("#lstSubCategory").html(data);
                         $('#loader').html('');
                     });
-                    searchProduct();
+
                 });
-                searchProduct();
+                searchProduct(1);
             });
-            function searchProduct()
+            function searchProduct(page_id)
             {
                 $("#loader").html('Please wait...');
-                var formData = {minweight: $("#lstMinWeight").val(), maxweight: $("#lstMaxWeight").val(), category: $("#lstCategory").val(), subcategory: $("#lstSubCategory").val()};
+                var formData = {minweight: $("#lstMinWeight").val(), maxweight: $("#lstMaxWeight").val(), category: $("#lstCategory").val(), subcategory: $("#lstSubCategory").val(), page: page_id};
                 $.ajax({
                     url: "ajax-get-search-product.php",
                     type: "POST",
@@ -138,7 +139,7 @@
                             Min. Weight
                         </td>
                         <td>
-                            <select onchange="searchProduct()" name="lstMinWeight" id="lstMinWeight">
+                            <select onchange="searchProduct(1)" name="lstMinWeight" id="lstMinWeight">
                                 <option value="-1">- - Select - -</option>
                                 <?php
                                 include_once './includes/connection.php';
@@ -163,7 +164,7 @@
                             Max. Weight
                         </td>
                         <td>
-                            <select onchange="searchProduct()" name="lstMaxWeight" id="lstMaxWeight">
+                            <select onchange="searchProduct(1)" name="lstMaxWeight" id="lstMaxWeight">
                                 <option value="-1">- - Select - -</option>
                                 <?php
                                 for ($i = 1; $i <= $maxweight; $i++) {
@@ -201,7 +202,7 @@
                             Sub Category
                         </td>
                         <td>
-                            <select onchange="searchProduct()" name="lstSubCategory" id="lstSubCategory">
+                            <select onchange="searchProduct(1)" name="lstSubCategory" id="lstSubCategory">
                                 <option value="-1">- - Select - -</option>
                             </select>
                         </td>
@@ -220,6 +221,7 @@
             <div class="pro-name">
                 <h1>Search Result</h1>
             </div>
+
             <div id="search-result"></div>
         </div>
         <!--right-content-->
