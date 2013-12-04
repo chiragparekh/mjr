@@ -37,7 +37,7 @@ if (mysql_num_rows($result) > 0) {
                             <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
                             <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
                             <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
-        <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image"><img src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
+    <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image" id="slider-div-<?php echo $r["p_id"] ?>"><img id="slider-img-<?php echo $r["p_id"] ?>" src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
         <?php
     }
     ?>

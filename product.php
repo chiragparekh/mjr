@@ -155,6 +155,10 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                         document.getElementById("pro-image-link").href = "manager/uploads/original/" + data.sc_name + "/" + data.path;
                         document.getElementById("current_product").value = data.p_id;
                         //showNextImages(data.p_id, "update-image");
+                        $("div.scroll-image").css({"border":"1px solid white","height":"140px","width":"140px"});
+                        $("div.scroll-image img").css({"height":"140px","width":"140px"});                        
+                        $("#slider-div-"+pid).css({"border":"5px solid #E4D5FF","height":"135px","width":"135px"});
+                        $("#slider-img-"+pid).css({"height":"135px","width":"135px"});
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
@@ -323,7 +327,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                                                                 <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
                                                                 <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
                                                                 <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
-                        <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image"><img src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
+                        <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image" id="slider-div-<?php echo $r["p_id"] ?>"><img id="slider-img-<?php echo $r["p_id"] ?>" src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
                         <?php
                     }
                     ?>
