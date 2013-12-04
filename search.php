@@ -13,11 +13,6 @@
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
         <script type="text/javascript">
-            <!--//---------------------------------+
-        //  Developed by Roshan Bhattarai 
-            //  Visit http://roshanbh.com.np for this script and more.
-            //  This notice MUST stay intact for legal use
-            // --------------------------------->
             $(document).ready(function()
             {
                 $("#advance-search").addClass("active");
@@ -104,13 +99,34 @@
                         $("#lstSubCategory").html(data);
                         $('#loader').html('');
                     });
+                    searchProduct();
                 });
+                searchProduct();
             });
+            function searchProduct()
+            {
+                $("#loader").html('Please wait...');
+                var formData = {minweight: $("#lstMinWeight").val(), maxweight: $("#lstMaxWeight").val(), category: $("#lstCategory").val(), subcategory: $("#lstSubCategory").val()};
+                $.ajax({
+                    url: "ajax-get-search-product.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        $("#search-result").html(data);
+                        $('#loader').html('');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+
+                    }
+                });
+            }
         </script>
 
 
     </head>
-    <body>
+    <body onload="initLightbox()">
         <?php include_once 'includes/header.php'; ?>
         <div class="category">
             <br /> 
@@ -122,7 +138,7 @@
                             Min. Weight
                         </td>
                         <td>
-                            <select name="lstMinWeight" id="lstMinWeight">
+                            <select onchange="searchProduct()" name="lstMinWeight" id="lstMinWeight">
                                 <option value="-1">- - Select - -</option>
                                 <?php
                                 include_once './includes/connection.php';
@@ -147,7 +163,7 @@
                             Max. Weight
                         </td>
                         <td>
-                            <select name="lstMaxWeight" id="lstMaxWeight">
+                            <select onchange="searchProduct()" name="lstMaxWeight" id="lstMaxWeight">
                                 <option value="-1">- - Select - -</option>
                                 <?php
                                 for ($i = 1; $i <= $maxweight; $i++) {
@@ -185,7 +201,7 @@
                             Sub Category
                         </td>
                         <td>
-                            <select name="lstSubCategory" id="lstSubCategory">
+                            <select onchange="searchProduct()" name="lstSubCategory" id="lstSubCategory">
                                 <option value="-1">- - Select - -</option>
                             </select>
                         </td>
@@ -204,17 +220,7 @@
             <div class="pro-name">
                 <h1>Search Result</h1>
             </div>
-            <?php
-            for ($i = 1; $i <= 9; $i++) {
-                ?>
-                <div class="product">
-                    <div class="pro-heading"><h1 class="center">Product <?php echo $i; ?></h1></div>
-                    <div class="pro-img"><a rel="example_group" href="./images/large1.jpg" title=""><img src="images/tumb1.jpg" width="180" height="160" alt="" /></a></div>
-                    <div class="pro-detail"><a href="product.php">View Detail</a><a href="product.php">Add to Cart</a></div>
-                </div>
-                <?php
-            }
-            ?>
+            <div id="search-result"></div>
         </div>
         <!--right-content-->
         <!--endo-of-search-->
