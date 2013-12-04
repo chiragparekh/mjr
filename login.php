@@ -47,7 +47,7 @@
                         txtLoginPassword: {
                             required: "<br/>Password required"
                         },
-                        txtLoginEmail: "<br/>Invalid email address"
+                        txtLoginEmail: {required:"<br/>Email required",email:"<br/>Invalid email"}
                     },
                     submitHandler: function(form) {
                         form.submit();
@@ -79,8 +79,8 @@
                         txtCompName: "<br/>Company Name required",
                         txtContPerson: "<br/>Contact Perosn required",
                         txtPassword: "<br/>Password required",
-                        txtEmail: "<br/>Email required",
-                        txtRepeatPassword: {equalTo:"<br/>Passwords must be match.",required:"<br/>Repeat Passowrd required"},
+                        txtEmail: {required: "<br/>Email required", email: "<br/>Invalid email"},
+                        txtRepeatPassword: {equalTo: "<br/>Passwords must be match.", required: "<br/>Repeat Passowrd required"},
                         txtContNumber: "<br/>Contact Number required",
                         txtAddr: "<br/>Address required",
                         txtState: "<br/>State required",
@@ -155,20 +155,27 @@
                                         <div id="loginmsg">
                                             <?php
                                             if (isset($_POST['btnLogin'])) {
+                                                include_once './includes/connection.php';
+                                                $con = new MySQL();
 
-                                                $email = trim($_POST['txtLoginEmail']);
-                                                $password = md5(trim($_POST['txtLoginPassword']));
+                                                $email = mysql_real_escape_string(trim($_POST['txtLoginEmail']));
+                                                $password = md5(mysql_real_escape_string(trim($_POST['txtLoginPassword'])));
 
                                                 if ($email == "" || $password == "") {
-                                                    echo "Please provide email and password";
+                                                    echo "Please provide login email and password";
+                                                } else if (filter_var($email,FILTER_VALIDATE_EMAIL)==FALSE) {
+                                                    echo "Invalid email";
                                                 } else {
-                                                    include_once './includes/connection.php';
-                                                    $con = new MySQL();
                                                     $sel = "select id from tbl_user where email like '$email' and password like '$password' and type='user'";
                                                     $rs = mysql_query($sel);
                                                     if (mysql_num_rows($rs) > 0) {
                                                         $r = mysql_fetch_array($rs);
                                                         $id = $r['id'];
+                                                        //$sel = "select is_confirm from tbl_user where id=" . $id;
+                                                        //$rs = mysql_query($sel);
+                                                        //$r = mysql_fetch_array($rs);
+                                                        //if (intval($r['is_confirm']) == 1) {
+
                                                         $sel = "select is_approve,company_name from tbl_user where id=" . $id;
                                                         $rs = mysql_query($sel);
                                                         $r = mysql_fetch_array($rs);
@@ -180,11 +187,15 @@
                                                         } else {
                                                             echo "Your approval is still pending.";
                                                         }
+                                                        //}
+                                                        //else{
+                                                        //    echo "Please confirm your account.";
+                                                        //}
                                                     } else {
                                                         echo "Invalid email or password. Please try again";
                                                     }
-                                                    $con->CloseConnection();
                                                 }
+                                                $con->CloseConnection();
                                             }
                                             ?>
                                         </div>
@@ -199,6 +210,64 @@
                                 <caption class="tbl-caption">
                                     Register
                                 </caption>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <div id="regmsg">
+                                            <?php
+                                            if (isset($_POST['btnRegister'])) {
+                                                include_once './includes/connection.php';
+                                                $con = new MySQL();
+
+                                                $compName = mysql_real_escape_string(trim($_POST['txtCompName']));
+                                                $contPerson = mysql_real_escape_string(trim($_POST['txtContPerson']));
+                                                $email = mysql_real_escape_string(trim($_POST['txtEmail']));
+                                                $password = mysql_real_escape_string(trim($_POST['txtPassword']));
+                                                $repeatPassword = mysql_real_escape_string(trim($_POST['txtRepeatPassword']));
+                                                $contNumber = mysql_real_escape_string(trim($_POST['txtContNumber']));
+                                                $address = mysql_real_escape_string(trim($_POST['txtAddr']));
+                                                $city = mysql_real_escape_string(trim($_POST['txtCity']));
+                                                $state = mysql_real_escape_string(trim($_POST['txtState']));
+                                                $zipCode = mysql_real_escape_string(trim($_POST['txtZipCode']));
+
+                                                if ($compName == "" || $contPerson == "" || $email == "" || $password == "" || $repeatPassword == "" || $contNumber == "" || $address == "" || $city == "" || $state == "" || $zipCode == "") {
+                                                    echo "Please fill compelete form";
+                                                } else if (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
+                                                    echo "Invalid email";
+                                                } else if ($password != $repeatPassword) {
+                                                    echo "Passwords must be match";
+                                                } else {
+                                                    $rs = mysql_query("select id from tbl_user where email like '$email'");
+                                                    if (mysql_num_rows($rs) > 0) {
+                                                        echo "This email is already registered.";
+                                                    } else {
+                                                        $random = md5(rand());
+                                                        $md5password = md5($password);
+                                                        $ins = "insert into tbl_user(company_name,contact_person,email,password,contact_no,address,city,state,zip_code,type,random)"
+                                                                . " values('$compName','$contPerson','$email','$md5password','$contNumber','$address','$city','$state','$zipCode','user','$random')";
+                                                        if (mysql_query($ins)) {
+                                                            $id = md5(mysql_insert_id());
+                                                            $subject = 'Manojkumar Jayntilal Ranpara Jewels - Confirmation link';
+                                                            $message = 'Click this link to confirm your account : ';
+                                                            //$message .= 'http://www.mjrjewels.com/confirm-account.php?auth='. $random.'&id='.$id;
+                                                            $message .= 'http://localhost/mjr/confirm-account.php?auth=' . $random . '&id=' . $id;
+                                                            $headers = "From: admin@mjrjewels.com" . "\r\n";
+                                                            $message = stripslashes($message);
+                                                            mail($email, $subject, $message, $headers);
+                                                            $message.="&flg=manager";
+                                                            $message = stripslashes($message);
+                                                            mail("manojranpara@ymail.com", "New User Registration", "A new user has recently registered.(Company Name: $compName, Contact Person: $contPerson, Email: $email, Contact No.: $contNumber, Address: $address, City: $city, State: $state, Zip Code: $zipCode). Click this link to approve this account or approve from admin panel. " . $message, $headers);
+                                                            echo "You are registered.<br/>Your account is still in pending approval.";
+                                                        } else {
+                                                            echo "Unable to register";
+                                                        }
+                                                    }
+                                                }
+                                                $con->CloseConnection();
+                                            }                                            
+                                            ?>
+                                        </div>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td class="pull-right valign-top">
                                         Company Name
@@ -284,51 +353,7 @@
                                         <input type="submit" name="btnRegister" value="Register" />
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2" align="center">
-                                        <div id="regmsg">
-                                            <?php
-                                            if (isset($_POST['btnRegister'])) {
-                                                $compName = trim($_POST['txtCompName']);
-                                                $contPerson = trim($_POST['txtContPerson']);
-                                                $email = trim($_POST['txtEmail']);
-                                                $password = trim($_POST['txtPassword']);
-                                                $repeatPassword = trim($_POST['txtRepeatPassword']);
-                                                $contNumber = trim($_POST['txtContNumber']);
-                                                $address = trim($_POST['txtAddr']);
-                                                $city = trim($_POST['txtCity']);
-                                                $state = trim($_POST['txtState']);
-                                                $zipCode = trim($_POST['txtZipCode']);
 
-                                                if ($compName == "" || $contPerson == "" || $email == "" || $password == "" || $repeatPassword == "" || $contNumber == "" || $address == "" || $city == "" || $state == "" || $zipCode == "") {
-                                                    echo "Please fill compelete form";
-                                                } else {
-                                                    if ($password == $repeatPassword) {
-                                                        include_once './includes/connection.php';
-                                                        $con = new MySQL();
-                                                        $rs = mysql_query("select id from tbl_user where email like '$email'");
-                                                        if (mysql_num_rows($rs) > 0) {
-                                                            echo "This email is already registered.";
-                                                        } else {
-                                                            $md5password = md5($password);
-                                                            $ins = "insert into tbl_user(company_name,contact_person,email,password,contact_no,address,city,state,zip_code,type)"
-                                                                    . " values('$compName','$contPerson','$email','$md5password','$contNumber','$address','$city','$state','$zipCode','user')";
-                                                            if (mysql_query($ins)) {
-                                                                echo "You are registered successfully.<br/> Your account is in pending approval";
-                                                            } else {
-                                                                echo "Unable to register";
-                                                            }
-                                                            $con->CloseConnection();
-                                                        }
-                                                    } else {
-                                                        echo "Passwords must be match";
-                                                    }
-                                                }
-                                            }
-                                            ?>
-                                        </div>
-                                    </td>
-                                </tr>
                             </table>
                         </form>
                     </div>
