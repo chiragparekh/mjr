@@ -23,7 +23,7 @@ $rs = mysql_query($q);
 $records = mysql_num_rows($rs);
 
 
-$page_limit=9;
+$page_limit = 9;
 $pagination_stages = 2;
 $current_page = strip_tags($_POST['page']);
 $start_page = ($current_page - 1) * $page_limit;
@@ -121,8 +121,9 @@ if ($records > 0) {
         <?php
     }
     ?>
-    <br/>
+    <div class="clear"></div>
     <div style="" align="left"><?php echo $pagination_system; ?></div>
+    <div class="clear"></div>
     <br/>
     <?php
 } else {
