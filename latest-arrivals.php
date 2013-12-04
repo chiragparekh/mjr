@@ -128,7 +128,7 @@
             <?php
             include_once './includes/connection.php';
             $con = new MySQL();
-            $rs = mysql_query("select p.id as pid,p.name as name, p.image_path as image_path,p.weight as weight,p.description as description,sc.name as sub_cat_name from tbl_category c inner join tbl_sub_category sc on sc.category_id=c.id inner join tbl_product p on p.sub_category_id=sc.id order by p.id desc limit 10");
+            $rs = mysql_query("select p.id as pid,p.name as name, p.image_path as image_path,p.weight as weight,p.description as description,sc.name as sub_cat_name from  tbl_sub_category sc inner join tbl_product p on p.sub_category_id=sc.id order by p.id desc limit 10");
             while ($row = mysql_fetch_array($rs)) {
                 ?>
                 <div class="product">
