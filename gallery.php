@@ -1,6 +1,6 @@
-<?php include_once './includes/checksession.php';?>
+<?php include_once './includes/checksession.php'; ?>
 <?php
-if (!isset($_GET['q']) || $_GET['q']=="") {
+if (!isset($_GET['q']) || $_GET['q'] == "") {
     header("location:category.php");
 }
 ?>
@@ -120,6 +120,39 @@ if (!isset($_GET['q']) || $_GET['q']=="") {
                     $(this).siblings().css({backgroundImage: "url(left.png)"});
                 });
             });
+            function addToCart(pro_id) {
+                var pro_id = pro_id;
+                var qty = document.getElementById("cart_qty").value;
+                var desc = document.getElementById("cart_desc").value;
+                if (qty.trim() == "") {
+                    alert("Provide quantity for product");
+                    document.getElementById("cart_qty").focus();
+                } else if (desc.trim() == "") {
+                    alert("Provide description for product");
+                    document.getElementById("cart_desc").focus();
+                } else {
+                    //if all validation works perfectly
+                    var formData = {pro_id: pro_id};
+                    $.ajax({
+                        url: "ajax-add-to-cart.php",
+                        type: "POST",
+                        data: formData,
+                        success: function(data, textStatus, jqXHR)
+                        {
+                            if (data.trim() == "added") {
+                                alert("Item added to your order.")
+                            } else if (data.trim() == "already-added") {
+                                alert("Item already added to your order.")
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+
+                        }
+                    });
+                }
+                return false;
+            }
         </script>
     </head>
     <body onload="initLightbox()">
@@ -132,14 +165,14 @@ if (!isset($_GET['q']) || $_GET['q']=="") {
                 include_once 'includes/connection.php';
                 $con = new MySQL();
                 $sub_cat_id = $_GET['q'];
-                $q="select name from tbl_sub_category where id=".$sub_cat_id;
-                $result=mysql_query($q);
-                $array=mysql_fetch_array($result);
-                $name=$array["name"];
+                $q = "select name from tbl_sub_category where id=" . $sub_cat_id;
+                $result = mysql_query($q);
+                $array = mysql_fetch_array($result);
+                $name = $array["name"];
                 ?>
                 <h1>Products of <?php echo $name; ?></h1>
-                <?php                              
-                $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id where sc.id=" . $sub_cat_id . " group by sub_name";
+                <?php
+                $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id group by sub_name";
                 $result = mysql_query($q);
                 while ($r = mysql_fetch_array($result)) {
                     if ($r["sub_id"] == $sub_cat_id) {
@@ -164,7 +197,7 @@ if (!isset($_GET['q']) || $_GET['q']=="") {
                 <div class="product">
                     <div class="pro-heading"><h1 class="center"><?php echo ucwords($r["pro_name"]); ?></h1></div>
                     <div class="pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" width="180" height="160" alt="" /></a></div>
-                    <div class="pro-detail"><a href="product.php?q=<?php echo $r["pro_id"] ?>">View Detail</a><a href="product.php">Add to Cart</a></div>
+                    <div class="pro-detail"><a href="product.php?q=<?php echo $r["pro_id"] ?>">View Detail</a><a href="javascript:addToCart(<?php echo $r["pro_id"] ?>)">Add to Cart</a></div>
                 </div>
                 <?php
             }

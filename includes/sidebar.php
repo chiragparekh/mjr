@@ -12,7 +12,7 @@
                 <p class="menu_head"><a href="javascript:void(0)"><?php echo ucwords($rc['c_name']); ?></a></p>
                 <div class="menu_body">
                     <?php
-                    $q_sub_cat = "select id,category_id,name from tbl_sub_category where category_id=" . $rc["c_id"];
+                    $q_sub_cat = "select sc.id as id,sc.category_id as category_id,sc.name as name from tbl_sub_category sc inner join tbl_product p on sc.id=p.sub_category_id where sc.category_id=" . $rc["c_id"]." group by sc.id";
                     $result_subcat = mysql_query($q_sub_cat);
                     if (mysql_num_rows($result_subcat) > 0) {
                         while ($rsub = mysql_fetch_array($result_subcat)) {

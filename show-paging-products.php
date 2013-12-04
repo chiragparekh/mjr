@@ -23,7 +23,7 @@ if ($start < 0) {
     echo "0";
     return;
 }
-$q = "select p.id as p_id,p.image_path as path,sc.name as sc_name from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where sub_category_id in ( select sub_category_id from tbl_product where id=" . $pro_id . ") and p.id not in (" . $pro_id . ") order by p.id desc limit " . $start . "," . $total_display;
+$q = "select p.id as p_id,p.image_path as path,sc.name as sc_name from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where sub_category_id in ( select sub_category_id from tbl_product where id=" . $pro_id . ")  order by p.id desc limit " . $start . "," . $total_display;
 $result = mysql_query($q);
 if (mysql_num_rows($result) > 0) {
     ?>    

@@ -103,16 +103,16 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
 
             function openDetailForm()
             {
-                $("#txtQty,#txtDesc").val("");
+                $("#cart_qty,#cart_desc").val("");
                 $("#pro-detail-form").css("display", "inline");
-                $("#txtQty").focus();
+                $("#cart_qty").focus();
             }
             function closeDetailForm()
             {
                 $("#pro-detail-form").css("display", "none");
             }
             function showNextImages(proid, operation) {
-                var start = parseInt(document.getElementById("start_paging").value);                
+                var start = parseInt(document.getElementById("start_paging").value);
                 var formData = {start: start, operation: operation, pro_id: proid};
                 $.ajax({
                     url: "show-paging-products.php",
@@ -121,7 +121,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     success: function(data, textStatus, jqXHR)
                     {
                         if (data.trim() == "0")
-                            alert("No products found.");
+                            alert("No more products found.");
                         else
                             $("#product-slider").html(data);
                     },
@@ -131,7 +131,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     }
                 });
             }
-            function showProductData(pid) {                
+            function showProductData(pid) {
                 var formData = {pro_id: pid};
                 $.ajax({
                     url: "ajax-get-product-details.php",
@@ -151,15 +151,49 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                         document.getElementById("pro-name").innerHTML = data.name;
                         document.getElementById("pro-weight").innerHTML = data.weight;
                         document.getElementById("pro-desc").innerHTML = data.desc;
-                        document.getElementById("pro-image").src =  "manager/uploads/thumbs/"+data.sc_name+"/"+data.path;
-                        document.getElementById("pro-image-link").href =  "manager/uploads/original/"+data.sc_name+"/"+data.path;
-                        showNextImages(data.p_id,"update-image");
+                        document.getElementById("pro-image").src = "manager/uploads/thumbs/" + data.sc_name + "/" + data.path;
+                        document.getElementById("pro-image-link").href = "manager/uploads/original/" + data.sc_name + "/" + data.path;
+                        document.getElementById("current_product").value = data.p_id;
+                        //showNextImages(data.p_id, "update-image");
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
 
                     }
                 });
+            }
+            function addToCart() {
+                var pro_id = document.getElementById("current_product").value;
+                var qty = document.getElementById("cart_qty").value;
+                var desc = document.getElementById("cart_desc").value;
+                if (qty.trim() == "") {
+                    alert("Provide quantity for product");
+                    document.getElementById("cart_qty").focus();
+                } else if (desc.trim() == "") {
+                    alert("Provide description for product");
+                    document.getElementById("cart_desc").focus();
+                } else {
+                    //if all validation works perfectly
+                    var formData = {pro_id: pro_id};
+                    $.ajax({
+                        url: "ajax-add-to-cart.php",
+                        type: "POST",
+                        data: formData,
+                        success: function(data, textStatus, jqXHR)
+                        {                                               
+                            if(data.trim()=="added"){
+                                alert("Item added to your order.")                                
+                            }else if(data.trim()=="already-added"){
+                                alert("Item already added to your order.")
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown)
+                        {
+
+                        }
+                    });
+                }
+                return false;
             }
         </script>
 
@@ -236,7 +270,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 <label>DESCRIPTION : <span id="pro-desc"><?php echo $desc ?></span></label>  
                 <samp>
                     <img src="images/cart.png" width="36" height="40" alt="" />
-                    <a href="javascript:openDetailForm()">Add to Cart </a><a href="#">View Selected Items</a>
+                    <a href="javascript:openDetailForm()">Add to Cart </a><a href="cart.php">View Selected Items</a>
                 </samp>
                 <div class="clear"></div>
                 <div id="pro-detail-form" style="background: white;width: 300px;margin: 4px auto;border: 1px solid gray">
@@ -247,7 +281,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                                     Quantity
                                 </td>
                                 <td>
-                                    <input type="text" name="txtQty" id="txtQty" />
+                                    <input type="text" name="txtQty" id="cart_qty" />
                                 </td>
                             </tr>
                             <tr>
@@ -255,12 +289,12 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                                     Description
                                 </td>
                                 <td>
-                                    <textarea name="txtDesc" id="txtDesc"></textarea>
+                                    <textarea name="txtDesc" id="cart_desc"></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" align="center">
-                                    <input type="submit" value="OK" />
+                                    <input type="button" value="OK" onclick="addToCart();" />
                                     <input onclick="closeDetailForm()" type="button" value="Close" />
                                 </td>
                             </tr>
@@ -269,6 +303,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 </div>
                 <div class="next"><a href="#">Next</a></div>
             </div>
+            <input type="hidden" name="current_product" value="<?php echo $pro_id ?>" id="current_product" />                    
             <?php
             //code for thumbnails in product for a category selected
             $start = 0;
@@ -278,16 +313,16 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             if (mysql_num_rows($result) > 0) {
                 ?>
                 <div class="pro-slider" id="product-slider">
-                    <!--<a href="#"><div class="left-arrow"></div></a>-->
+                    <!--<a href="#"><div class="left-arrow"></div></a>-->                    
                     <input type="hidden" name="start_paging" value="<?php echo $start ?>" id="start_paging" />                    
                     <input type="button" onclick="javascript:showNextImages(<?php echo $pro_id ?>, 'previous')"  value="" class="left-arrow" style="border:0"/>
                     <?php
                     while ($r = mysql_fetch_array($result)) {
                         ?>
-                                                <!--<div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
+                                                                <!--<div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
                         <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image"><img src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
                         <?php
                     }
