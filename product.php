@@ -20,6 +20,14 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
 
         <script type="text/javascript">
             $(document).ready(function() {
+               
+                //check status of item whethe is in cart or not
+                var result = checkProductInCart(<?php echo $_GET["q"] ?>);                
+                if (result == "false") {
+                    resetAddToCartLink();
+                } else if (result == "true") {
+                    changeAddToCartLink();
+                }
                 $("#gallery").addClass("active");
                 $("#pro-detail-form").css("display", "none");
                 /*
@@ -98,18 +106,25 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     'transitionIn': 'none',
                     'transitionOut': 'none'
                 });
+
             });
 
 
             function openDetailForm()
             {
-                $("#cart_qty,#cart_desc").val("");
-                $("#pro-detail-form").css("display", "inline");
-                $("#cart_qty").focus();
+                $("#pro-detail-form").fadeIn('slow', function() {
+                    $("#cart_qty,#cart_desc").val("");
+                    //$("#pro-detail-form").css("display", "inline");
+                    $("#cart_qty").focus();
+                });
+
             }
             function closeDetailForm()
             {
-                $("#pro-detail-form").css("display", "none");
+                $("#pro-detail-form").fadeOut('slow', function() {
+                    $("#pro-detail-form").css("display", "none");
+                    $("#cart_qty,#cart_desc").val("");
+                });
             }
             function showNextImages(proid, operation) {
                 var start = parseInt(document.getElementById("start_paging").value);
@@ -122,8 +137,13 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     {
                         if (data.trim() == "0")
                             alert("No more products found.");
-                        else
-                            $("#product-slider").html(data);
+                        else {
+                            $("#product-slider").fadeOut('slow', function() {
+                                $("#product-slider").html(data);
+                            });
+                            $("#product-slider").fadeIn('slow');
+                        }
+
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
@@ -132,6 +152,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 });
             }
             function showProductData(pid) {
+                var pid = pid;
                 var formData = {pro_id: pid};
                 $.ajax({
                     url: "ajax-get-product-details.php",
@@ -155,10 +176,20 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                         document.getElementById("pro-image-link").href = "manager/uploads/original/" + data.sc_name + "/" + data.path;
                         document.getElementById("current_product").value = data.p_id;
                         //showNextImages(data.p_id, "update-image");
-                        $("div.scroll-image").css({"border":"1px solid white","height":"140px","width":"140px"});
-                        $("div.scroll-image img").css({"height":"140px","width":"140px"});                        
-                        $("#slider-div-"+pid).css({"border":"5px solid #E4D5FF","height":"135px","width":"135px"});
-                        $("#slider-img-"+pid).css({"height":"135px","width":"135px"});
+                        $("div.scroll-image").css({"border": "1px solid white", "height": "140px", "width": "140px"});
+                        $("div.scroll-image img").css({"height": "140px", "width": "140px"});
+                        $("#slider-div-" + pid).css({"border": "5px solid #E4D5FF", "height": "135px", "width": "135px"});
+                        $("#slider-img-" + pid).css({"height": "135px", "width": "135px"});
+
+                        //check status of item whethe is in cart or not
+                        var result = checkProductInCart(pid);                        
+                        if (result == "false") {                            
+                            resetAddToCartLink();
+                        } else if (result == "true") {
+                            changeAddToCartLink();
+                        }
+                        closeDetailForm();
+
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
@@ -178,18 +209,20 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     document.getElementById("cart_desc").focus();
                 } else {
                     //if all validation works perfectly
-                    var formData = {pro_id: pro_id};
+                    var formData = {pro_id: pro_id, qty: qty, desc: desc};
                     $.ajax({
                         url: "ajax-add-to-cart.php",
                         type: "POST",
                         data: formData,
                         success: function(data, textStatus, jqXHR)
-                        {                                               
-                            if(data.trim()=="added"){
-                                alert("Item added to your order.")                                
-                            }else if(data.trim()=="already-added"){
+                        {
+                            if (data.trim() == "added") {
+                                alert("Item added to your order.")
+                            } else if (data.trim() == "already-added") {
                                 alert("Item already added to your order.")
                             }
+                            changeAddToCartLink();
+                            closeDetailForm();
                         },
                         error: function(jqXHR, textStatus, errorThrown)
                         {
@@ -198,6 +231,39 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     });
                 }
                 return false;
+            }
+            function changeAddToCartLink() {
+                $("#add-to-cart-link").attr("href", "javascript:void(0)");
+                $("#add-to-cart-link").css({"background-color": "#322453", "border-radius": "5px", "color": "#E4D5FF", "width": "75px", "text-align": "center", "height": "17px", "padding": "5px", "text-decoration": "none", "margin-top": "5px"});
+                $("#add-to-cart-link").html("Item added");
+            }
+            function resetAddToCartLink() {
+                $("#add-to-cart-link").attr("href", "javascript:openDetailForm()");
+                $("#add-to-cart-link").attr("style", "");
+                $("#add-to-cart-link").html("Add to Cart");
+            }
+            function checkProductInCart(p_id) {                
+                var result="";
+                var nformData = {pro_id: p_id};
+                $.ajax({
+                    url: "ajax-check-item-cart-status.php",
+                    type: "POST",
+                    async:false,
+                    data: nformData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        if (data.trim() === "not-in-cart") {
+                            result = "false";
+                        } else if (data.trim() === "already-in-cart") {
+                            result="true";
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+
+                    }
+                });
+                return result;
             }
         </script>
 
@@ -268,16 +334,17 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 <div class="sub-pro-img"><a id="pro-image-link" rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="Hello"><img id="pro-image" src="manager/uploads/thumbs/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="240" alt="" /></a></div>
             </div>   
 
-            <div class="product-detail">
+            <div class="product-detail">                
                 <label>NAME : <span id="pro-name"><?php echo $name ?></span></label> 
                 <label>WEIGHT : <span id="pro-weight"><?php echo $weight ?></span></label> 
                 <label>DESCRIPTION : <span id="pro-desc"><?php echo $desc ?></span></label>  
                 <samp>
                     <img src="images/cart.png" width="36" height="40" alt="" />
-                    <a href="javascript:openDetailForm()">Add to Cart </a><a href="cart.php">View Selected Items</a>
-                </samp>
+                    <a id="add-to-cart-link" href="javascript:openDetailForm()">Add to Cart </a><a href="cart.php">View Selected Items</a>
+                    <a href="#">Next</a>
+                </samp>                                
                 <div class="clear"></div>
-                <div id="pro-detail-form" style="background: white;width: 300px;margin: 4px auto;border: 1px solid gray">
+                <div id="pro-detail-form" style=" width: 300px; margin-top: 10px;margin-left: 10px;">
                     <form>
                         <table>
                             <tr>
@@ -305,7 +372,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                         </table>
                     </form>
                 </div>
-                <div class="next"><a href="#">Next</a></div>
+
             </div>
             <input type="hidden" name="current_product" value="<?php echo $pro_id ?>" id="current_product" />                    
             <?php
@@ -323,10 +390,10 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     <?php
                     while ($r = mysql_fetch_array($result)) {
                         ?>
-                                                                <!--<div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
+                                                                                                                                                                <!--<div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                                                                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                                                                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                                                                                                                <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
                         <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image" id="slider-div-<?php echo $r["p_id"] ?>"><img id="slider-img-<?php echo $r["p_id"] ?>" src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
                         <?php
                     }
