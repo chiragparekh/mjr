@@ -174,7 +174,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
                 </h1>
                 <?php
-                $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id group by sub_name";
+                $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id where c.id in (select category_id from tbl_sub_category where id=".$sub_cat_id.") group by sub_name";
                 $result = mysql_query($q);
                 while ($r = mysql_fetch_array($result)) {
                     if ($r["sub_id"] == $sub_cat_id) {

@@ -1,10 +1,11 @@
-<?php include_once './includes/checksession.php';?>
+<?php include_once './includes/checksession.php'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Categories :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
@@ -38,6 +39,29 @@
                 });
             });
         </script>
+        <script type="text/javascript">
+            $(document).ready(function()
+            {
+                getCategory(1);
+            });
+            function getCategory(page_id)
+            {                
+                var formData = {page: page_id};
+                $.ajax({
+                    url: "ajax-get-category.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        $("#category-result").html(data);                        
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+
+                    }
+                });
+            }
+        </script>        
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>
@@ -47,31 +71,7 @@
             <div class="pro-name">
                 <h1>Categories</h1>
             </div>
-            <?php
-            include_once 'includes/connection.php';
-            $con = new MySQL();
-            $q_cat = "SELECT c.id as 'c_id',c.name as 'c_name',pro.image_path as 'path',sc.name as 'sub_name' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id group by c_name";
-            $result_category = mysql_query($q_cat);
-            if (mysql_num_rows($result_category) > 0) {
-                while ($rc = mysql_fetch_array($result_category)) {
-                    ?>
-                    <div class="category-thumb">
-                        <div class="pro-heading"><h1 class="center"><?php echo ucwords($rc["c_name"]); ?></h1></div>
-                        <div class="pro-img"><a href="sub-category.php?q=<?php echo $rc["c_id"] ?>" title=""><img src="manager/uploads/thumbs/<?php echo $rc["sub_name"]; ?>/<?php echo $rc["path"]; ?>" width="180" height="160" alt="" /></a></div>
-                    </div>
-                    <?php
-                }
-            } else {
-                ?>
-                <div class="clear"></div>
-                <div class="custom-message">
-                    <?php
-                    echo "No categories found";
-                    ?>
-                </div>
-                <?php
-            }
-            ?>
+            <div id="category-result"></div>
         </div>
         <!--right-content-->
         <?php include_once 'includes/footer.php'; ?>
