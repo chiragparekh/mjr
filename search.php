@@ -13,24 +13,43 @@
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
+
+        <script type="text/javascript" src="js/jquery.blockUI.js"></script>
+
         <script type="text/javascript">
             $(document).ready(function()
             {
                 $("#advance-search").addClass("active");
 
                 $("#lstCategory").change(function() {
-                    $("#loader").html('Please wait...');
+                    //$("#loader").html('Please wait...');
+                    block();
                     $.get('ajax-get-sub-category.php?cid=' + $(this).val(), function(data) {
-                        $("#lstSubCategory").fadeIn('slow').html(data);
-                        $('#loader').html('');
+                        $("#lstSubCategory").html(data);
+                        //$('#loader').html('');
+                        $.unblockUI();
                     });
                     searchProduct(1);
                 });
                 searchProduct(1);
             });
+            function block()
+            {
+                $.blockUI({css: {
+                        border: '4px solid gray',
+                        padding: '0px',
+                        backgroundColor: '#fff',
+                        '-webkit-border-radius': '5px',
+                        '-moz-border-radius': '5px',
+                        'border-radius': '5px',
+                        opacity: .8,
+                        color: '#000'
+                    }});
+            }
             function searchProduct(page_id)
             {
-                $("#loader").html('Please wait...');
+                //$("#loader").html('Please wait...');
+                block();
                 var formData = {minweight: $("#lstMinWeight").val(), maxweight: $("#lstMaxWeight").val(), category: $("#lstCategory").val(), subcategory: $("#lstSubCategory").val(), page: page_id};
                 $.ajax({
                     url: "ajax-get-search-product.php",
@@ -38,12 +57,14 @@
                     data: formData,
                     success: function(data, textStatus, jqXHR)
                     {
+
                         $("#search-result").html(data);
-                        $('#loader').html('');
+                        //$('#loader').html('');
+                        $.unblockUI();
 
                         $("a[rel=example_group]").fancybox({
-                            'transitionIn': 'none',
-                            'transitionOut': 'none',
+                            'transitionIn': 'fade',
+                            'transitionOut': 'fade',
                             'titlePosition': 'over',
                             'titleFormat': function(title, currentArray, currentIndex, currentOpts) {
                                 return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
@@ -52,7 +73,7 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
-
+                        $.unblockUI();
                     }
                 });
             }

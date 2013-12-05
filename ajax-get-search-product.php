@@ -23,7 +23,7 @@ $rs = mysql_query($q);
 $records = mysql_num_rows($rs);
 
 
-$page_limit = 9;
+$page_limit = 6;
 $pagination_stages = 2;
 $current_page = strip_tags($_POST['page']);
 $start_page = ($current_page - 1) * $page_limit;
@@ -116,7 +116,8 @@ if ($records > 0) {
         <div class="product">
             <div class="pro-heading"><h1 class="center"><?php echo ucwords($row['name']); ?></h1></div>
             <div class="pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $row["sub_cat_name"]; ?>/<?php echo $row["image_path"]; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $row["sub_cat_name"]; ?>/<?php echo $row["image_path"]; ?>" width="180" height="160" alt="" /></a></div>
-            <div class="pro-detail"><a href="product.php?q=<?php echo $row["pid"] ?>">View Detail</a><a href="product.php">Add to Cart</a></div>
+            <div class="pro-detail"><a href="product.php?q=<?php echo $row["pid"] ?>">View Detail</a>
+                <a href="product.php?q=<?php echo $row["pid"] ?>">Add to Cart</a></div>
         </div>
         <?php
     }
