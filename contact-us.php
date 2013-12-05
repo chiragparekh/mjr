@@ -3,134 +3,197 @@ session_start();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Contact Us :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-    #address
-    {
-        float:left;
-        margin-left: 20px;
-    }
-    #feedback
-    {
-        float: right;
-        margin-right: 20px;
-    }
-</style>
-<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-<script>
-		!window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
-</script>
-<script type="text/javascript">
-<!--//---------------------------------+
-//  Developed by Roshan Bhattarai 
-//  Visit http://roshanbh.com.np for this script and more.
-//  This notice MUST stay intact for legal use
-// --------------------------------->
-$(document).ready(function()
-{
-    $("#contact-us").addClass("active");
-	//slides the element with class "menu_body" when paragraph with class "menu_head" is clicked 
-	$("#firstpane p.menu_head").click(function()
-    {
-		$(this).css({backgroundImage:"url(down.png)"}).next("div.menu_body").slideToggle(300).siblings("div.menu_body").slideUp("slow");
-       	$(this).siblings().css({backgroundImage:"url(left.png)"});
-	});
-	//slides the element with class "menu_body" when mouse is over the paragraph
-	$("#secondpane p.menu_head").mouseover(function()
-    {
-	     $(this).css({backgroundImage:"url(down.png)"}).next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
-         $(this).siblings().css({backgroundImage:"url(left.png)"});
-	});
-});
-</script>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Contact Us :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <style type="text/css">
+            #address
+            {
+                float:left;
+                margin-left: 20px;
+            }
+            #feedback
+            {
+                float: right;
+                margin-right: 20px;
+            }
+        </style>
+        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+        <script>
+            !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
+        </script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script type="text/javascript">
+            <!--//---------------------------------+
+        //  Developed by Roshan Bhattarai 
+            //  Visit http://roshanbh.com.np for this script and more.
+            //  This notice MUST stay intact for legal use
+            // --------------------------------->
+            $(document).ready(function()
+            {
+                $("#contact-us").addClass("active");
+                //slides the element with class "menu_body" when paragraph with class "menu_head" is clicked 
+                $("#firstpane p.menu_head").click(function()
+                {
+                    $(this).css({backgroundImage: "url(down.png)"}).next("div.menu_body").slideToggle(300).siblings("div.menu_body").slideUp("slow");
+                    $(this).siblings().css({backgroundImage: "url(left.png)"});
+                });
+                //slides the element with class "menu_body" when mouse is over the paragraph
+                $("#secondpane p.menu_head").mouseover(function()
+                {
+                    $(this).css({backgroundImage: "url(down.png)"}).next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
+                    $(this).siblings().css({backgroundImage: "url(left.png)"});
+                });
+
+                $("#feedback-form").validate({
+                    // Specify the validation rules
+                    rules: {
+                        name: "required",
+                        email: {
+                            required: true,
+                            email: true
+                        },
+                        mobile: "required",
+                        description: "required",
+                        captcha: "required"
+                    },
+                    // Specify the validation error messages
+                    messages: {
+                        name: "<br/>Name required",
+                        email: {required: "<br/>Email required", email: "<br/>Invalid email"},
+                        mobile: "<br/>Mobile required",
+                        description: "<br/>Description required",
+                        captcha: "<br/>Image Text required"
+                    },
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
+                });
+            });
+        </script>
 
 
-</head>
-<body>
-<?php include_once 'includes/header.php'; ?>
-<?php include_once 'includes/sidebar.php'; ?>
-<!--contact-us-->   
-<div class="right-content">
-    <div class="pro-name">
-    <h1>Contact Us</h1>
-	<div class="content">
-        <br />
-        <div id="address">
-            <table>
-                <caption class="tbl-caption">Address</caption>
-                <tr>
-                    <td>
-                        12-Panna Manek Complex,<br />
-                        Opp. Ashapura Temple, Palace Road,<br />
-                        Rajkot<br /> 
-                        Ph:0281-2220075<br />
-                        email: <a href="mailto:manojranpara@ymail.com">manojranpara@ymail.com</a><br />
-                        website: <a href="http://www.mjrjewels.com">www.mjrjewels.com</a>
-                    </td>
-                </tr>
-            </table>
+    </head>
+    <body>
+        <?php include_once 'includes/header.php'; ?>
+        <?php include_once 'includes/sidebar.php'; ?>
+        <!--contact-us-->   
+        <div class="right-content">
+            <div class="pro-name">
+                <h1>Contact Us</h1>
+                <div class="content">
+                    <br />
+                    <div id="address">
+                        <table>
+                            <caption class="tbl-caption">Address</caption>
+                            <tr>
+                                <td style="color: #654E9D;line-height: 150%;font-weight: bold">
+                                    12-Panna Manek Complex,<br />
+                                    Opp. Ashapura Temple, Palace Road,<br />
+                                    Rajkot<br /> 
+                                    Ph:0281-2220075<br />
+                                    email: <a style="color:#654E9D" href="mailto:manojranpara@ymail.com">manojranpara@ymail.com</a><br />
+                                    website: <a style="color: #654E9D" href="http://www.mjrjewels.com">www.mjrjewels.com</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="feedback">
+                        <form id="feedback-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                            <table cellpadding="5">
+                                <caption class="tbl-caption">Feedback</caption>
+                                <tr>
+                                    <td class="pull-right valign-top">
+                                        Name 
+                                    </td>
+                                    <td>
+                                        <input type="text" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : "") ?>" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pull-right valign-top">
+                                        Email 
+                                    </td>
+                                    <td>
+                                        <input type="text" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : "") ?>"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pull-right valign-top">
+                                        Mobile
+                                    </td>
+                                    <td>
+                                        <input type="text" name="mobile" value="<?php echo (isset($_POST['mobile']) ? $_POST['mobile'] : "") ?>"/>
+                                    </td>
+                                </tr>   
+                                <tr>
+                                    <td class="pull-right valign-top">
+                                        Description 
+                                    </td>
+                                    <td>
+                                        <textarea name="description" ><?php echo (isset($_POST['description']) ? $_POST['description'] : "") ?></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="pull-right valign-top">
+                                        <span >Enter Image Text</span>
+                                    </td>
+                                    <td>
+                                        <input name="captcha" type="text" style="margin-bottom:  5px;" /><br />
+                                        <img src="captcha.php" />
+                                    </td>      
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="text-align: center;" align="center">
+                                        <?php
+                                        if (isset($_POST['btnSubmit'])) {
+                                            include_once './includes/connection.php';
+                                            $con = new MySQL();
+                                            $name = mysql_real_escape_string(trim($_POST['name']));
+                                            $email = mysql_real_escape_string(trim($_POST['email']));
+                                            $mobile = mysql_real_escape_string(trim($_POST['mobile']));
+                                            $description = mysql_real_escape_string(trim($_POST['description']));
+                                            $code = mysql_real_escape_string(trim($_POST['captcha']));
+
+                                            if ($name == "") {
+                                                echo "Name required";
+                                            } else if ($email == "") {
+                                                echo "Email required";
+                                            } else if (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
+                                                echo "Invalid email";
+                                            } else if ($description == "") {
+                                                echo "Description required";
+                                            } else if ($code == "") {
+                                                echo "Image Text required";
+                                            } else if ($_SESSION["code"] != $code) {
+                                                echo "Incorrect Image Text";
+                                            } else {
+                                                $q = "insert into tbl_feedback(name,email,mobile,content) values('$name','$email','$mobile','$description')";
+                                                if (mysql_query($q) > 0) {
+                                                    echo "<span style=\"color:green;font-weight:bold;font-size:13px\">Thank you for your valuable feedback</span>";
+                                                }
+                                            }
+                                            $con->CloseConnection();
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center">
+                                        <input type="submit" name="btnSubmit" value="Send" />
+                                    </td>                              
+                                </tr>            
+                            </table>
+                        </form>
+                    </div>
+                    <div class="clear">
+
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="feedback">
-            <table cellpadding="5">
-                <caption class="tbl-caption">Feedback</caption>
-                <tr>
-                <td class="pull-right">
-                    Name 
-                </td>
-                <td>
-                    <input type="text" name="name" />
-                </td>
-            </tr>
-            <tr>
-                <td class="pull-right">
-                    Email 
-                </td>
-                <td>
-                    <input type="text" name="email" />
-                </td>
-            </tr>
-            <tr>
-                <td class="pull-right">
-                    Mobile
-                </td>
-                <td>
-                    <input type="text" name="mobile" />
-                </td>
-            </tr>   
-            <tr>
-                <td class="pull-right valign-top">
-                    Description 
-                </td>
-                <td>
-                    <textarea name="description" ></textarea>
-                </td>
-            </tr>
-            <tr>
-                        <td class="pull-right valign-top">
-                                <span >Enter Image Text</span>
-                        </td>
-                        <td>
-                            <input name="captcha" type="text" style="margin-bottom:  5px;" /><br />
-                            <img src="captcha.php" />
-                        </td>      
-            </tr>
-            <tr>
-                        <td colspan="2" align="center">
-                                <input type="submit" name="btnSubmit" value="Send" />
-                        </td>                              
-            </tr>            
-            </table>
-        </div>
-        <div class="clear">
-            
-        </div>
-    </div>
-    </div>
-</div>
-<!--endo-of-contact-us-->
-<?php include_once 'includes/footer.php'; ?>
-</body>
+        <!--endo-of-contact-us-->
+        <?php include_once 'includes/footer.php'; ?>
+    </body>
 </html>

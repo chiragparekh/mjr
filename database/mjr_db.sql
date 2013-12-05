@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 03, 2013 at 08:08 PM
+-- Generation Time: Dec 05, 2013 at 03:45 PM
 -- Server version: 5.1.33
 -- PHP Version: 5.2.9
 
@@ -29,14 +29,35 @@ CREATE TABLE IF NOT EXISTS `tbl_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `tbl_category`
 --
 
 INSERT INTO `tbl_category` (`id`, `name`) VALUES
-(1, 'Mala');
+(1, 'Mala'),
+(2, 'Ring');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_feedback`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `email` text NOT NULL,
+  `mobile` varchar(15) NOT NULL,
+  `content` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `tbl_feedback`
+--
+
 
 -- --------------------------------------------------------
 
@@ -53,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `tbl_product` (
   `image_path` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `sub_category_id` (`sub_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
 
 --
 -- Dumping data for table `tbl_product`
@@ -66,7 +87,23 @@ INSERT INTO `tbl_product` (`id`, `sub_category_id`, `name`, `weight`, `descripti
 (4, 1, 'Moti Mala - 4', 12.3, 'sdfsd', 'MotiMala_12.3_01122013182043_0.jpg'),
 (5, 1, 'Moti Mala - 5', 45.6, 'sdfsd', 'MotiMala_45.6_01122013182043_1.jpg'),
 (6, 1, 'Moti Mala - 6', 12.3, 'fdf', 'MotiMala_12.3_04122013002306_0.jpg'),
-(7, 1, 'Moti Mala - 7', 45.6, 'fdf', 'MotiMala_45.6_04122013002306_1.jpg');
+(7, 1, 'Moti Mala - 7', 45.6, 'fdf', 'MotiMala_45.6_04122013002306_1.jpg'),
+(8, 2, 'Casting Ring - 8', 35.6, 'xvxc', 'CastingRing_35.6_04122013144801_0.jpg'),
+(9, 2, 'Casting Ring - 9', 132.3, 'xvxc', 'CastingRing_132.3_04122013144802_1.jpg'),
+(10, 3, 'Diamond Ring - 10', 102.02, 'sdee', 'DiamondRing_102.02_04122013145316_0.jpg'),
+(11, 3, 'Diamond Ring - 11', 120.45, 'sdee', 'DiamondRing_120.45_04122013145316_1.jpg'),
+(12, 3, 'Diamond Ring - 12', 12.3, 'dsd', 'DiamondRing_12.3_04122013204838_0.jpg'),
+(13, 3, 'Diamond Ring - 13', 35.6, 'dsd', 'DiamondRing_35.6_04122013204838_1.jpg'),
+(14, 3, 'Diamond Ring - 14', 45.6, 'dsd', 'DiamondRing_45.6_04122013204838_2.jpg'),
+(15, 3, 'Diamond Ring - 15', 102.02, 'dsd', 'DiamondRing_102.02_04122013204839_3.jpg'),
+(16, 3, 'Diamond Ring - 16', 120.45, 'dsd', 'DiamondRing_120.45_04122013204839_4.jpg'),
+(17, 3, 'Diamond Ring - 17', 132.3, 'dsd', 'DiamondRing_132.3_04122013204839_5.jpg'),
+(18, 4, 'Rudrax Mala - 18', 12.3, 'dfgdf', 'RudraxMala_12.3_04122013205008_0.jpg'),
+(19, 4, 'Rudrax Mala - 19', 35.6, 'dfgdf', 'RudraxMala_35.6_04122013205009_1.jpg'),
+(20, 4, 'Rudrax Mala - 20', 45.6, 'dfgdf', 'RudraxMala_45.6_04122013205009_2.jpg'),
+(21, 4, 'Rudrax Mala - 21', 102.02, 'dfgdf', 'RudraxMala_102.02_04122013205009_3.jpg'),
+(22, 4, 'Rudrax Mala - 22', 120.45, 'dfgdf', 'RudraxMala_120.45_04122013205009_4.jpg'),
+(23, 4, 'Rudrax Mala - 23', 132.3, 'dfgdf', 'RudraxMala_132.3_04122013205010_5.jpg');
 
 -- --------------------------------------------------------
 
@@ -80,14 +117,18 @@ CREATE TABLE IF NOT EXISTS `tbl_sub_category` (
   `name` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `tbl_sub_category`
 --
 
 INSERT INTO `tbl_sub_category` (`id`, `category_id`, `name`) VALUES
-(1, 1, 'Moti Mala');
+(1, 1, 'Moti Mala'),
+(2, 2, 'Casting Ring'),
+(3, 2, 'Diamond Ring'),
+(4, 1, 'Rudrax Mala'),
+(5, 1, 'Mix Mala');
 
 -- --------------------------------------------------------
 

@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
-body{margin:0 0 0 0; background:url(../images/Bg.jpg) repeat-x;}
+body{margin:0 0 0 0; background:url(../images/Bg.jpg) repeat-x;font-family: Verdana,Arial;font-size: 12px}
 a { text-decoration:none;font-family: arial;
     font-size: 12px;}
 

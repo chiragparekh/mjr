@@ -83,7 +83,7 @@
         <?php include_once 'includes/header.php'; ?>
         <div class="category">
             <br /> 
-            <div style="color: #DBCBFF;font-weight: bold;text-align: center;font-size:22px;text-decoration: underline;"> Search Product</div>		
+            <div style="color: #DBCBFF;font-weight: bold;text-align: center;font-size:18px;text-decoration: none;"> Search Product</div>		
             <div style="margin: 10px 10px;">
                 <table style="color: #DBCBFF;" cellpadding="5">
                     <tr>
