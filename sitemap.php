@@ -7,6 +7,16 @@ session_start();
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Sitemap :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
+        
+        <style type="text/css">
+            #sitemap-links a
+            {
+                color: #654E9D;
+                font-weight: bold;
+                text-decoration: none;
+            }
+        </style>
+        
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
@@ -46,41 +56,43 @@ session_start();
                 <h1>Sitemap</h1>
                 <div class="content">
                     <div id="sitemap-links" style="margin-left: 15px;margin-top: 15px;line-height: 120%"> 
-                        <a href="index.php">Home</a><br/>
-                        <a href="about-us.php">About Us</a><br/>
-                        <a href="category.php">Gallery</a><br/>
-                        <div style="padding-left: 20px;">
-                            <?php
-                            include_once './includes/connection.php';
-                            $con = new MySQL();
-                            $rs = mysql_query("select id,name from tbl_category");
-                            while ($r = mysql_fetch_array($rs)) {
-                                ?>
-                                <a href="sub-category.php?q=<?php echo $r['id']; ?>"><?php echo ucwords($r['name']); ?></a><br/>
-                                <div style="padding-left: 20px;">
-                                    <?php
-                                    $rs_sc = mysql_query("select id,name from tbl_sub_category where category_id=" . $r['id']);
-                                    while ($rsc = mysql_fetch_array($rs_sc)) {
-                                        ?>
-                                        <a href="gallery.php?q=<?php echo $rsc['id']; ?>"><?php echo ucwords($rsc['name']); ?></a><br/>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
+                        <ul style="list-style-type: disc;">
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="about-us.php">About Us</a></li>
+                            <li><a href="category.php">Gallery</a></li>
+                            <ul style="list-style-type: none;margin-left: -20px">
                                 <?php
-                            }
-                            ?>
+                                include_once './includes/connection.php';
+                                $con = new MySQL();
+                                $rs = mysql_query("select id,name from tbl_category");
+                                while ($r = mysql_fetch_array($rs)) {
+                                    ?>
+                                    <li><a href="sub-category.php?q=<?php echo $r['id']; ?>"><?php echo ucwords($r['name']); ?></a></li>
+                                    <ul style="list-style-type: none;margin-left: -20px">
+                                        <?php
+                                        $rs_sc = mysql_query("select id,name from tbl_sub_category where category_id=" . $r['id']);
+                                        while ($rsc = mysql_fetch_array($rs_sc)) {
+                                            ?>
+                                            <li><a href="gallery.php?q=<?php echo $rsc['id']; ?>"><?php echo ucwords($rsc['name']); ?></a></li>
+                                            <?php
+                                        }
+                                        ?>
+                                    </ul>
+                                    <?php
+                                }
+                                ?>
 
-                        </div>
-                        <a href="latest-arrivals.php">Latest Arrivals</a><br/>
-                        <a href="search.php">Advance Search</a><br/>
-                        <a href="contact-us.php">Contact Us</a><br/>
-                        <a href="login.php">Login/Register</a><br/>
-                        <a href="cart.php">Order Cart</a><br/>
-                        <a href="order-log.php">Order History</a><br/>
-                        <?php
-                        $con->CloseConnection();
-                        ?>
+                            </ul>
+                            <li><a href="latest-arrivals.php">Latest Arrivals</a></li>
+                            <li><a href="search.php">Advance Search</a></li>
+                            <li><a href="contact-us.php">Contact Us</a></li>
+                            <li><a href="login.php">Login/Register</a></li>
+                            <li><a href="cart.php">Order Cart</a></li>
+                            <li><a href="order-log.php">Order History</a></li>
+                            <?php
+                            $con->CloseConnection();
+                            ?>
+                        </ul>
                     </div>
                 </div>
             </div>

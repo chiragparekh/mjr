@@ -13,86 +13,63 @@
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
 
+        <!--<link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
+        <script type="text/javascript" src="js/jquery.blockUI.js"></script>-->
         <script type="text/javascript">
             $(document).ready(function() {
                 $("#latest-arrivals").addClass("active");
-                /*
-                 *   Examples - images
-                 */
-
-                $("a#example1").fancybox();
-
-                $("a#example2").fancybox({
-                    'overlayShow': false,
-                    'transitionIn': 'elastic',
-                    'transitionOut': 'elastic'
-                });
-
-                $("a#example3").fancybox({
-                    'transitionIn': 'none',
-                    'transitionOut': 'none'
-                });
-
-                $("a#example4").fancybox({
-                    'opacity': true,
-                    'overlayShow': false,
-                    'transitionIn': 'elastic',
-                    'transitionOut': 'none'
-                });
-
-                $("a#example5").fancybox();
-
-                $("a#example6").fancybox({
-                    'titlePosition': 'outside',
-                    'overlayColor': '#000',
-                    'overlayOpacity': 0.9
-                });
-
-                $("a#example7").fancybox({
-                    'titlePosition': 'inside'
-                });
-
-                $("a#example8").fancybox({
-                    'titlePosition': 'over'
-                });
-
                 $("a[rel=example_group]").fancybox({
-                    'transitionIn': 'none',
-                    'transitionOut': 'none',
+                    'transitionIn': 'fade',
+                    'transitionOut': 'fade',
                     'titlePosition': 'over',
                     'titleFormat': function(title, currentArray, currentIndex, currentOpts) {
                         return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
                     }
                 });
-
-                /*
-                 *   Examples - various
-                 */
-
-                $("#various1").fancybox({
-                    'titlePosition': 'inside',
-                    'transitionIn': 'none',
-                    'transitionOut': 'none'
-                });
-
-                $("#various2").fancybox();
-
-                $("#various3").fancybox({
-                    'width': '75%',
-                    'height': '75%',
-                    'autoScale': false,
-                    'transitionIn': 'none',
-                    'transitionOut': 'none',
-                    'type': 'iframe'
-                });
-
-                $("#various4").fancybox({
-                    'padding': 0,
-                    'autoScale': false,
-                    'transitionIn': 'none',
-                    'transitionOut': 'none'
-                });
+                //getLatestProduct(1);
             });
+            /*function getLatestProduct(page_id)
+             {
+             block();
+             var formData = {page: page_id};
+             $.ajax({
+             url: "ajax-get-latest-arrival.php",
+             type: "POST",
+             data: formData,
+             success: function(data, textStatus, jqXHR)
+             {
+             $("#latest-product-result").html(data);
+             $.unblockUI();
+             $("a[rel=example_group]").fancybox({
+             'transitionIn': 'fade',
+             'transitionOut': 'fade',
+             'titlePosition': 'over',
+             'titleFormat': function(title, currentArray, currentIndex, currentOpts) {
+             return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+             }
+             });
+             
+             },
+             error: function(jqXHR, textStatus, errorThrown)
+             {
+             $.unblockUI();
+             }
+             });
+             }
+             function block()
+             {
+             $.blockUI({css: {
+             border: '4px solid gray',
+             padding: '0px',
+             backgroundColor: '#fff',
+             '-webkit-border-radius': '5px',
+             '-moz-border-radius': '5px',
+             'border-radius': '5px',
+             opacity: .8,
+             color: '#000'
+             }});
+             }
+             */
         </script>
         <script type="text/javascript">
             <!--//---------------------------------+
@@ -117,7 +94,7 @@
             });
         </script>
     </head>
-    <body onload="initLightbox()">
+    <body>
         <?php include_once 'includes/header.php'; ?>
         <?php include_once 'includes/sidebar.php'; ?>        
         <!--right-content-->
@@ -125,6 +102,7 @@
             <div class="pro-name">
                 <h1>Latest Arrivals</h1>    
             </div>
+
             <?php
             include_once './includes/connection.php';
             $con = new MySQL();
