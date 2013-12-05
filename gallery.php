@@ -17,7 +17,8 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
         <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
-
+        <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
+        <script type="text/javascript" src="js/jquery.blockUI.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $("#gallery").addClass("active");
@@ -96,7 +97,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     'autoScale': false,
                     'transitionIn': 'none',
                     'transitionOut': 'none'
-                });                 
+                });
             });
         </script>
         <script type="text/javascript">
@@ -133,6 +134,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 } else {
                     //if all validation works perfectly
                     var formData = {pro_id: pro_id};
+                    block();
                     $.ajax({
                         url: "ajax-add-to-cart.php",
                         type: "POST",
@@ -144,16 +146,64 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                             } else if (data.trim() == "already-added") {
                                 alert("Item already added to your order.")
                             }
+                            $.unblockUI();
                         },
                         error: function(jqXHR, textStatus, errorThrown)
                         {
-
+                            $.unblockUI();
                         }
                     });
                 }
                 return false;
             }
-        </script>        
+        </script>
+        <script type="text/javascript">
+            function block()
+            {
+                $.blockUI({css: {
+                        border: '4px solid gray',
+                        padding: '0px',
+                        backgroundColor: '#fff',
+                        '-webkit-border-radius': '5px',
+                        '-moz-border-radius': '5px',
+                        'border-radius': '5px',
+                        opacity: .8,
+                        color: '#000'
+                    }});
+            }
+            $(document).ready(function()
+            {
+                getProduct(1,<?php echo $_GET['q'] ?>);
+            });
+            function getProduct(page_id, sub_id)
+            {
+                block();
+                var formData = {page: page_id, sub_id: sub_id};
+                $.ajax({
+                    url: "ajax-get-gallery-product.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        $("#gallery-result").html(data);
+                        $.unblockUI();
+                        $("a[rel=example_group]").fancybox({
+                            'transitionIn': 'fade',
+                            'transitionOut': 'fade',
+                            'titlePosition': 'over',
+                            'titleFormat': function(title, currentArray, currentIndex, currentOpts) {
+                                return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+                            }
+                        });
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        $.unblockUI();
+                    }
+                });
+            }
+        </script>          
     </head>
     <body onload="initLightbox()">
         <?php include_once 'includes/header.php'; ?>
@@ -174,7 +224,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
                 </h1>
                 <?php
-                $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id where c.id in (select category_id from tbl_sub_category where id=".$sub_cat_id.") group by sub_name";
+                $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id where c.id in (select category_id from tbl_sub_category where id=" . $sub_cat_id . ") group by sub_name";
                 $result = mysql_query($q);
                 while ($r = mysql_fetch_array($result)) {
                     if ($r["sub_id"] == $sub_cat_id) {
@@ -190,22 +240,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 }
                 ?>        
             </div>
-
-            <?php
-            $q = "select sub.name as 'sub_name',p.image_path as 'path',p.name as 'pro_name',p.id as 'pro_id' from tbl_product p inner join tbl_sub_category sub on p.sub_category_id=sub.id where sub_category_id=" . $sub_cat_id;
-            $result = mysql_query($q);
-            while ($r = mysql_fetch_array($result)) {
-                ?>
-                <div class="product">
-                    <div class="pro-heading"><h1 class="center"><?php echo ucwords($r["pro_name"]); ?></h1></div>
-                    <div class="pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" width="180" height="160" alt="" /></a></div>
-                    <div class="pro-detail">
-                        <a href="product.php?q=<?php echo $r["pro_id"] ?>">View Detail</a>
-                        <a class="add-to-cart-link" href="javascript:addToCart(<?php echo $r["pro_id"] ?>)">Add to Cart</a></div>
-                </div>
-                <?php
-            }
-            ?>
+            <div id="gallery-result"></div>            
         </div>
 
         <!--right-content-->

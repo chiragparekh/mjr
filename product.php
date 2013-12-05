@@ -14,8 +14,9 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
-        <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+        <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>        
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+        <script type="text/javascript" src="js/jquery.blockUI.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
 
         <script type="text/javascript">
@@ -108,8 +109,19 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 });
 
             });
-
-
+            function block()
+            {
+                $.blockUI({css: {
+                        border: '4px solid gray',
+                        padding: '0px',
+                        backgroundColor: '#fff',
+                        '-webkit-border-radius': '5px',
+                        '-moz-border-radius': '5px',
+                        'border-radius': '5px',
+                        opacity: .8,
+                        color: '#000'
+                    }});
+            }
             function openDetailForm()
             {
                 $("#pro-detail-form").fadeIn('slow', function() {
@@ -129,6 +141,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             function showNextImages(proid, operation) {
                 var start = parseInt(document.getElementById("start_paging").value);
                 var formData = {start: start, operation: operation, pro_id: proid};
+                block();
                 $.ajax({
                     url: "show-paging-products.php",
                     type: "POST",
@@ -143,17 +156,18 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                             });
                             $("#product-slider").fadeIn('slow');
                         }
-
+                        $.unblockUI();                        
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
-
+                        $.unblockUI();
                     }
                 });
             }
             function showProductData(pid) {
                 var pid = pid;
                 var formData = {pro_id: pid};
+                block();
                 $.ajax({
                     url: "ajax-get-product-details.php",
                     dataType: 'json',
@@ -189,11 +203,12 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                             changeAddToCartLink();
                         }
                         closeDetailForm();
+                        $.unblockUI();
 
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
-
+                        $.unblockUI();
                     }
                 });
             }
@@ -209,6 +224,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     document.getElementById("cart_desc").focus();
                 } else {
                     //if all validation works perfectly
+                    block();
                     var formData = {pro_id: pro_id, qty: qty, desc: desc};
                     $.ajax({
                         url: "ajax-add-to-cart.php",
@@ -223,18 +239,19 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                             }
                             changeAddToCartLink();
                             closeDetailForm();
+                            $.unblockUI();
                         },
                         error: function(jqXHR, textStatus, errorThrown)
                         {
-
+                            $.unblockUI();
                         }
                     });
                 }
                 return false;
             }
             function changeAddToCartLink() {
-                $("#add-to-cart-link").attr("href", "javascript:void(0)");                
-                $("#add-to-cart-link").css({"background-color": "#322453", "border-radius": "5px", "color": "#E4D5FF", "width": "75px", "text-align": "center", "height": "17px", "padding": "5px", "text-decoration": "none", "margin-top": "5px","-webkit-border-radius": "5px","-moz-border-radius": "5px"});
+                $("#add-to-cart-link").attr("href", "javascript:void(0)");
+                $("#add-to-cart-link").css({"background-color": "#322453", "border-radius": "5px", "color": "#E4D5FF", "width": "75px", "text-align": "center", "height": "17px", "padding": "5px", "text-decoration": "none", "margin-top": "5px", "-webkit-border-radius": "5px", "-moz-border-radius": "5px"});
                 $("#add-to-cart-link").html("Item added");
             }
             function resetAddToCartLink() {
@@ -245,6 +262,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             function checkProductInCart(p_id) {
                 var result = "";
                 var nformData = {pro_id: p_id};
+                block();
                 $.ajax({
                     url: "ajax-check-item-cart-status.php",
                     type: "POST",
@@ -257,10 +275,11 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                         } else if (data.trim() === "already-in-cart") {
                             result = "true";
                         }
+                        $.unblockUI();
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
-
+                        $.unblockUI();
                     }
                 });
                 return result;
@@ -268,6 +287,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             function showNextProduct() {
                 var pid = $("#current_product").val();
                 var formData = {pro_id: pid};
+                block();
                 $.ajax({
                     url: "ajax-next-product.php",
                     dataType: 'json',
@@ -307,12 +327,12 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                         } else {
                             alert("No more products found.");
                         }
-
+                        $.unblockUI();
 
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
-
+                        $.unblockUI();
                     }
                 });
 
@@ -366,9 +386,9 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 <h1 id="pro-name-main-head"><?php echo $sub_name ?>
                     <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
                 </h1>
-                
+
                 <?php
-                $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id where sc.id not in (".$sub_cat_id.") and c.id in (select category_id from tbl_sub_category where id=".$sub_cat_id.") group by sub_name";
+                $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id where sc.id not in (" . $sub_cat_id . ") and c.id in (select category_id from tbl_sub_category where id=" . $sub_cat_id . ") group by sub_name";
                 $result = mysql_query($q);
                 while ($r = mysql_fetch_array($result)) {
                     ?>
@@ -438,10 +458,10 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     <?php
                     while ($r = mysql_fetch_array($result)) {
                         ?>
-                                                                                                                                                                            <!--<div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                                                                                                                            <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                                                                                                                            <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                                                                                                                            <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
+                                                                                                                                                                                                        <!--<div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                                                                                                                                                        <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                                                                                                                                                        <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
+                                                                                                                                                                                                        <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
                         <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image" id="slider-div-<?php echo $r["p_id"] ?>"><img id="slider-img-<?php echo $r["p_id"] ?>" src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
                         <?php
                     }

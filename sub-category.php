@@ -1,6 +1,6 @@
-<?php include_once './includes/checksession.php';?>
+<?php include_once './includes/checksession.php'; ?>
 <?php
-if (!isset($_GET['q']) || $_GET['q']=="") {
+if (!isset($_GET['q']) || $_GET['q'] == "") {
     header("location:category.php");
 }
 ?>
@@ -10,7 +10,9 @@ if (!isset($_GET['q']) || $_GET['q']=="") {
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Gallery :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
+        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>        
+        <script type="text/javascript" src="js/jquery.blockUI.js"></script>        
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
@@ -42,6 +44,44 @@ if (!isset($_GET['q']) || $_GET['q']=="") {
                 });
             });
         </script>
+        <script type="text/javascript">
+            function block()
+            {
+                $.blockUI({css: {
+                        border: '4px solid gray',
+                        padding: '0px',
+                        backgroundColor: '#fff',
+                        '-webkit-border-radius': '5px',
+                        '-moz-border-radius': '5px',
+                        'border-radius': '5px',
+                        opacity: .8,
+                        color: '#000'
+                    }});
+            }
+            $(document).ready(function()
+            {
+                getSubCategory(1,<?php echo $_GET['q'] ?>);
+            });
+            function getSubCategory(page_id, cat_id)
+            {
+                block();
+                var formData = {page: page_id, cat_id: cat_id};
+                $.ajax({
+                    url: "ajax-get-sub-category-for-content.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        $("#sub-cat-result").html(data);                                                
+                        $.unblockUI();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        $.unblockUI();
+                    }
+                });
+            }
+        </script>        
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>
@@ -53,10 +93,10 @@ if (!isset($_GET['q']) || $_GET['q']=="") {
                 include_once 'includes/connection.php';
                 $con = new MySQL();
                 $cat_id = $_GET['q'];
-                $q="select name from tbl_category where id=".$cat_id;
-                $result=mysql_query($q);
-                $array=mysql_fetch_array($result);
-                $name=$array["name"];
+                $q = "select name from tbl_category where id=" . $cat_id;
+                $result = mysql_query($q);
+                $array = mysql_fetch_array($result);
+                $name = $array["name"];
                 ?>
                 <h1>Sub Categories of <?php echo $name; ?>
                     <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
@@ -78,29 +118,7 @@ if (!isset($_GET['q']) || $_GET['q']=="") {
                 }
                 ?>        
             </div>
-            <?php
-            $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id where c.id=" . $cat_id . " group by sub_name";
-            $result = mysql_query($q);
-            if (mysql_num_rows($result) > 0) {
-                while ($r = mysql_fetch_array($result)) {
-                    ?>
-                    <div class="category-thumb">
-                        <div class="pro-heading"><h1 class="center"><?php echo $r["sub_name"] ?></h1></div>
-                        <div class="pro-img"><a href="gallery.php?q=<?php echo $r["sub_id"]; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $r["sub_name"] ?>/<?php echo $r ["path"] ?>" width="180" height="160" alt="" /></a></div>
-                    </div>
-                    <?php
-                }
-            } else {
-                ?>
-                <div class="clear"></div>
-                <div class="custom-message">
-                    <?php
-                    echo "No sub categories found";
-                    ?>
-                </div>
-                <?php
-            }
-            ?>                
+            <div id="sub-cat-result"></div>             
         </div>
         <!--right-content-->
         <?php include_once 'includes/footer.php'; ?>
