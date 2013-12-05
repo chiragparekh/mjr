@@ -58,7 +58,9 @@ if (!isset($_GET['q']) || $_GET['q']=="") {
                 $array=mysql_fetch_array($result);
                 $name=$array["name"];
                 ?>
-                <h1>Sub Categories of <?php echo $name; ?></h1>
+                <h1>Sub Categories of <?php echo $name; ?>
+                    <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
+                </h1>
                 <?php
                 $q = "SELECT c.id as 'c_id',c.name as 'c_name' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id group by c_name";
                 $result = mysql_query($q);

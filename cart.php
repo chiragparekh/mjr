@@ -1,5 +1,6 @@
 <?php include_once './includes/checksession.php'; ?>
 <?php error_reporting(0) ?>
+<?php session_start(); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -7,6 +8,8 @@
         <title>Order Cart :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+
+       
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
@@ -31,9 +34,7 @@
                     $(this).siblings().css({backgroundImage: "url(left.png)"});
                 });
             });
-        </script>
-
-
+        </script>      
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>
@@ -47,12 +48,22 @@
                 </div>
                 <div class="content">
                     <?php
-                        if(isset($_POST['btnClear'])){
-                            $_SESSION['cart']=array_diff($_SESSION['cart'],$_SESSION['cart']);        
+                    if (isset($_POST['btnClear'])) {
+                        $_SESSION['cart'] = array_diff($_SESSION['cart'], $_SESSION['cart']);
+                    }
+                    if (isset($_GET['o']) && $_GET['o'] == 'delete') {
+                        if (isset($_SESSION['cart'])) {
+                            foreach ($_SESSION['cart'] as $key => $value) {
+                                if ($value["id"] == $_GET["q"]) {
+                                    unset($_SESSION['cart'][$key]);
+                                    break;
+                                }
+                            }
                         }
+                    }
                     ?>
-                    
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+
+                    <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">                        
                         <table cellpadding="5" border="1" rules="all" style="margin:10px 10px">
                             <tr class="heading">
                                 <th style="width:130px">Product Name</th>
@@ -86,7 +97,7 @@
                                                 <td align="center"><?php echo trim($item['qty']) == "" ? "<span style='color:gray'>---</span>" : trim($item['qty']); ?></td>
                                                 <td align="center"><?php echo trim($item['desc']) == "" ? "<i style='color:gray'>Not Provided</i>" : trim($item['desc']); ?></td>
                                                 <td align="center"><img width="80" height="80" src="<?php echo "manager/uploads/thumbs/" . $r["sub_name"] . "/" . $r["path"] ?>" /></td>
-                                                <td>Edit | Delete</td>
+                                                <td align="center"><a href="edit-cart.php?id=<?php echo $item["id"] ?>&name=<?php echo $r["name"] ?>&qty=<?php echo $item["qty"] ?>&desc=<?php echo $item["desc"] ?>"><img src="images/edit.png" width="25" height="25" alt="Edit Cart Item"/></a> <a onclick="javascript:return confirm('Are you sure you want to delete?')" href="cart.php?q=<?php echo $item["id"] ?>&o=delete"><img src="images/delete.png" width="25" height="25" lt="Delete Cart Item"/></a></td>
                                             </tr>
                                             <?php
                                         }
