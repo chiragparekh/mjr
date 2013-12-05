@@ -7,6 +7,7 @@
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+        <script type="text/javascript" src="js/jquery.blockUI.js"></script>
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
@@ -40,12 +41,26 @@
             });
         </script>
         <script type="text/javascript">
+            function block()
+            {
+                $.blockUI({css: {
+                        border: '4px solid gray',
+                        padding: '0px',
+                        backgroundColor: '#fff',
+                        '-webkit-border-radius': '5px',
+                        '-moz-border-radius': '5px',
+                        'border-radius': '5px',
+                        opacity: .8,
+                        color: '#000'
+                    }});
+            }
             $(document).ready(function()
             {
                 getCategory(1);
             });
             function getCategory(page_id)
-            {                
+            {
+                block();
                 var formData = {page: page_id};
                 $.ajax({
                     url: "ajax-get-category.php",
@@ -53,11 +68,12 @@
                     data: formData,
                     success: function(data, textStatus, jqXHR)
                     {
-                        $("#category-result").html(data);                        
+                        $("#category-result").html(data);
+                        $.unblockUI();                        
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
-
+                        $.unblockUI();
                     }
                 });
             }
