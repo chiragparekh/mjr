@@ -12,101 +12,26 @@
         <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
         <script type="text/javascript">
             $(document).ready(function()
             {
                 $("#advance-search").addClass("active");
-                /*
-                 *   Examples - images
-                 */
-
-                $("a#example1").fancybox();
-
-                $("a#example2").fancybox({
-                    'overlayShow': false,
-                    'transitionIn': 'elastic',
-                    'transitionOut': 'elastic'
-                });
-
-                $("a#example3").fancybox({
-                    'transitionIn': 'none',
-                    'transitionOut': 'none'
-                });
-
-                $("a#example4").fancybox({
-                    'opacity': true,
-                    'overlayShow': false,
-                    'transitionIn': 'elastic',
-                    'transitionOut': 'none'
-                });
-
-                $("a#example5").fancybox();
-
-                $("a#example6").fancybox({
-                    'titlePosition': 'outside',
-                    'overlayColor': '#000',
-                    'overlayOpacity': 0.9
-                });
-
-                $("a#example7").fancybox({
-                    'titlePosition': 'inside'
-                });
-
-                $("a#example8").fancybox({
-                    'titlePosition': 'over'
-                });
-
-                $("a[rel=example_group]").fancybox({
-                    'transitionIn': 'none',
-                    'transitionOut': 'none',
-                    'titlePosition': 'over',
-                    'titleFormat': function(title, currentArray, currentIndex, currentOpts) {
-                        return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
-                    }
-                });
-
-                /*
-                 *   Examples - various
-                 */
-
-                $("#various1").fancybox({
-                    'titlePosition': 'inside',
-                    'transitionIn': 'none',
-                    'transitionOut': 'none'
-                });
-
-                $("#various2").fancybox();
-
-                $("#various3").fancybox({
-                    'width': '75%',
-                    'height': '75%',
-                    'autoScale': false,
-                    'transitionIn': 'none',
-                    'transitionOut': 'none',
-                    'type': 'iframe'
-                });
-
-                $("#various4").fancybox({
-                    'padding': 0,
-                    'autoScale': false,
-                    'transitionIn': 'none',
-                    'transitionOut': 'none'
-                });
 
                 $("#lstCategory").change(function() {
                     $("#loader").html('Please wait...');
                     $.get('ajax-get-sub-category.php?cid=' + $(this).val(), function(data) {
-                        $("#lstSubCategory").html(data);
+                        $("#lstSubCategory").fadeIn('slow').html(data);
                         $('#loader').html('');
                     });
-                    searchProduct();
+                    searchProduct(1);
                 });
-                searchProduct();
+                searchProduct(1);
             });
-            function searchProduct()
+            function searchProduct(page_id)
             {
                 $("#loader").html('Please wait...');
-                var formData = {minweight: $("#lstMinWeight").val(), maxweight: $("#lstMaxWeight").val(), category: $("#lstCategory").val(), subcategory: $("#lstSubCategory").val()};
+                var formData = {minweight: $("#lstMinWeight").val(), maxweight: $("#lstMaxWeight").val(), category: $("#lstCategory").val(), subcategory: $("#lstSubCategory").val(), page: page_id};
                 $.ajax({
                     url: "ajax-get-search-product.php",
                     type: "POST",
@@ -115,6 +40,15 @@
                     {
                         $("#search-result").html(data);
                         $('#loader').html('');
+
+                        $("a[rel=example_group]").fancybox({
+                            'transitionIn': 'none',
+                            'transitionOut': 'none',
+                            'titlePosition': 'over',
+                            'titleFormat': function(title, currentArray, currentIndex, currentOpts) {
+                                return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+                            }
+                        });
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
@@ -123,10 +57,8 @@
                 });
             }
         </script>
-
-
     </head>
-    <body onload="initLightbox()">
+    <body>
         <?php include_once 'includes/header.php'; ?>
         <div class="category">
             <br /> 
@@ -138,7 +70,7 @@
                             Min. Weight
                         </td>
                         <td>
-                            <select onchange="searchProduct()" name="lstMinWeight" id="lstMinWeight">
+                            <select onchange="searchProduct(1)" name="lstMinWeight" id="lstMinWeight">
                                 <option value="-1">- - Select - -</option>
                                 <?php
                                 include_once './includes/connection.php';
@@ -163,7 +95,7 @@
                             Max. Weight
                         </td>
                         <td>
-                            <select onchange="searchProduct()" name="lstMaxWeight" id="lstMaxWeight">
+                            <select onchange="searchProduct(1)" name="lstMaxWeight" id="lstMaxWeight">
                                 <option value="-1">- - Select - -</option>
                                 <?php
                                 for ($i = 1; $i <= $maxweight; $i++) {
@@ -201,7 +133,7 @@
                             Sub Category
                         </td>
                         <td>
-                            <select onchange="searchProduct()" name="lstSubCategory" id="lstSubCategory">
+                            <select onchange="searchProduct(1)" name="lstSubCategory" id="lstSubCategory">
                                 <option value="-1">- - Select - -</option>
                             </select>
                         </td>
@@ -220,6 +152,7 @@
             <div class="pro-name">
                 <h1>Search Result</h1>
             </div>
+
             <div id="search-result"></div>
         </div>
         <!--right-content-->
