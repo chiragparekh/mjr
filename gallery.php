@@ -13,7 +13,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
-        </script>
+        </script>        
         <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
@@ -96,7 +96,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     'autoScale': false,
                     'transitionIn': 'none',
                     'transitionOut': 'none'
-                });
+                });                 
             });
         </script>
         <script type="text/javascript">
@@ -153,7 +153,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 }
                 return false;
             }
-        </script>
+        </script>        
     </head>
     <body onload="initLightbox()">
         <?php include_once 'includes/header.php'; ?>
@@ -170,7 +170,9 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 $array = mysql_fetch_array($result);
                 $name = $array["name"];
                 ?>
-                <h1>Products of <?php echo $name; ?></h1>
+                <h1>Products of <?php echo $name; ?>
+                    <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
+                </h1>
                 <?php
                 $q = "SELECT c.id as 'c_id',c.name as 'c_name',sc.id as 'sub_id',sc.name as 'sub_name',pro.name as 'pro_name',pro.image_path as 'path' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id group by sub_name";
                 $result = mysql_query($q);
@@ -197,7 +199,9 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 <div class="product">
                     <div class="pro-heading"><h1 class="center"><?php echo ucwords($r["pro_name"]); ?></h1></div>
                     <div class="pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" width="180" height="160" alt="" /></a></div>
-                    <div class="pro-detail"><a href="product.php?q=<?php echo $r["pro_id"] ?>">View Detail</a><a href="javascript:addToCart(<?php echo $r["pro_id"] ?>)">Add to Cart</a></div>
+                    <div class="pro-detail">
+                        <a href="product.php?q=<?php echo $r["pro_id"] ?>">View Detail</a>
+                        <a class="add-to-cart-link" href="javascript:addToCart(<?php echo $r["pro_id"] ?>)">Add to Cart</a></div>
                 </div>
                 <?php
             }
