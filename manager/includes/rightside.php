@@ -55,13 +55,17 @@
                 </li>
                 <li class="forms">
                     <a href="#" title=""  >
-                        <span>Users</span><strong>3</strong>
+                        <span>Users</span><strong>2</strong>
                     </a>
                     <ul class="sub">
                         <li><a href="photo-album.php" title="">Approved Users</a></li>
                         <li><a href="photo.php" title="">Unapproved Users</a></li>
-                        <li><a href="add-new-photo.php" title="">Add New User</a></li>
                     </ul>
+                </li>
+                <li class="forms">
+                    <a href="feedback.php" title="">
+                        <span>Feedback</span>
+                    </a>
                 </li>
             </ul>
         </div>
