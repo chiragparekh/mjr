@@ -5,10 +5,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Search Product :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+<!--        <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
-        </script>
+        </script>-->
+        <script src="js/jquery.1.7.1.min.js"></script>
+
+
+
         <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
@@ -31,7 +35,7 @@
                     });
                     searchProduct(1);
                 });
-                searchProduct(1);
+                //searchProduct(1);
             });
             function block()
             {
@@ -50,7 +54,7 @@
             {
                 //$("#loader").html('Please wait...');
                 block();
-                var formData = {minweight: $("#lstMinWeight").val(), maxweight: $("#lstMaxWeight").val(), category: $("#lstCategory").val(), subcategory: $("#lstSubCategory").val(), page: page_id};
+                var formData = {minweight: $("#sliderMinWeight").val(), maxweight: $("#sliderMaxWeight").val(), category: $("#lstCategory").val(), subcategory: $("#lstSubCategory").val(), page: page_id};
                 $.ajax({
                     url: "ajax-get-search-product.php",
                     type: "POST",
@@ -85,47 +89,68 @@
             <br /> 
             <div style="color: #DBCBFF;font-weight: bold;text-align: center;font-size:18px;text-decoration: none;"> Search Product</div>		
             <div style="margin: 10px 10px;">
-                <table style="color: #DBCBFF;" cellpadding="5">
+                <?php
+                include_once './includes/connection.php';
+                $con = new MySQL();
+                $maxweight = 1;
+                $rs = mysql_query("select round(max(weight)) as max_weight from tbl_product");
+                while ($row = mysql_fetch_array($rs)) {
+                    $maxweight = intval($row['max_weight']);
+                    $con->CloseConnection();
+                }
+                ?>
+                <table style="color: #DBCBFF;" cellpadding="8">
                     <tr>
-                        <td class="pull-right">
-                            Min. Weight
-                        </td>
+                        <td class="pull-right">Min. Weight</td>
                         <td>
-                            <select onchange="searchProduct(1)" name="lstMinWeight" id="lstMinWeight">
-                                <option value="-1">- - Select - -</option>
-                                <?php
-                                include_once './includes/connection.php';
-                                $con = new MySQL();
-                                $maxweight = 1;
-                                $rs = mysql_query("select round(max(weight)) as max_weight from tbl_product");
-                                while ($row = mysql_fetch_array($rs)) {
-                                    $maxweight = intval($row['max_weight']);
-                                }
-                                for ($i = 1; $i <= $maxweight; $i++) {
-                                    ?>
-                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                                    <?php
-                                }
-                                $con->CloseConnection();
-                                ?>
-                            </select>
+                            <div id="min-weight-val" style="background-color: white;color:black;padding: 4px"></div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="2">
+                            <div class="noUiSlider" id="sliderMinWeight"></div>
+                            <script src="js/jquery.nouislider.min.js" type="text/javascript"></script>
+                            <link href="css/jquery.nouislider.min.css" rel="stylesheet" />
+                            <script>
+
+                                // Wait until the document is ready.
+                                $(function() {
+
+                                    // Run noUiSlider
+                                    $('.noUiSlider').noUiSlider({
+                                        range: [1, <?php echo $maxweight; ?>],
+                                        start: 1,
+                                        step: 1,
+                                        handles: 1,
+                                        behaviour: 'tap',
+                                        set: function() {
+                                            searchProduct(1);
+                                        },
+                                        slide: function() {
+                                            $("#min-weight-val").html($("#sliderMinWeight").val());
+                                            $("#max-weight-val").html($("#sliderMaxWeight").val());
+                                        }
+                                    });
+                                    $("#sliderMaxWeight").val(<?php echo $maxweight?>);
+                                    $("#min-weight-val").html($("#sliderMinWeight").val());
+                                    $("#max-weight-val").html($("#sliderMaxWeight").val());
+                                    searchProduct(1);
+                                });
+
+                            </script>
                         </td>
                     </tr>
                     <tr>
-                        <td class="pull-right">
-                            Max. Weight
-                        </td>
+                        <td class="pull-right">Max. Weight</td>
                         <td>
-                            <select onchange="searchProduct(1)" name="lstMaxWeight" id="lstMaxWeight">
-                                <option value="-1">- - Select - -</option>
-                                <?php
-                                for ($i = 1; $i <= $maxweight; $i++) {
-                                    ?>
-                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
+                            <div id="max-weight-val" style="background-color: white;color:black;padding: 4px"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="noUiSlider" id="sliderMaxWeight"></div>
+
                         </td>
                     </tr>
                     <tr>
@@ -159,6 +184,7 @@
                             </select>
                         </td>
                     </tr>
+
                     <tr>
                         <td colspan="2" align="center">
                             <div id="loader"></div>
@@ -174,7 +200,8 @@
                 <h1>Search Result</h1>
             </div>
 
-            <div id="search-result"></div>
+            <div id="search-result">
+            </div>
         </div>
         <!--right-content-->
         <!--endo-of-search-->
