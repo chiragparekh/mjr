@@ -34,7 +34,18 @@
                 });
             });
         </script>
-       
+        <script type="text/javascript">
+            function printDiv() {
+                var divToPrint = document.getElementById('csstable');                
+                newWin = window.open("");
+                newWin.document.write("<center><h1>MJR Jewels</h1></center>");
+                newWin.document.write("<center><p>12-Panna Manek Complex,shapura Temple, Palace Road,Rajkot<br/>Email: manojranpara@ymail.com</p></center>");
+                var d = new Date();
+                newWin.document.write("<center><h2>My selected items for order/inquiry dated on  " + d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear() + "</h2></center>");
+                newWin.document.write(divToPrint.outerHTML);
+                newWin.print();
+            }
+        </script>
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>
@@ -65,8 +76,8 @@
 
 
                     <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
-                        <div class="CSSTableGenerator" >
-                            <table cellpadding="5" border="1" rules="all">
+                        <div class="CSSTableGenerator" id="csstablediv">
+                            <table align="center" cellpadding="5" border="1" rules="all" id="csstable">
                                 <tr class="heading">
                                     <td style="width:130px">Product Name</td>
                                     <td>Weight</td>
