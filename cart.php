@@ -36,7 +36,7 @@
         </script>
         <script type="text/javascript">
             function printDiv() {
-                var divToPrint = document.getElementById('csstable');                
+                var divToPrint = document.getElementById('csstable');
                 newWin = window.open("");
                 newWin.document.write("<center><h1>MJR Jewels</h1></center>");
                 newWin.document.write("<center><p>12-Panna Manek Complex,shapura Temple, Palace Road,Rajkot<br/>Email: manojranpara@ymail.com</p></center>");
@@ -72,6 +72,32 @@
                             }
                         }
                     }
+                    if (isset($_POST['btnConfirm'])) {
+                        $message = "";
+                        if (isset($_SESSION['cart'])) {
+                            $items = $_SESSION['cart'];
+                            if (count($items) == 0 || $items == null) {
+                                $message = "No items found in your order.";
+                            } else {
+                                include_once 'includes/connection.php';
+                                $con = new MySQL();
+                                $ic = 0;
+                                $date = date("Y-m-d H:i:s");
+                                foreach ($items as $item) {
+                                    $q = "select p.id as p_id,p.name as name,sc.name as sub_name,p.weight as weight,p.image_path as path from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where p.id in (" . $item["id"] . ")";
+                                    $result = mysql_query($q);
+                                    while ($r = mysql_fetch_array($result)) {
+                                        $q = "insert into tbl_order(product_id,product_qty,product_desc,order_date) values(" . $r["p_id"] . "," . $item["qty"] . ",'" . trim($item["desc"]) . "','" . $date . "')";
+                                        mysql_query($q);
+                                    }
+                                }
+                                $_SESSION['cart'] = array_diff($_SESSION['cart'], $_SESSION['cart']);
+                                $message = "Your order is confirmed successfully.";
+                            }
+                        } else {
+                            $message = "No items found in your order.";
+                        }
+                    }
                     ?>
 
 
@@ -89,7 +115,7 @@
                                 <?php
                                 if (isset($_SESSION['cart'])) {
                                     $items = $_SESSION['cart'];
-                                    if (count($items) == 0 || $items == null) {
+                                    if ((count($items) == 0 || $items == null) && $message=="") {
                                         ?>
                                         <tr>
                                             <td colspan="6" align="center">
@@ -116,7 +142,7 @@
                                             }
                                         }
                                     }
-                                } else {
+                                } else if($message==""){
                                     ?>
                                     <tr>
                                         <td colspan="6" align="center" style="text-align: center">
@@ -125,12 +151,23 @@
                                     </tr>
                                     <?php
                                 }
+                                if (isset($message) || $message != "") {
+                                    ?>
+                                    <tr>
+                                        <td colspan="6" align="center" style="text-align: center">
+                                            <?php
+                                            echo $message;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
                                 ?>
                                 <tr>
                                     <td colspan="6">
                                         <div align="center" style="text-align: center;">                     
-                                            <input value="Confirm" type="submit" name="btnConfirm" id="btnConfirm" />
-                                            <input value="Delete All" onclick="javascript:return confirm('Are you sure to confirm this order?');" type="submit" name="btnClear" id="btnClear" />
+                                            <input value="Confirm" type="submit" name="btnConfirm" id="btnConfirm" onclick="javascript:return confirm('Are you sure to confirm this order?');"  />
+                                            <input value="Delete All" onclick="javascript:return confirm('Are you sure to clear your order?');" type="submit" name="btnClear" id="btnClear" />
                                             <input value="Print" onclick="printDiv()" type="button" name="btnPrint" id="btnPrint" />                        
                                         </div> 
                                     </td>
