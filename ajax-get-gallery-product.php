@@ -1,5 +1,6 @@
 <?php
 include_once 'includes/connection.php';
+session_start();
 $con = new MySQL();
 $sub_cat_id = $_POST["sub_id"];
 $q = "select sub.name as 'sub_name',p.image_path as 'path',p.name as 'pro_name',p.id as 'pro_id' from tbl_product p inner join tbl_sub_category sub on p.sub_category_id=sub.id where sub_category_id=" . $sub_cat_id;
@@ -102,14 +103,40 @@ while ($r = mysql_fetch_array($rs)) {
         <div class="pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" width="180" height="160" alt="" /></a></div>
         <div class="pro-detail">
             <a href="product.php?q=<?php echo $r["pro_id"] ?>">View Detail</a>
-            <a class="add-to-cart-link" href="javascript:addToCart(<?php echo $r["pro_id"] ?>)">Add to Cart</a></div>
+            <?php
+            if (!isset($_SESSION['cart'])) {
+                ?>
+                <a class="add-to-cart-link" id="add-to-cart-link-<?php echo $r["pro_id"] ?>" href="#<?php echo $r["pro_id"] ?>">Add to Cart</a>
+                <?php
+            } else {
+                if (!in_array_r($r['pro_id'], $_SESSION['cart'])) {
+                    ?>
+                    <a class="add-to-cart-link" id="add-to-cart-link-<?php echo $r["pro_id"] ?>" href="#<?php echo $r["pro_id"] ?>">Add to Cart</a>
+                    <?php
+                } else {
+                    ?>
+                    <a id="add-to-cart-link-<?php echo $r["pro_id"] ?>" style="background-color:#E4D5FF;border-radius:5px;color:#322453;width:75px;text-align:center;height:14px;padding:5px;text-decoration:none;margin-top:5px;-webkit-border-radius:5px;-moz-border-radius:5px" href="javascript:void(0)">Item added</a>
+                    <?php
+                }
+            }
+            ?>            
+        </div>
     </div>
     <?php
 }
- ?>
-    <div class="clear"></div>
-    <div style="" align="left"><?php echo $pagination_system; ?></div>
-    <div class="clear"></div>
-    <br/>
-    <?php
+?>
+<div class="clear"></div>
+<div style="" align="left"><?php echo $pagination_system; ?></div>
+<div class="clear"></div>
+<br/>
+<?php
+
+function in_array_r($needle, $haystack, $strict = false) {
+    foreach ($haystack as $item) {
+        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
+            return true;
+        }
+    }
+    return false;
+}
 ?>

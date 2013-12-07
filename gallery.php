@@ -122,19 +122,20 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 });
             });
             function addToCart(pro_id) {
-                var pro_id = pro_id;
-                var qty = document.getElementById("cart_qty").value;
-                var desc = document.getElementById("cart_desc").value;
+                //logic of add to cart           
+                var pro_id = $("#current-item").val();
+                var qty = document.getElementById("txtQty").value;
+                var desc = document.getElementById("txtDesc").value;
                 if (qty.trim() == "") {
                     alert("Provide quantity for product");
-                    document.getElementById("cart_qty").focus();
+                    document.getElementById("txtQty").focus();
                 } else if (desc.trim() == "") {
                     alert("Provide description for product");
-                    document.getElementById("cart_desc").focus();
+                    document.getElementById("txtDesc").focus();
                 } else {
                     //if all validation works perfectly
-                    var formData = {pro_id: pro_id};
                     block();
+                    var formData = {pro_id: pro_id, qty: qty, desc: desc};
                     $.ajax({
                         url: "ajax-add-to-cart.php",
                         type: "POST",
@@ -146,15 +147,32 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                             } else if (data.trim() == "already-added") {
                                 alert("Item already added to your order.")
                             }
+                            changeAddToCartLink();
+                            //closeDetailForm();
+                            $(".bubble").fadeOut('slow');
                             $.unblockUI();
                         },
                         error: function(jqXHR, textStatus, errorThrown)
                         {
                             $.unblockUI();
+                            $(".bubble").fadeOut('slow');
                         }
                     });
                 }
                 return false;
+            }
+            function changeAddToCartLink() {  
+                var pro_id = $("#current-item").val();
+                $("#add-to-cart-link-"+pro_id).attr("href", "javascript:void(0)");
+                $("#add-to-cart-link-"+pro_id).attr("class", "");
+                $("#add-to-cart-link-"+pro_id).css({"background-color": "#E4D5FF", "border-radius": "5px", "color": "#322453", "width": "75px", "text-align": "center", "height": "14px", "padding": "5px", "text-decoration": "none", "margin-top": "5px", "-webkit-border-radius": "5px", "-moz-border-radius": "5px"});
+                $("#add-to-cart-link-"+pro_id).html("Item added");
+            }
+            function resetAddToCartLink() {
+                var pro_id = $("#current-item").val();
+                $("#add-to-cart-link-"+pro_id).attr("href", "javascript:openDetailForm()");
+                $("#add-to-cart-link-"+pro_id).attr("style", "");
+                $("#add-to-cart-link-"+pro_id).html("Add to Cart");
             }
         </script>
         <script type="text/javascript">
@@ -173,6 +191,8 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             }
             $(document).ready(function()
             {
+                //hide bubble
+                $(".bubble").hide();
                 getProduct(1,<?php echo $_GET['q'] ?>);
             });
             function getProduct(page_id, sub_id)
@@ -195,7 +215,6 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                                 return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
                             }
                         });
-
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
@@ -203,9 +222,51 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     }
                 });
             }
-        </script>          
+        </script>
+        <style>
+            .bubble 
+            {
+                position: absolute;
+                /*width: 250px;*/
+                height: 140px;
+                padding: 0px;
+                background: #decefd;
+                border: #674cad solid 3px;
+                -webkit-border-radius: 7px;
+                -moz-border-radius: 7px;
+                border-radius: 7px;
+            }
+
+            .bubble:after 
+            {
+                content: "";
+                position: absolute;
+                bottom: -15px;
+                left: 175px;
+                border-style: solid;
+                border-width: 15px 15px 0;
+                border-color: #decefd transparent;
+                display: block;
+                width: 0;
+                z-index: 1;
+            }
+
+            .bubble:before 
+            {
+                content: "";
+                position: absolute;
+                top: 143px;
+                left: 173px;
+                border-style: solid;
+                border-width: 17px 17px 0;
+                border-color: #674cad transparent;
+                display: block;
+                width: 0;
+                z-index: 0;
+            }
+        </style>
     </head>
-    <body onload="initLightbox()">
+    <body>
         <?php include_once 'includes/header.php'; ?>
         <?php include_once 'includes/sidebar.php'; ?>        
         <!--right-content-->
@@ -240,11 +301,60 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 }
                 ?>        
             </div>
-            <div id="gallery-result"></div>            
+            <div id="gallery-result"></div>
+            <div class="bubble">
+                <input type="hidden" id="current-item" value="-1"/>
+                <table align="center" style="margin:10px">
+                    <tr>
+                        <td>
+                            Quantity
+                        </td>
+                        <td>
+                            <input type="text" name="txtQty" id="txtQty"/>
+                        </td>
+                    </tr>            
+                    <tr>
+                        <td>
+                            Description
+                        </td>
+                        <td>
+                            <textarea name="txtDesc" id="txtDesc" rows="3" style="width:100%"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input onclick="addToCart()" type="button" id="btnAddToCart" value="Add to cart"/>
+                            <br/>
+                        </td>        
+                    </tr>    
+                </table>
+            </div>
         </div>
 
         <!--right-content-->
         <?php include_once 'includes/footer.php'; ?>
+        <script type="text/javascript">
+            //code for the tooltip and add to cart
+            $("#gallery-result a.add-to-cart-link").live("click", function(event) {
+                $(".bubble").css({"top": event.pageY - 190 - 2, "left": event.pageX - 395});
+                $(".bubble").hide();
+                $(".bubble").fadeIn('slow');
+                $("#txtQty,#txtDesc").val("");
+                $("#txtQty").focus();
+                //set pro id in hidden variable
+                var pro_id = $(this).attr('href').split('#')[1];
+                $("#current-item").val(pro_id);
+            });
+            $(document).click(function(e) {
+                if (!$(e.target).is('#gallery-result .add-to-cart-link')) {
+                    $(".bubble").fadeOut('slow');
+                }
+            });
+            $(".bubble").click(function(e) {
+                e.stopPropagation();
+                return false;
+            });
+        </script>
 
     </body>
 </html>
