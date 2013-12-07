@@ -19,6 +19,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
         <script type="text/javascript" src="js/jquery.blockUI.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bubble-tooltip.css" media="screen"/>
         <script type="text/javascript">
             $(document).ready(function() {
                 $("#gallery").addClass("active");
@@ -222,49 +223,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     }
                 });
             }
-        </script>
-        <style>
-            .bubble 
-            {
-                position: absolute;
-                /*width: 250px;*/
-                height: 140px;
-                padding: 0px;
-                background: #decefd;
-                border: #674cad solid 3px;
-                -webkit-border-radius: 7px;
-                -moz-border-radius: 7px;
-                border-radius: 7px;
-            }
-
-            .bubble:after 
-            {
-                content: "";
-                position: absolute;
-                bottom: -15px;
-                left: 175px;
-                border-style: solid;
-                border-width: 15px 15px 0;
-                border-color: #decefd transparent;
-                display: block;
-                width: 0;
-                z-index: 1;
-            }
-
-            .bubble:before 
-            {
-                content: "";
-                position: absolute;
-                top: 143px;
-                left: 173px;
-                border-style: solid;
-                border-width: 17px 17px 0;
-                border-color: #674cad transparent;
-                display: block;
-                width: 0;
-                z-index: 0;
-            }
-        </style>
+        </script>        
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>

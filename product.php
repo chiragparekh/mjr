@@ -156,7 +156,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                             });
                             $("#product-slider").fadeIn('slow');
                         }
-                        $.unblockUI();                        
+                        $.unblockUI();
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {
@@ -307,7 +307,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                             document.getElementById("pro-weight").innerHTML = data.weight;
                             document.getElementById("pro-desc").innerHTML = data.desc;
                             document.getElementById("pro-image").src = "manager/uploads/thumbs/" + data.sc_name + "/" + data.path;
-                            document.getElementById("pro-image-link").href = "manager/uploads/original/" + data.sc_name + "/" + data.path;
+                            document.getElementById("pro-image-link").href = "manager/uploads/original/" + data.sc_name + "/" + data.path;                                                        
                             document.getElementById("current_product").value = data.p_id;
                             pid = data.p_id;
                             //showNextImages(data.p_id, "update-image");
@@ -361,7 +361,6 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 });
             });
         </script>
-
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>
@@ -399,7 +398,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             </div>
             <div class="sub-product">
                 <div class="sub-pro-heading"><h1 class="center"  id="pro-name-h2"><?php echo $name ?></h1></div>
-                <div class="sub-pro-img"><a id="pro-image-link" rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="Hello"><img id="pro-image" src="manager/uploads/thumbs/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="240" alt="" /></a></div>
+                <div class="sub-pro-img"><a id="pro-image-link" rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="<?php echo $name ?>"><img id="pro-image" src="manager/uploads/thumbs/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="240" alt="" /></a></div>
             </div>   
 
             <div class="product-detail">                
@@ -447,7 +446,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             //code for thumbnails in product for a category selected
             $start = 0;
             $total_display = 4;
-            $q = "select p.id as p_id,p.image_path as path,sc.name as sc_name from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where sub_category_id in ( select sub_category_id from tbl_product where id=" . $pro_id . ") and p.id not in (" . $pro_id . ") order by p.id desc limit " . $start . "," . $total_display;
+            $q = "select p.id as p_id,p.image_path as path,sc.name as sc_name from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where sub_category_id in ( select sub_category_id from tbl_product where id=" . $pro_id . ") order by p.id desc limit " . $start . "," . $total_display;
             $result = mysql_query($q);
             if (mysql_num_rows($result) > 0) {
                 ?>
@@ -457,11 +456,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     <input type="button" onclick="javascript:showNextImages(<?php echo $pro_id ?>, 'previous')"  value="" class="left-arrow" style="border:0"/>
                     <?php
                     while ($r = mysql_fetch_array($result)) {
-                        ?>
-                                                                                                                                                                                                        <!--<div class="scroll-image-first"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                                                                                                                                                        <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                                                                                                                                                        <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>
-                                                                                                                                                                                                        <div class="scroll-image"><img src="images/scroller_img.jpg" width="140" height="140" alt="" /></div>-->
+                        ?>                                                                                                                                                                                                        
                         <a href="javascript:showProductData(<?php echo $r["p_id"] ?>)"><div class="scroll-image" id="slider-div-<?php echo $r["p_id"] ?>"><img id="slider-img-<?php echo $r["p_id"] ?>" src="manager/uploads/thumbs/<?php echo $r["sc_name"] ?>/<?php echo $r["path"] ?>" width="140" height="140" alt="" /></div></a>
                         <?php
                     }
