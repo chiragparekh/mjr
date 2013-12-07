@@ -72,7 +72,9 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     data: formData,
                     success: function(data, textStatus, jqXHR)
                     {
-                        $("#sub-cat-result").html(data);                                                
+                        $("#sub-cat-result").html(data);  
+                        $("#sub-cat-result").hide();
+                        $("#sub-cat-result").fadeIn('slow');
                         $.unblockUI();
                     },
                     error: function(jqXHR, textStatus, errorThrown)

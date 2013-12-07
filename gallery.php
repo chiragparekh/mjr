@@ -207,6 +207,8 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     success: function(data, textStatus, jqXHR)
                     {
                         $("#gallery-result").html(data);
+                        $("#gallery-result").hide();
+                        $("#gallery-result").fadeIn('slow');
                         $.unblockUI();
                         $("a[rel=example_group]").fancybox({
                             'transitionIn': 'fade',

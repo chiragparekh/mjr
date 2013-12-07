@@ -69,6 +69,8 @@
                     success: function(data, textStatus, jqXHR)
                     {
                         $("#category-result").html(data);
+                        $("#category-result").hide();
+                        $("#category-result").fadeIn('slow');
                         $.unblockUI();                        
                     },
                     error: function(jqXHR, textStatus, errorThrown)
