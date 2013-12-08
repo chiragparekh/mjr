@@ -100,7 +100,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 $array = mysql_fetch_array($result);
                 $name = $array["name"];
                 ?>
-                <h1>Sub Categories of <?php echo $name; ?>
+                <h1><?php echo $name; ?> Categories
                     <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
                 </h1>
                 <?php

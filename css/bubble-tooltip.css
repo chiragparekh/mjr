@@ -1,7 +1,7 @@
 .bubble 
 {
     position: absolute;
-    /*width: 250px;*/
+    width: 190px;
     height: 140px;
     padding: 0px;
     background: #decefd;
@@ -16,7 +16,7 @@
     content: "";
     position: absolute;
     bottom: -15px;
-    left: 175px;
+    left: 95px;
     border-style: solid;
     border-width: 15px 15px 0;
     border-color: #decefd transparent;
@@ -30,7 +30,7 @@
     content: "";
     position: absolute;
     top: 143px;
-    left: 173px;
+    left: 95px;
     border-style: solid;
     border-width: 17px 17px 0;
     border-color: #674cad transparent;

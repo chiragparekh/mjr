@@ -87,7 +87,7 @@
         <!--right-content-->
         <div class="right-content">
             <div class="pro-name">
-                <h1>Categories</h1>
+                <h1>Product Categories</h1>
             </div>
             <div id="category-result"></div>
         </div>

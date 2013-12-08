@@ -242,7 +242,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 $array = mysql_fetch_array($result);
                 $name = $array["name"];
                 ?>
-                <h1>Products of <?php echo $name; ?>
+                <h1><?php echo $name; ?> Products
                     <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
                 </h1>
                 <?php
@@ -266,24 +266,18 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             <div class="bubble">
                 <input type="hidden" id="current-item" value="-1"/>
                 <table align="center" style="margin:10px">
-                    <tr>
+                    <tr>                        
                         <td>
-                            Quantity
-                        </td>
-                        <td>
-                            <input type="text" name="txtQty" id="txtQty"/>
+                            <input type="text" name="txtQty" id="txtQty" placeholder="Enter quantity"/>
                         </td>
                     </tr>            
-                    <tr>
+                    <tr>                        
                         <td>
-                            Description
-                        </td>
-                        <td>
-                            <textarea name="txtDesc" id="txtDesc" rows="3" style="width:100%"></textarea>
+                            <textarea name="txtDesc" id="txtDesc" rows="3" style="width:100%;font-family:verdana;font-size: 12px" placeholder="Enter description"></textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" align="center">
+                        <td align="center">
                             <input onclick="addToCart()" type="button" id="btnAddToCart" value="Add to cart"/>
                             <br/>
                         </td>        
@@ -297,7 +291,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
         <script type="text/javascript">
             //code for the tooltip and add to cart
             $("#gallery-result a.add-to-cart-link").live("click", function(event) {
-                $(".bubble").css({"top": event.pageY - 190 - 2, "left": event.pageX - 395});
+                $(".bubble").css({"top": event.pageY - 190 - 2, "left": event.pageX -321});
                 $(".bubble").hide();
                 $(".bubble").fadeIn('slow');
                 $("#txtQty,#txtDesc").val("");
