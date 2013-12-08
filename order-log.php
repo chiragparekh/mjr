@@ -99,7 +99,7 @@ if (isset($_POST["btnConfirm"])) {
                 <h1>Order / Inquiry History
                     <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
                 </h1>
-                <div class="content">
+                <div class="content" style="background: none">
                     <div class="CSSTableGenerator" id="csstablediv">
                         <form method="post">
                             <table cellpadding="5" border="1" rules="all" style="margin:10px auto;" align="center">
@@ -110,14 +110,7 @@ if (isset($_POST["btnConfirm"])) {
                                     <td style="width:170px">Description</td>
                                     <td style="width: 100px;">Date</td>
                                     <td style="width: 70px;">Image</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="6">
-                                        <div align="center" style="text-align: center;">                     
-                                            <input value="Export to Excel" type="submit" name="btnConfirm" id="btnConfirm" />                        
-                                        </div> 
-                                    </td>
-                                </tr>                            
+                                </tr>                               
                                 <?php
                                 include_once 'includes/connection.php';
                                 $con = new MySQL();
@@ -140,7 +133,7 @@ if (isset($_POST["btnConfirm"])) {
                                 $lastpaged = $last_page - 1;
                                 $pagination_system = '';
                                 if ($last_page > 1) {
-                                    $pagination_system .= "<div class='pagination_system'>";
+                                    $pagination_system .= "<div class='pagination_system' style='margin-right:3px'>";
                                     // Previous Page
                                     if ($current_page > 1) {
                                         $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $previous_page . "'>Prev</a>";
@@ -208,7 +201,7 @@ if (isset($_POST["btnConfirm"])) {
                                     }
                                     $pagination_system.= "</div>";
                                 }
-                                $q_cat = $q . " order by o.order_date desc limit " . $start_page . "," . $page_limit;
+                                $q_cat = $q . " order by o.id desc,o.order_date desc limit " . $start_page . "," . $page_limit;
                                 $result = mysql_query($q_cat);
 
                                 if (mysql_num_rows($result) > 0) {
@@ -239,7 +232,7 @@ if (isset($_POST["btnConfirm"])) {
                                     <?php
                                 }
                                 ?>                               
-                                <tr>
+                                <tr style="background: #decefd">
                                     <td colspan="6">
                                         <div align="center" style="text-align: center;">                     
                                             <input value="Export to Excel" type="submit" name="btnConfirm" id="btnConfirm" />                        

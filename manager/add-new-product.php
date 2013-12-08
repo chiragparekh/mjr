@@ -41,7 +41,7 @@
             <a style="margin: 5px;" class="button blueB" title="" href="product.php">
                 <img class="icon" alt="" src="images/icons/light/view.png" />
                 <span>View</span>
-            </a>
+            </a> 
             <?php
             include_once "includes/connection.php";
             include_once "includes/image.php";
@@ -120,6 +120,11 @@
                     if (mysql_query("insert into tbl_product(sub_category_id,name,weight,description,image_path) values($subCat,'" . ucwords($prodName) . "',$weight,'$desc','" . $prod_img_path . $ext . "')")) {
                         move_uploaded_file($img_tmp_name, "uploads/original/" . $cr[0] . "/" . $prod_img_path . $ext);
                         $image = new SimpleImage();
+                        /* original resize */
+                        $image->load($p);
+                        $image->resize(1024, 768);
+                        $image->save("uploads/original/" . $cr[0] . "/" . $prod_img_path . $ext);
+                        /* end of original resize */
                         $image->load($p);
                         $image->resize(150, 150);
                         $image->save("uploads/thumbs/" . $cr[0] . "/" . $prod_img_path . $ext);
@@ -175,6 +180,10 @@
                                     $con->CloseConnection();
                                     ?>
                                 </select>
+                                <a style="margin-left: 10px;" class="button blueB" title="" href="add-new-main-category.php">
+                                    <img class="icon" alt="" src="images/icons/light/add.png" />
+                                    <span>Add New Category</span>
+                                </a>
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -201,6 +210,10 @@
                                     $con->CloseConnection();
                                     ?>
                                 </select>
+                                <a style="margin-left: 10px;" class="button blueB" title="" href="add-new-category.php">
+                                    <img class="icon" alt="" src="images/icons/light/add.png" />
+                                    <span>Add New Sub Category</span>
+                                </a>      
                             </div>
                             <div class="clear"></div>
                         </div>

@@ -62,7 +62,7 @@ session_start();
             <div class="pro-name">
                 <h1>Sitemap</h1>
                 <div class="sitemap-content">
-                    <div id="sitemap-links" style="margin-left: 15px;margin-top: 15px;line-height: 150%"> 
+                    <div id="sitemap-links" style="margin-left: 15px;margin-top: 15px;line-height: 160%;font-size:16px;font-family: arial"> 
                         <ul style="list-style-type: disc;">
                             <li><a href="index.php">Home</a></li>
                             <li><a href="about-us.php">About Us</a></li>

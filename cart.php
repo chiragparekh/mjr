@@ -71,7 +71,7 @@
                 <!--<div style="float: right;margin-right: 55px;margin-top: 5px;">
                     <a style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
                 </div>-->
-                <div class="content">
+                <div class="content" style="background: none">
                     <?php
                     if (isset($_POST['btnClear'])) {
                         $_SESSION['cart'] = array_diff($_SESSION['cart'], $_SESSION['cart']);
@@ -106,7 +106,7 @@
                                     }
                                 }
                                 $_SESSION['cart'] = array_diff($_SESSION['cart'], $_SESSION['cart']);
-                                $message = "Your order is confirmed successfully.";
+                                $message = "You have placed order successfully.We received your order detail and get you back soon.";
                             }
                         } else {
                             $message = "No items found in your order.";
@@ -251,7 +251,7 @@
                                 } else if ($message == "") {
                                     ?>
                                     <tr>
-                                        <td colspan="6" align="center" style="text-align: center">
+                                        <td colspan="6" align="center" style="text-align: center;">
                                             No items found in your order.
                                         </td>
                                     </tr>
@@ -260,7 +260,7 @@
                                 if (isset($message) || $message != "") {
                                     ?>
                                     <tr>
-                                        <td colspan="6" align="center" style="text-align: center">
+                                        <td colspan="6" align="center" style="text-align: center;">
                                             <?php
                                             echo $message;
                                             ?>
@@ -269,7 +269,7 @@
                                     <?php
                                 }
                                 ?>
-                                <tr>
+                                <tr style="background: #decefd">
                                     <td colspan="6">
                                         <div align="center" style="text-align: center;">                     
                                             <input value="Confirm" type="submit" name="btnConfirm" id="btnConfirm" onclick="javascript:return confirm('Are you sure to confirm this order?');"  />

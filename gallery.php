@@ -165,8 +165,9 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 var pro_id = $("#current-item").val();
                 $("#add-to-cart-link-" + pro_id).attr("href", "javascript:void(0)");
                 $("#add-to-cart-link-" + pro_id).attr("class", "");
-                /*
-                 $("#add-to-cart-link-" + pro_id).css({"background-color": "#E4D5FF", "border-radius": "5px", "color": "#322453", "width": "75px", "text-align": "center", "height": "14px", "padding": "5px", "text-decoration": "none", "margin-top": "5px", "-webkit-border-radius": "5px", "-moz-border-radius": "5px"});*/
+
+                /*$("#add-to-cart-link-" + pro_id).css({"background-color": "#E4D5FF", "border-radius": "5px", "color": "#322453", "width": "75px", "text-align": "center", "height": "14px", "padding": "5px", "text-decoration": "none", "margin-top": "5px", "-webkit-border-radius": "5px", "-moz-border-radius": "5px"});*/
+                $("#add-to-cart-link-" + pro_id).css({"color": "#d8c6ff","font-weight":"bold"});
                 $("#add-to-cart-link-" + pro_id).html("Item added");
             }
             function resetAddToCartLink() {
@@ -295,11 +296,11 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
         <?php include_once 'includes/footer.php'; ?>
         <script type="text/javascript">
             //code for the tooltip and add to cart
-            $("#gallery-result a.add-to-cart-link").live("click", function(event) {                                
+            $("#gallery-result a.add-to-cart-link").live("click", function(event) {
                 var left = $(this).position().left;
                 var top = $(this).position().top;
                 //$(".bubble").css({"top": event.pageY - 190 - 2, "left": event.pageX - 321});
-                $(".bubble").css({'top': top-165, 'left': left-100});
+                $(".bubble").css({'top': top - 165, 'left': left - 100});
                 $(".bubble").hide();
                 $(".bubble").fadeIn('slow');
                 $("#txtQty,#txtDesc").val("");

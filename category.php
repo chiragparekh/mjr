@@ -53,7 +53,7 @@
                                 '-moz-border-radius': '5px',
                                 'border-radius': '5px',
                                 opacity: .8,
-                                color: '#000',
+                                color: '#000',                                
                             },
                             message: "<img alt='Please Wait...' src='images/loader.gif'/>"
                         }
@@ -75,7 +75,7 @@
                     {
                         $("#category-result").html(data);
                         $("#category-result").hide();
-                        $("#category-result").fadeIn('slow');
+                        $("#category-result").fadeIn('slow');                        
                         $.unblockUI();
                     },
                     error: function(jqXHR, textStatus, errorThrown)

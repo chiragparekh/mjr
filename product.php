@@ -222,36 +222,34 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 var qty = document.getElementById("cart_qty").value;
                 var desc = document.getElementById("cart_desc").value;
                 if (qty.trim() == "") {
-                    alert("Provide quantity for product");
-                    document.getElementById("cart_qty").focus();
-                } else if (desc.trim() == "") {
-                    alert("Provide description for product");
-                    document.getElementById("cart_desc").focus();
-                } else {
-                    //if all validation works perfectly
-                    block();
-                    var formData = {pro_id: pro_id, qty: qty, desc: desc};
-                    $.ajax({
-                        url: "ajax-add-to-cart.php",
-                        type: "POST",
-                        data: formData,
-                        success: function(data, textStatus, jqXHR)
-                        {
-                            if (data.trim() == "added") {
-                                alert("Item added to your order.")
-                            } else if (data.trim() == "already-added") {
-                                alert("Item already added to your order.")
-                            }
-                            changeAddToCartLink();
-                            closeDetailForm();
-                            $.unblockUI();
-                        },
-                        error: function(jqXHR, textStatus, errorThrown)
-                        {
-                            $.unblockUI();
-                        }
-                    });
+                    qty = 0;
                 }
+                if (desc.trim() == "") {
+                    desc = "";
+                }
+                //if all validation works perfectly
+                block();
+                var formData = {pro_id: pro_id, qty: qty, desc: desc};
+                $.ajax({
+                    url: "ajax-add-to-cart.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        if (data.trim() == "added") {
+                            alert("Item added to your order.")
+                        } else if (data.trim() == "already-added") {
+                            alert("Item already added to your order.")
+                        }
+                        changeAddToCartLink();
+                        closeDetailForm();
+                        $.unblockUI();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        $.unblockUI();
+                    }
+                });
                 return false;
             }
             function changeAddToCartLink() {

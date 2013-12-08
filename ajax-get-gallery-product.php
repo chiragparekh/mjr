@@ -115,7 +115,7 @@ while ($r = mysql_fetch_array($rs)) {
                     <?php
                 } else {
                     ?>
-                    <a id="add-to-cart-link-<?php echo $r["pro_id"] ?>" href="javascript:void(0)">Item added</a>
+                    <a id="add-to-cart-link-<?php echo $r["pro_id"] ?>" href="javascript:void(0)" style="color:#d8c6ff;font-weight:bold">Item added</a>
                     <?php
                 }
             }

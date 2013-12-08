@@ -21,8 +21,7 @@ if (!isset($_GET['id']) || $_GET['id'] == "") {
             //  This notice MUST stay intact for legal use
             // --------------------------------->
             $(document).ready(function()
-            {
-                $("#about-us").addClass("active");
+            {                
                 //slides the element with class "menu_body" when paragraph with class "menu_head" is clicked 
                 $("#firstpane p.menu_head").click(function()
                 {

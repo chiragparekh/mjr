@@ -98,7 +98,7 @@
                 include_once './includes/connection.php';
                 $con = new MySQL();
                 $maxweight = 1;
-                $rs = mysql_query("select round(max(weight)) as max_weight from tbl_product");
+                $rs = mysql_query("select ceil(max(weight)) as max_weight from tbl_product");
                 while ($row = mysql_fetch_array($rs)) {
                     $maxweight = intval($row['max_weight']);
                     $con->CloseConnection();
