@@ -11,7 +11,8 @@
         <link rel="stylesheet" type="text/css" href="css/table.css" media="screen"/>        
         <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-        <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />        
+        <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
@@ -56,7 +57,7 @@
                 newWin.document.write(divToPrint.outerHTML);
                 newWin.print();
             }
-        </script>
+        </script>        
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>
@@ -100,7 +101,7 @@
                                     $q = "select p.id as p_id,p.name as name,sc.name as sub_name,p.weight as weight,p.image_path as path from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where p.id in (" . $item["id"] . ")";
                                     $result = mysql_query($q);
                                     while ($r = mysql_fetch_array($result)) {
-                                        $q = "insert into tbl_order(user_id,product_id,product_qty,product_desc,order_date) values(".$_SESSION['userid']."," . $r["p_id"] . "," . $item["qty"] . ",'" . trim($item["desc"]) . "','" . $date . "')";
+                                        $q = "insert into tbl_order(user_id,product_id,product_qty,product_desc,order_date) values(" . $_SESSION['userid'] . "," . $r["p_id"] . "," . $item["qty"] . ",'" . trim($item["desc"]) . "','" . $date . "')";
                                         mysql_query($q);
                                     }
                                 }
@@ -128,6 +129,93 @@
                                 <?php
                                 if (isset($_SESSION['cart'])) {
                                     $items = $_SESSION['cart'];
+                                    $records = count($items);
+                                    $page_limit = 10;
+                                    $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+                                    $pagination_stages = 2;
+                                    $current_page = strip_tags($page);
+                                    $start_page = ($current_page - 1) * $page_limit;
+
+
+                                    //This initializes the page setup
+                                    if ($current_page == 0) {
+                                        $current_page = 1;
+                                    }
+                                    $previous_page = $current_page - 1;
+                                    $next_page = $current_page + 1;
+                                    $last_page = ceil($records / $page_limit);
+                                    $lastpaged = $last_page - 1;
+                                    $pagination_system = '';
+                                    if ($last_page > 1) {
+                                        $pagination_system .= "<div class='pagination_system'>";
+                                        // Previous Page
+                                        if ($current_page > 1) {
+                                            $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $previous_page . "'>Prev</a>";
+                                        } else {
+                                            $pagination_system.= "<span class='disabled'>Prev</span>";
+                                        }
+                                        // Pages	
+                                        if ($last_page < 7 + ($pagination_stages * 2)) { // Not enough pages to breaking it up
+                                            for ($page_counter = 1; $page_counter <= $last_page; $page_counter++) {
+                                                if ($page_counter == $current_page) {
+                                                    $pagination_system.= "<span class='current'>$page_counter</span>";
+                                                } else {
+                                                    $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $page_counter . "'>$page_counter</a>";
+                                                }
+                                            }
+                                        } elseif ($last_page > 5 + ($pagination_stages * 2)) { // This hides few pages when the displayed pages are much
+                                            //Beginning only hide later pages
+                                            if ($current_page < 1 + ($pagination_stages * 2)) {
+                                                for ($page_counter = 1; $page_counter < 4 + ($pagination_stages * 2); $page_counter++) {
+                                                    if ($page_counter == $current_page) {
+                                                        $pagination_system.= "<span class='current'>$page_counter</span>";
+                                          $records = mysql_num_rows($rs);          } else {
+                                                        $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $page_counter . "'>$page_counter</a>";
+                                                    }
+                                                }
+                                                $pagination_system.= "<span style=\"color:white;font-weight:bold\">...</span>";
+                                                $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $lastpaged . "'>$lastpaged</a>";
+                                                $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $last_page . "'>$last_page</a>";
+                                            }
+                                            //Middle hide some front and some back
+                                            elseif ($last_page - ($pagination_stages * 2) > $current_page && $current_page > ($pagination_stages * 2)) {
+                                                $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=1'>1</a>";
+                                                $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=2'>2</a>";
+                                                $pagination_system.= "<span style=\"color:white;font-weight:bold\">...</span>";
+                                                for ($page_counter = $current_page - $pagination_stages; $page_counter <= $current_page + $pagination_stages; $page_counter++) {
+                                                    if ($page_counter == $current_page) {
+                                                        $pagination_system.= "<span class='current'>$page_counter</span>";
+                                                    } else {
+                                                        $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $page_counter . "'>$page_counter</a>";
+                                                    }
+                                                }
+                                                $pagination_system.= "<span style=\"color:white;font-weight:bold\">...</span>";
+                                                $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $lastpaged . "'>$lastpaged</a>";
+                                                $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $last_page . "'>$last_page</a>";
+                                            }
+                                            //End only hide early pages
+                                            else {
+                                                $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=1'>1</a>";
+                                                $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=2'>2</a>";
+                                                $pagination_system.= "<span style=\"color:white;font-weight:bold\">...</span>";
+                                                for ($page_counter = $last_page - (2 + ($pagination_stages * 2)); $page_counter <= $last_page; $page_counter++) {
+                                                    if ($page_counter == $current_page) {
+                                                        $pagination_system.= "<span class='current'>$page_counter</span>";
+                                                    } else {
+                                                        $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $page_counter . "'>$page_counter</a>";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //Next Page
+                                        if ($current_page < $page_counter - 1) {
+                                            $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $next_page . "'>Next</a>";
+                                        } else {
+                                            $pagination_system.= "<span class='disabled'>Next</span>";
+                                        }
+                                        $pagination_system.= "</div>";
+                                    }
+                                    $items = array_slice($_SESSION['cart'], $start_page, $page_limit);
                                     if ((count($items) == 0 || $items == null) && $message == "") {
                                         ?>
                                         <tr>
@@ -191,11 +279,15 @@
                                         </div> 
                                     </td>
                                 </tr>
-                            </table>
+                            </table>                                                        
                         </div>
-                    </form>
-                </div>
+                        <div class="clear"></div>
+                        <div style="" align="left"><?php echo $pagination_system; ?></div></br>
+                        <div class="clear"></div>
+                    </form>                    
+                </div>                 
             </div>
+
         </div>
         <!--endo-of-cart-->
         <?php include_once 'includes/footer.php'; ?>
