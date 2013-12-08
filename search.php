@@ -39,16 +39,21 @@
             });
             function block()
             {
-                $.blockUI({css: {
-                        border: '4px solid gray',
-                        padding: '0px',
-                        backgroundColor: '#fff',
-                        '-webkit-border-radius': '5px',
-                        '-moz-border-radius': '5px',
-                        'border-radius': '5px',
-                        opacity: .8,
-                        color: '#000'
-                    }});
+                $.blockUI(
+                        {
+                            css: {
+                                border: '2px solid #654E9D',
+                                padding: '4px',
+                                backgroundColor: '#fff',
+                                '-webkit-border-radius': '5px',
+                                '-moz-border-radius': '5px',
+                                'border-radius': '5px',
+                                opacity: .8,
+                                color: '#000',
+                            },
+                            message: "<img alt='Please Wait...' src='images/loader.gif'/>"
+                        }
+                );
             }
             function searchProduct(page_id)
             {
@@ -99,9 +104,9 @@
                     $con->CloseConnection();
                 }
                 ?>
-                <table style="color: #DBCBFF;" cellpadding="8">
+                <table style="color: #DBCBFF;margin-left:5px;margin-right:5px" cellpadding="8">
                     <tr>
-                        <td class="pull-right">Min. Weight</td>
+                        <td class="pull-right" style="color: #DBCBFF">Min. Weight</td>
                         <td>
                             <div id="min-weight-val" style="background-color: white;color:black;padding: 4px"></div>
                         </td>
@@ -114,35 +119,35 @@
                             <link href="css/jquery.nouislider.min.css" rel="stylesheet" />
                             <script>
 
-                                // Wait until the document is ready.
-                                $(function() {
+            // Wait until the document is ready.
+            $(function() {
 
-                                    // Run noUiSlider
-                                    $('.noUiSlider').noUiSlider({
-                                        range: [1, <?php echo $maxweight; ?>],
-                                        start: 1,
-                                        step: 1,
-                                        handles: 1,
-                                        behaviour: 'tap',
-                                        set: function() {
-                                            searchProduct(1);
-                                        },
-                                        slide: function() {
-                                            $("#min-weight-val").html($("#sliderMinWeight").val());
-                                            $("#max-weight-val").html($("#sliderMaxWeight").val());
-                                        }
-                                    });
-                                    $("#sliderMaxWeight").val(<?php echo $maxweight?>);
-                                    $("#min-weight-val").html($("#sliderMinWeight").val());
-                                    $("#max-weight-val").html($("#sliderMaxWeight").val());
-                                    searchProduct(1);
-                                });
+                // Run noUiSlider
+                $('.noUiSlider').noUiSlider({
+                    range: [1, <?php echo $maxweight; ?>],
+                    start: 1,
+                    step: 1,
+                    handles: 1,
+                    behaviour: 'tap',
+                    set: function() {
+                        searchProduct(1);
+                    },
+                    slide: function() {
+                        $("#min-weight-val").html($("#sliderMinWeight").val());
+                        $("#max-weight-val").html($("#sliderMaxWeight").val());
+                    }
+                });
+                $("#sliderMaxWeight").val(<?php echo $maxweight ?>);
+                $("#min-weight-val").html($("#sliderMinWeight").val());
+                $("#max-weight-val").html($("#sliderMaxWeight").val());
+                searchProduct(1);
+            });
 
                             </script>
                         </td>
                     </tr>
                     <tr>
-                        <td class="pull-right">Max. Weight</td>
+                        <td class="pull-right" style="color: #DBCBFF">Max. Weight</td>
                         <td>
                             <div id="max-weight-val" style="background-color: white;color:black;padding: 4px"></div>
                         </td>
@@ -154,7 +159,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="pull-right">
+                        <td class="pull-right" style="color: #DBCBFF">
                             Category
                         </td>
                         <td>
@@ -175,7 +180,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="pull-right">
+                        <td class="pull-right" style="color: #DBCBFF">
                             Sub Category
                         </td>
                         <td>

@@ -18,6 +18,19 @@ session_start();
                 float: right;
                 margin-right: 20px;
             }
+            .contact-us-content
+            {
+                background: none repeat scroll 0 0 #DECEFD;
+                float: left;
+                margin: 15px 0 15px 15px;
+                width: 685px;
+            }
+            #feedback-form input[type=text],#feedback-form textarea
+            {
+                min-width:160px;
+                width: 160px;
+                max-width: 160px;
+            }
         </style>
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
         <script>
@@ -60,11 +73,11 @@ session_start();
                     },
                     // Specify the validation error messages
                     messages: {
-                        name: "<br/>Name required",
-                        email: {required: "<br/>Email required", email: "<br/>Invalid email"},
-                        mobile: "<br/>Mobile required",
-                        description: "<br/>Description required",
-                        captcha: "<br/>Image Text required"
+                        name: "*",
+                        email: {required: "*", email: "<br/>Invalid email"},
+                        mobile: "*",
+                        description: "*",
+                        captcha: "*"
                     },
                     submitHandler: function(form) {
                         form.submit();
@@ -82,13 +95,13 @@ session_start();
         <div class="right-content">
             <div class="pro-name">
                 <h1>Contact Us</h1>
-                <div class="content">
+                <div class="contact-us-content">
                     <br />
                     <div id="address">
-                        <table>
-                            <caption class="tbl-caption">Address</caption>
+                        <table cellpadding="5px">
+                            <caption class="tbl-caption"><u>Address</u></caption>
                             <tr>
-                                <td style="color: #654E9D;line-height: 150%;font-weight: bold">
+                                <td style="color: #654E9D;line-height: 160%;font-weight: bold">
                                     12-Panna Manek Complex,<br />
                                     Opp. Ashapura Temple, Palace Road,<br />
                                     Rajkot<br /> 
@@ -102,13 +115,13 @@ session_start();
                     <div id="feedback">
                         <form id="feedback-form" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                             <table cellpadding="5">
-                                <caption class="tbl-caption">Feedback</caption>
+                                <caption class="tbl-caption"><u>Feedback</u></caption>
                                 <tr>
                                     <td class="pull-right valign-top">
                                         Name 
                                     </td>
                                     <td>
-                                        <input type="text" name="name" value="<?php echo (isset($_POST['name']) ? $_POST['name'] : "") ?>" />
+                                        <input type="text" name="name"  />
                                     </td>
                                 </tr>
                                 <tr>
@@ -116,7 +129,7 @@ session_start();
                                         Email 
                                     </td>
                                     <td>
-                                        <input type="text" name="email" value="<?php echo (isset($_POST['email']) ? $_POST['email'] : "") ?>"/>
+                                        <input type="text" name="email" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -124,7 +137,7 @@ session_start();
                                         Mobile
                                     </td>
                                     <td>
-                                        <input type="text" name="mobile" value="<?php echo (isset($_POST['mobile']) ? $_POST['mobile'] : "") ?>"/>
+                                        <input type="text" name="mobile" />
                                     </td>
                                 </tr>   
                                 <tr>
@@ -132,7 +145,7 @@ session_start();
                                         Description 
                                     </td>
                                     <td>
-                                        <textarea name="description" ><?php echo (isset($_POST['description']) ? $_POST['description'] : "") ?></textarea>
+                                        <textarea name="description" ></textarea>
                                     </td>
                                 </tr>
                                 <tr>

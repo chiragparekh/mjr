@@ -15,6 +15,13 @@ session_start();
                 font-weight: bold;
                 text-decoration: none;
             }
+            .sitemap-content
+            {
+                background: none repeat scroll 0 0 #DECEFD;
+                float: left;
+                margin: 15px 0 15px 15px;
+                width: 685px;
+            }
         </style>
         
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
@@ -54,7 +61,7 @@ session_start();
         <div class="right-content">
             <div class="pro-name">
                 <h1>Sitemap</h1>
-                <div class="content">
+                <div class="sitemap-content">
                     <div id="sitemap-links" style="margin-left: 15px;margin-top: 15px;line-height: 150%"> 
                         <ul style="list-style-type: disc;">
                             <li><a href="index.php">Home</a></li>

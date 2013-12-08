@@ -8,20 +8,21 @@
                     <?php
                     if (isset($_SESSION['userid'])) {
                         ?>
-                    <a title="View Order Cart" href="cart.php">
+                    
+                        Welcome, <?php echo $_SESSION['company'] ?> ! | 
+                        <a onmouseover="javascript:this.style.color='white'" onmouseout="javascript:this.style.color='#DBCBFF'" style="font-weight: bold;color: #DBCBFF;" href="logout.php">Logout</a>
+                        <a title="View Order Cart" href="cart.php">
                             <div class="cart">
                                 <img src="images/cart.png" width="36" height="40" alt="" />
                             </div>
                         </a>
-                        Welcome, <?php echo $_SESSION['company'] ?> ! | 
-                        <a style="font-weight: bold;color: #DBCBFF;" href="logout.php">Logout</a>    
                         <div style="margin-top: 6px;">
-                            <a style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
+                            <a onmouseover="javascript:this.style.color='white'" onmouseout="javascript:this.style.color='#DBCBFF'" style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
                         </div>
                         <?php
                     } else {
                         ?>
-                        <a style="font-weight: bold;color: #DBCBFF;" href="login.php">Login / Register</a>    
+                        <a style="font-weight: bold;color: #DBCBFF;"onmouseover="javascript:this.style.color='white'" onmouseout="javascript:this.style.color='#DBCBFF'" href="login.php">Login | Register</a>    
                         <?php
                     }
                     ?>

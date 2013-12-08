@@ -45,9 +45,9 @@
                     // Specify the validation error messages
                     messages: {
                         txtLoginPassword: {
-                            required: "<br/>Password required"
+                            required: "*"
                         },
-                        txtLoginEmail: {required:"<br/>Email required",email:"<br/>Invalid email"}
+                        txtLoginEmail: {required:"*",email:"<br/>Invalid email"}
                     },
                     submitHandler: function(form) {
                         form.submit();
@@ -69,23 +69,23 @@
                             equalTo: "#txtPassword"
                         },
                         txtContNumber: "required",
-                        txtAddr: "required",
-                        txtState: "required",
+                        //txtAddr: "required",
+                        //txtState: "required",
                         txtCity: "required",
-                        txtZipCode: "required"
+                        //txtZipCode: "required"
                     },
                     // Specify the validation error messages
                     messages: {
-                        txtCompName: "<br/>Company Name required",
-                        txtContPerson: "<br/>Contact Perosn required",
-                        txtPassword: "<br/>Password required",
-                        txtEmail: {required: "<br/>Email required", email: "<br/>Invalid email"},
-                        txtRepeatPassword: {equalTo: "<br/>Passwords must be match.", required: "<br/>Repeat Passowrd required"},
-                        txtContNumber: "<br/>Contact Number required",
-                        txtAddr: "<br/>Address required",
-                        txtState: "<br/>State required",
-                        txtCity: "<br/>City required",
-                        txtZipCode: "<br/>Zip Code required"
+                        txtCompName: "*",
+                        txtContPerson: "*",
+                        txtPassword: "*",
+                        txtEmail: {required: "*", email: "<br/>Invalid email"},
+                        txtRepeatPassword: {equalTo: "<br/>Passwords must be match.", required: "*"},
+                        txtContNumber: "*",
+                        //txtAddr: "*",
+                        //txtState: "*",
+                        txtCity: "*",
+                        //txtZipCode: "*"
                     },
                     submitHandler: function(form) {
                         form.submit();
@@ -229,8 +229,8 @@
                                                 $state = mysql_real_escape_string(trim($_POST['txtState']));
                                                 $zipCode = mysql_real_escape_string(trim($_POST['txtZipCode']));
 
-                                                if ($compName == "" || $contPerson == "" || $email == "" || $password == "" || $repeatPassword == "" || $contNumber == "" || $address == "" || $city == "" || $state == "" || $zipCode == "") {
-                                                    echo "Please fill compelete form";
+                                                if ($compName == "" || $contPerson == "" || $email == "" || $password == "" || $repeatPassword == "" || $contNumber == "" || $city == "" ) {
+                                                    echo "Please fill required fields";
                                                 } else if (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
                                                     echo "Invalid email";
                                                 } else if ($password != $repeatPassword) {
@@ -273,7 +273,7 @@
                                         Company Name
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtCompName'])) ? $_POST['txtCompName'] : "" ?>" type="text" name="txtCompName" id="txtCompName" />
+                                        <input type="text" name="txtCompName" id="txtCompName" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -281,7 +281,7 @@
                                         Contact Person
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtContPerson'])) ? $_POST['txtContPerson'] : "" ?>" type="text" name="txtContPerson" id="txtContPerson" />
+                                        <input type="text" name="txtContPerson" id="txtContPerson" />
                                     </td>
                                 </tr>                        
                                 <tr>
@@ -289,7 +289,7 @@
                                         Email
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtEmail'])) ? $_POST['txtEmail'] : "" ?>" type="text" name="txtEmail" id="txtEmail" />
+                                        <input  type="text" name="txtEmail" id="txtEmail" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -297,7 +297,7 @@
                                         Password
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtPassword'])) ? $_POST['txtPassword'] : "" ?>" type="password" name="txtPassword" id="txtPassword" />
+                                        <input  type="password" name="txtPassword" id="txtPassword" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -305,7 +305,7 @@
                                         Repeat Password
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtRepeatPassword'])) ? $_POST['txtRepeatPassword'] : "" ?>" type="password" name="txtRepeatPassword" id="txtRepeatPassword" />
+                                        <input type="password" name="txtRepeatPassword" id="txtRepeatPassword" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -313,7 +313,7 @@
                                         Contact Number
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtContNumber'])) ? $_POST['txtContNumber'] : "" ?>" type="text" name="txtContNumber" id="txtContNumber" />
+                                        <input type="text" name="txtContNumber" id="txtContNumber" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -321,7 +321,7 @@
                                         Address
                                     </td>
                                     <td>
-                                        <textarea name="txtAddr" id="txtAddr" style="min-width: 150px;max-width: 150px;width: 150px;"><?php echo (isset($_POST['txtAddr'])) ? $_POST['txtAddr'] : "" ?></textarea>
+                                        <textarea name="txtAddr" id="txtAddr" style="min-width: 150px;max-width: 150px;width: 150px;"></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -329,7 +329,7 @@
                                         State
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtState'])) ? $_POST['txtState'] : "" ?>" type="text" name="txtState" id="txtState" />
+                                        <input type="text" name="txtState" id="txtState" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -337,7 +337,7 @@
                                         City
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtCity'])) ? $_POST['txtCity'] : "" ?>" type="text" name="txtCity" id="txtCity" />
+                                        <input type="text" name="txtCity" id="txtCity" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -345,7 +345,7 @@
                                         Zip Code
                                     </td>
                                     <td>
-                                        <input value="<?php echo (isset($_POST['txtZipCode'])) ? $_POST['txtZipCode'] : "" ?>" type="text" name="txtZipCode" id="txtZipCode" />
+                                        <input type="text" name="txtZipCode" id="txtZipCode" />
                                     </td>
                                 </tr>                        
                                 <tr>
