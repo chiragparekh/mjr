@@ -38,7 +38,7 @@
                 <span>Users</span><strong>2</strong>
             </a>
             <ul class="sub">                
-                <li><a href="#" title="">All Users</a></li>
+                <li><a href="all-user.php" title="">All Users</a></li>
                 <li><a href="user.php" title="">Approved Users</a></li>
                 <li><a href="unapproved-user.php" title="">Unapproved Users</a></li>                
                 <li><a href="#" title="">Add New User</a></li>
