@@ -43,8 +43,9 @@
 /*Pagination Buttons*/
 .pagination_system 
 {
+    float:right;
     padding: 3px;
-    margin: 3px;
+    margin-right: 35px;
 }
 
 .pagination_system a 

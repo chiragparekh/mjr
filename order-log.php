@@ -7,6 +7,9 @@
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
         <link rel="stylesheet" type="text/css" href="css/table.css" media="screen"/>
+        <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+        <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+        <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
@@ -30,10 +33,16 @@
                     $(this).css({backgroundImage: "url(down.png)"}).next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
                     $(this).siblings().css({backgroundImage: "url(left.png)"});
                 });
+                $("a[rel=example_group]").fancybox({
+                    'transitionIn': 'fade',
+                    'transitionOut': 'fade',
+                    'titlePosition': 'over',
+                    'titleFormat': function(title, currentArray, currentIndex, currentOpts) {
+                        return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+                    }
+                });
             });
-        </script>
-
-
+        </script>              
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>
@@ -44,7 +53,7 @@
                 <h1>Order / Inquiry History</h1>
                 <div class="content">
                     <div class="CSSTableGenerator" id="csstablediv">
-                        <table cellpadding="5" border="1" rules="all" style="margin:10px auto;">
+                        <table cellpadding="5" border="1" rules="all" style="margin:10px auto;" align="center">
                             <tr class="heading">
                                 <td style="width:130px">Product Name</td>
                                 <td>Weight</td>
@@ -69,12 +78,17 @@
                                 while ($r = mysql_fetch_array($result)) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $r["name"]; ?></td>
-                                        <td><?php echo $r["weight"]; ?></td>
-                                        <td><?php echo $r["qty"]; ?></td>
-                                        <td><?php echo $r["descr"]; ?></td>
-                                        <td><?php echo date('d-m-Y', strtotime($r["o_date"])); ?></td>
-                                        <td><img width="80" height="80" src="<?php echo "manager/uploads/thumbs/" . $r["sc_name"] . "/" . $r["path"] ?>" /></td>                                        
+                                        <td align="center"><?php echo $r["name"]; ?></td>
+                                        <td align="center"><?php echo $r["weight"]; ?></td>
+                                        <td align="center"><?php echo ($r['qty']) == 0 ? "<span style='color:gray'>---</span>" : ($r['qty']); ?></td>
+                                        <td align="center"><?php echo trim($r['descr']) == "" ? "<i style='color:gray'>Not Provided</i>" : trim($r['descr']); ?></td>
+                                        <td align="center"><?php echo date('d-m-Y', strtotime($r["o_date"])); ?></td>
+                                        <td align="center">
+                                            <a rel="example_group" href="manager/uploads/original/<?php echo $r["sc_name"]; ?>/<?php echo $r['path']; ?>" title="">
+                                                <img src="manager/uploads/thumbs/<?php echo $r["sc_name"]; ?>/<?php echo $r['path']; ?>" width="80" height="80" alt="" />
+                                            </a>
+                                            <!--<img width="80" height="80" src="<?php echo "manager/uploads/thumbs/" . $r["sc_name"] . "/" . $r["path"] ?>" />-->
+                                        </td>                                        
                                     </tr>
                                     <?php
                                 }

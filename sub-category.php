@@ -47,16 +47,21 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
         <script type="text/javascript">
             function block()
             {
-                $.blockUI({css: {
-                        border: '4px solid gray',
-                        padding: '0px',
-                        backgroundColor: '#fff',
-                        '-webkit-border-radius': '5px',
-                        '-moz-border-radius': '5px',
-                        'border-radius': '5px',
-                        opacity: .8,
-                        color: '#000'
-                    }});
+                $.blockUI(
+                        {
+                            css: {
+                                border: '2px solid #654E9D',
+                                padding: '4px',
+                                backgroundColor: '#fff',
+                                '-webkit-border-radius': '5px',
+                                '-moz-border-radius': '5px',
+                                'border-radius': '5px',
+                                opacity: .8,
+                                color: '#000',
+                            },
+                            message: "<img alt='Please Wait...' src='images/loader.gif'/>"
+                        }
+                );
             }
             $(document).ready(function()
             {
@@ -72,7 +77,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     data: formData,
                     success: function(data, textStatus, jqXHR)
                     {
-                        $("#sub-cat-result").html(data);  
+                        $("#sub-cat-result").html(data);
                         $("#sub-cat-result").hide();
                         $("#sub-cat-result").fadeIn('slow');
                         $.unblockUI();
@@ -104,20 +109,20 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
                 </h1>
                 <?php
-                $q = "SELECT c.id as 'c_id',c.name as 'c_name' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id group by c_name";
-                $result = mysql_query($q);
-                while ($r = mysql_fetch_array($result)) {
-                    if ($r["c_id"] == $cat_id) {
-                        ?>
-                        <span><a href="sub-category.php?q=<?php echo $r["c_id"]; ?>" style="color:#d8c6ff;font-weight:bold"><?php echo $r["c_name"] ?></a></span>
-                        <?php
-                    } else {
-                        ?>
+                /* $q = "SELECT c.id as 'c_id',c.name as 'c_name' FROM tbl_category c inner join tbl_sub_category sc on c.id=sc.category_id inner join tbl_product pro on sc.id = pro.sub_category_id group by c_name";
+                  $result = mysql_query($q);
+                  while ($r = mysql_fetch_array($result)) {
+                  if ($r["c_id"] == $cat_id) {
+                  ?>
+                  <span><a href="sub-category.php?q=<?php echo $r["c_id"]; ?>" style="color:#d8c6ff;font-weight:bold"><?php echo $r["c_name"] ?></a></span>
+                  <?php
+                  } else {
+                  ?>
 
-                        <span><a href="sub-category.php?q=<?php echo $r["c_id"]; ?>"><?php echo $r["c_name"] ?></a></span>
-                        <?php
-                    }
-                }
+                  <span><a href="sub-category.php?q=<?php echo $r["c_id"]; ?>"><?php echo $r["c_name"] ?></a></span>
+                  <?php
+                  }
+                  } */
                 ?>        
             </div>
             <div id="sub-cat-result"></div>             

@@ -111,16 +111,21 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             });
             function block()
             {
-                $.blockUI({css: {
-                        border: '4px solid gray',
-                        padding: '0px',
-                        backgroundColor: '#fff',
-                        '-webkit-border-radius': '5px',
-                        '-moz-border-radius': '5px',
-                        'border-radius': '5px',
-                        opacity: .8,
-                        color: '#000'
-                    }});
+                $.blockUI(
+                        {
+                            css: {
+                                border: '2px solid #654E9D',
+                                padding: '4px',
+                                backgroundColor: '#fff',
+                                '-webkit-border-radius': '5px',
+                                '-moz-border-radius': '5px',
+                                'border-radius': '5px',
+                                opacity: .8,
+                                color: '#000',
+                            },
+                            message: "<img alt='Please Wait...' src='images/loader.gif'/>"
+                        }
+                );
             }
             function openDetailForm()
             {
@@ -186,13 +191,13 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                         document.getElementById("pro-name").innerHTML = data.name;
                         document.getElementById("pro-weight").innerHTML = data.weight;
                         document.getElementById("pro-desc").innerHTML = data.desc;
-                        document.getElementById("pro-image").src = "manager/uploads/thumbs/" + data.sc_name + "/" + data.path;
+                        document.getElementById("pro-image").src = "manager/uploads/original/" + data.sc_name + "/" + data.path;
                         document.getElementById("pro-image-link").href = "manager/uploads/original/" + data.sc_name + "/" + data.path;
                         document.getElementById("current_product").value = data.p_id;
                         //showNextImages(data.p_id, "update-image");
                         $("div.scroll-image").css({"border": "1px solid white", "height": "140px", "width": "140px"});
                         $("div.scroll-image img").css({"height": "140px", "width": "140px"});
-                        $("#slider-div-" + pid).css({"border": "5px solid #E4D5FF", "height": "135px", "width": "135px"});
+                        $("#slider-div-" + pid).css({"border": "4px solid #E4D5FF", "height": "135px", "width": "135px"});
                         $("#slider-img-" + pid).css({"height": "135px", "width": "135px"});
 
                         //check status of item whethe is in cart or not
@@ -306,14 +311,14 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                             document.getElementById("pro-name").innerHTML = data.name;
                             document.getElementById("pro-weight").innerHTML = data.weight;
                             document.getElementById("pro-desc").innerHTML = data.desc;
-                            document.getElementById("pro-image").src = "manager/uploads/thumbs/" + data.sc_name + "/" + data.path;
-                            document.getElementById("pro-image-link").href = "manager/uploads/original/" + data.sc_name + "/" + data.path;                                                        
+                            document.getElementById("pro-image").src = "manager/uploads/original/" + data.sc_name + "/" + data.path;
+                            document.getElementById("pro-image-link").href = "manager/uploads/original/" + data.sc_name + "/" + data.path;
                             document.getElementById("current_product").value = data.p_id;
                             pid = data.p_id;
                             //showNextImages(data.p_id, "update-image");
                             $("div.scroll-image").css({"border": "1px solid white", "height": "140px", "width": "140px"});
                             $("div.scroll-image img").css({"height": "140px", "width": "140px"});
-                            $("#slider-div-" + pid).css({"border": "5px solid #E4D5FF", "height": "135px", "width": "135px"});
+                            $("#slider-div-" + pid).css({"border": "4px solid #E4D5FF", "height": "135px", "width": "135px"});
                             $("#slider-img-" + pid).css({"height": "135px", "width": "135px"});
 
                             //check status of item whethe is in cart or not
@@ -398,20 +403,21 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             </div>
             <div class="sub-product">
                 <div class="sub-pro-heading"><h1 class="center"  id="pro-name-h2"><?php echo $name ?></h1></div>
-                <div class="sub-pro-img"><a id="pro-image-link" rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="<?php echo $name ?>"><img id="pro-image" src="manager/uploads/thumbs/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="240" alt="" /></a></div>
+                <div class="sub-pro-img"><a id="pro-image-link" rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="<?php echo $name ?>"><img id="pro-image" src="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="240" alt="" /></a></div>
             </div>   
-
-            <div class="product-detail">                
+            <div class="product-detail">
+                <samp style="float:right;margin:0px;margin-right:10px">
+                    <a style="float:right" href="javascript:showNextProduct()">Next</a>
+                </samp>                
                 <label>NAME : <span id="pro-name"><?php echo $name ?></span></label> 
                 <label>WEIGHT : <span id="pro-weight"><?php echo $weight ?></span></label> 
                 <label>DESCRIPTION : <span id="pro-desc"><?php echo $desc ?></span></label>  
-                <samp>
+                <samp>                    
                     <img src="images/cart.png" width="36" height="40" alt="" />
-                    <a id="add-to-cart-link" href="javascript:openDetailForm()">Add to Cart </a><a href="cart.php">View Selected Items</a>
-                    <a href="javascript:showNextProduct()">Next</a>
+                    <a id="add-to-cart-link" href="javascript:openDetailForm()">Add to Cart </a><a href="cart.php">View Selected Items</a>                    
                 </samp>                                
                 <div class="clear"></div>
-                <div id="pro-detail-form" style=" width: 300px; margin-top: 10px;margin-left: 10px;">
+                <div id="pro-detail-form" style=" width: 300px; margin-left: 10px;">
                     <form>
                         <table>
                             <tr>

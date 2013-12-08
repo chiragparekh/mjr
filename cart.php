@@ -8,7 +8,10 @@
         <title>Order Cart :: Manojkumar Jayantilal Ranpara - mjrjewels.com</title>
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/table.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="css/table.css" media="screen"/>        
+        <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+        <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+        <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
@@ -32,6 +35,14 @@
                     $(this).css({backgroundImage: "url(down.png)"}).next("div.menu_body").slideDown(500).siblings("div.menu_body").slideUp("slow");
                     $(this).siblings().css({backgroundImage: "url(left.png)"});
                 });
+                $("a[rel=example_group]").fancybox({
+                    'transitionIn': 'fade',
+                    'transitionOut': 'fade',
+                    'titlePosition': 'over',
+                    'titleFormat': function(title, currentArray, currentIndex, currentOpts) {
+                        return '<span id="fancybox-title-over">Image ' + (currentIndex + 1) + ' / ' + currentArray.length + (title.length ? ' &nbsp; ' + title : '') + '</span>';
+                    }
+                });
             });
         </script>
         <script type="text/javascript">
@@ -53,10 +64,12 @@
         <!--cart-->   
         <div class="right-content">
             <div class="pro-name">
-                <h1>Order / Inquiry Cart</h1><div class="clear"></div>
-                <div style="float: right;margin-right: 55px;margin-top: 5px;">
+                <h1>Order / Inquiry Cart
+                    <div style="float:right"><a href="javascript:history.back(-1);">Back</a></div>
+                </h1><div class="clear"></div>
+                <!--<div style="float: right;margin-right: 55px;margin-top: 5px;">
                     <a style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
-                </div>
+                </div>-->
                 <div class="content">
                     <?php
                     if (isset($_POST['btnClear'])) {
@@ -87,7 +100,7 @@
                                     $q = "select p.id as p_id,p.name as name,sc.name as sub_name,p.weight as weight,p.image_path as path from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where p.id in (" . $item["id"] . ")";
                                     $result = mysql_query($q);
                                     while ($r = mysql_fetch_array($result)) {
-                                        $q = "insert into tbl_order(product_id,product_qty,product_desc,order_date) values(" . $r["p_id"] . "," . $item["qty"] . ",'" . trim($item["desc"]) . "','" . $date . "')";
+                                        $q = "insert into tbl_order(user_id,product_id,product_qty,product_desc,order_date) values(".$_SESSION['userid']."," . $r["p_id"] . "," . $item["qty"] . ",'" . trim($item["desc"]) . "','" . $date . "')";
                                         mysql_query($q);
                                     }
                                 }
@@ -115,7 +128,7 @@
                                 <?php
                                 if (isset($_SESSION['cart'])) {
                                     $items = $_SESSION['cart'];
-                                    if ((count($items) == 0 || $items == null) && $message=="") {
+                                    if ((count($items) == 0 || $items == null) && $message == "") {
                                         ?>
                                         <tr>
                                             <td colspan="6" align="center">
@@ -133,16 +146,21 @@
                                                 <tr>
                                                     <td align="center"><?php echo $r["name"]; ?></td>
                                                     <td align="center"><?php echo $r["weight"]; ?></td>
-                                                    <td align="center"><?php echo trim($item['qty']) == "" ? "<span style='color:gray'>---</span>" : trim($item['qty']); ?></td>
+                                                    <td align="center"><?php echo trim($item['qty']) == 0 ? "<span style='color:gray;'>---</span>" : trim($item['qty']); ?></td>
                                                     <td align="center"><?php echo trim($item['desc']) == "" ? "<i style='color:gray'>Not Provided</i>" : trim($item['desc']); ?></td>
-                                                    <td align="center"><img width="80" height="80" src="<?php echo "manager/uploads/thumbs/" . $r["sub_name"] . "/" . $r["path"] ?>" /></td>
+                                                    <td align="center">
+                                                        <a rel="example_group" href="manager/uploads/original/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" title="">
+                                                            <img src="manager/uploads/thumbs/<?php echo $r["sub_name"]; ?>/<?php echo $r['path']; ?>" width="80" height="80" alt="" />
+                                                        </a>
+                                                        <!--<img width="80" height="80" src="<?php echo "manager/uploads/thumbs/" . $r["sub_name"] . "/" . $r["path"] ?>" />-->
+                                                    </td>
                                                     <td align="center"><a href="edit-cart.php?id=<?php echo $item["id"] ?>&name=<?php echo $r["name"] ?>&qty=<?php echo $item["qty"] ?>&desc=<?php echo $item["desc"] ?>"><img src="images/edit.png" width="25" height="25" alt="Edit Cart Item"/></a> <a onclick="javascript:return confirm('Are you sure you want to delete?')" href="cart.php?q=<?php echo $item["id"] ?>&o=delete"><img src="images/delete.png" width="25" height="25" lt="Delete Cart Item"/></a></td>
                                                 </tr>
                                                 <?php
                                             }
                                         }
                                     }
-                                } else if($message==""){
+                                } else if ($message == "") {
                                     ?>
                                     <tr>
                                         <td colspan="6" align="center" style="text-align: center">
@@ -168,7 +186,8 @@
                                         <div align="center" style="text-align: center;">                     
                                             <input value="Confirm" type="submit" name="btnConfirm" id="btnConfirm" onclick="javascript:return confirm('Are you sure to confirm this order?');"  />
                                             <input value="Delete All" onclick="javascript:return confirm('Are you sure to clear your order?');" type="submit" name="btnClear" id="btnClear" />
-                                            <input value="Print" onclick="printDiv()" type="button" name="btnPrint" id="btnPrint" />                        
+                                            <input value="Print" onclick="printDiv()" type="button" name="btnPrint" id="btnPrint" />                       
+                                            <input value="View order history" onclick="javascript:location.href = 'order-log.php'" type="button" name="btnOrderHistory" id="btnOrderHistory" />                        
                                         </div> 
                                     </td>
                                 </tr>

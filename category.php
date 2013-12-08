@@ -43,16 +43,21 @@
         <script type="text/javascript">
             function block()
             {
-                $.blockUI({css: {
-                        border: '4px solid gray',
-                        padding: '0px',
-                        backgroundColor: '#fff',
-                        '-webkit-border-radius': '5px',
-                        '-moz-border-radius': '5px',
-                        'border-radius': '5px',
-                        opacity: .8,
-                        color: '#000'
-                    }});
+                $.blockUI(
+                        {
+                            css: {
+                                border: '2px solid #654E9D',
+                                padding: '4px',
+                                backgroundColor: '#fff',
+                                '-webkit-border-radius': '5px',
+                                '-moz-border-radius': '5px',
+                                'border-radius': '5px',
+                                opacity: .8,
+                                color: '#000',
+                            },
+                            message: "<img alt='Please Wait...' src='images/loader.gif'/>"
+                        }
+                );
             }
             $(document).ready(function()
             {
@@ -71,7 +76,7 @@
                         $("#category-result").html(data);
                         $("#category-result").hide();
                         $("#category-result").fadeIn('slow');
-                        $.unblockUI();                        
+                        $.unblockUI();
                     },
                     error: function(jqXHR, textStatus, errorThrown)
                     {

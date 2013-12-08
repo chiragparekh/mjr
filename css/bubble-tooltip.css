@@ -1,8 +1,8 @@
 .bubble 
 {
     position: absolute;
-    width: 190px;
-    height: 140px;
+    width: 210px;
+    height: 150px;
     padding: 0px;
     background: #decefd;
     border: #674cad solid 3px;
@@ -16,7 +16,7 @@
     content: "";
     position: absolute;
     bottom: -15px;
-    left: 95px;
+    left: 87px;
     border-style: solid;
     border-width: 15px 15px 0;
     border-color: #decefd transparent;
@@ -29,8 +29,8 @@
 {
     content: "";
     position: absolute;
-    top: 143px;
-    left: 95px;
+    top: 153px;
+    left: 85px;
     border-style: solid;
     border-width: 17px 17px 0;
     border-color: #674cad transparent;

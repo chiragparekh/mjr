@@ -593,7 +593,7 @@ li:hover .sub-level .sub-level {
     background:url(../images/left-arrow.png) no-repeat;
     width:32px;
     height:25px;
-    margin:75px 10px 0 0;
+    margin:75px 4px 0 0;
 }
 .left-arrow:hover{
     float:left;

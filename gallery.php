@@ -128,67 +128,72 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 var qty = document.getElementById("txtQty").value;
                 var desc = document.getElementById("txtDesc").value;
                 if (qty.trim() == "") {
-                    alert("Provide quantity for product");
-                    document.getElementById("txtQty").focus();
-                } else if (desc.trim() == "") {
-                    alert("Provide description for product");
-                    document.getElementById("txtDesc").focus();
-                } else {
-                    //if all validation works perfectly
-                    block();
-                    var formData = {pro_id: pro_id, qty: qty, desc: desc};
-                    $.ajax({
-                        url: "ajax-add-to-cart.php",
-                        type: "POST",
-                        data: formData,
-                        success: function(data, textStatus, jqXHR)
-                        {
-                            if (data.trim() == "added") {
-                                alert("Item added to your order.")
-                            } else if (data.trim() == "already-added") {
-                                alert("Item already added to your order.")
-                            }
-                            changeAddToCartLink();
-                            //closeDetailForm();
-                            $(".bubble").fadeOut('slow');
-                            $.unblockUI();
-                        },
-                        error: function(jqXHR, textStatus, errorThrown)
-                        {
-                            $.unblockUI();
-                            $(".bubble").fadeOut('slow');
-                        }
-                    });
+                    qty = 0;
                 }
+                if (desc.trim() == "") {
+                    desc = "";
+                }
+                //if all validation works perfectly
+                block();
+                var formData = {pro_id: pro_id, qty: qty, desc: desc};
+                $.ajax({
+                    url: "ajax-add-to-cart.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        if (data.trim() == "added") {
+                            alert("Item added to your order.")
+                        } else if (data.trim() == "already-added") {
+                            alert("Item already added to your order.")
+                        }
+                        changeAddToCartLink();
+                        //closeDetailForm();
+                        $(".bubble").fadeOut('slow');
+                        $.unblockUI();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        $.unblockUI();
+                        $(".bubble").fadeOut('slow');
+                    }
+                });
+
                 return false;
             }
-            function changeAddToCartLink() {  
+            function changeAddToCartLink() {
                 var pro_id = $("#current-item").val();
-                $("#add-to-cart-link-"+pro_id).attr("href", "javascript:void(0)");
-                $("#add-to-cart-link-"+pro_id).attr("class", "");
-                $("#add-to-cart-link-"+pro_id).css({"background-color": "#E4D5FF", "border-radius": "5px", "color": "#322453", "width": "75px", "text-align": "center", "height": "14px", "padding": "5px", "text-decoration": "none", "margin-top": "5px", "-webkit-border-radius": "5px", "-moz-border-radius": "5px"});
-                $("#add-to-cart-link-"+pro_id).html("Item added");
+                $("#add-to-cart-link-" + pro_id).attr("href", "javascript:void(0)");
+                $("#add-to-cart-link-" + pro_id).attr("class", "");
+                /*
+                 $("#add-to-cart-link-" + pro_id).css({"background-color": "#E4D5FF", "border-radius": "5px", "color": "#322453", "width": "75px", "text-align": "center", "height": "14px", "padding": "5px", "text-decoration": "none", "margin-top": "5px", "-webkit-border-radius": "5px", "-moz-border-radius": "5px"});*/
+                $("#add-to-cart-link-" + pro_id).html("Item added");
             }
             function resetAddToCartLink() {
                 var pro_id = $("#current-item").val();
-                $("#add-to-cart-link-"+pro_id).attr("href", "javascript:openDetailForm()");
-                $("#add-to-cart-link-"+pro_id).attr("style", "");
-                $("#add-to-cart-link-"+pro_id).html("Add to Cart");
+                $("#add-to-cart-link-" + pro_id).attr("href", "javascript:openDetailForm()");
+                $("#add-to-cart-link-" + pro_id).attr("style", "");
+                $("#add-to-cart-link-" + pro_id).html("Add to Cart");
             }
         </script>
         <script type="text/javascript">
             function block()
             {
-                $.blockUI({css: {
-                        border: '4px solid gray',
-                        padding: '0px',
-                        backgroundColor: '#fff',
-                        '-webkit-border-radius': '5px',
-                        '-moz-border-radius': '5px',
-                        'border-radius': '5px',
-                        opacity: .8,
-                        color: '#000'
-                    }});
+                $.blockUI(
+                        {
+                            css: {
+                                border: '2px solid #654E9D',
+                                padding: '4px',
+                                backgroundColor: '#fff',
+                                '-webkit-border-radius': '5px',
+                                '-moz-border-radius': '5px',
+                                'border-radius': '5px',
+                                opacity: .8,
+                                color: '#000',
+                            },
+                            message: "<img alt='Please Wait...' src='images/loader.gif'/>"
+                        }
+                );
             }
             $(document).ready(function()
             {
@@ -251,12 +256,11 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 while ($r = mysql_fetch_array($result)) {
                     if ($r["sub_id"] == $sub_cat_id) {
                         ?>
-                        <span><a href="gallery.php?q=<?php echo $r["sub_id"]; ?>" style="color:#d8c6ff;font-weight:bold"><?php echo $r["sub_name"] ?></a></span>
+                        <span><a style="font-weight:bold;" href="gallery.php?q=<?php echo $r["sub_id"]; ?>"><?php echo $r["sub_name"] ?></a></span>
                         <?php
                     } else {
                         ?>
-
-                        <span><a href="gallery.php?q=<?php echo $r["sub_id"]; ?>"><?php echo $r["sub_name"] ?></a></span>
+                        <span><a href="gallery.php?q=<?php echo $r["sub_id"]; ?>" style="color:#d8c6ff;font-weight:bold"><?php echo $r["sub_name"] ?></a></span>
                         <?php
                     }
                 }
@@ -268,7 +272,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                 <table align="center" style="margin:10px">
                     <tr>                        
                         <td>
-                            <input type="text" name="txtQty" id="txtQty" placeholder="Enter quantity"/>
+                            <input type="text" name="txtQty" id="txtQty" placeholder="Enter quantity" style="width:100%"/>
                         </td>
                     </tr>            
                     <tr>                        
@@ -277,8 +281,9 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                         </td>
                     </tr>
                     <tr>
-                        <td align="center">
+                        <td >
                             <input onclick="addToCart()" type="button" id="btnAddToCart" value="Add to cart"/>
+                            <input onclick="javascript:$('.bubble').fadeOut('slow')" type="button" id="btnAddToCart" value="Close"/>
                             <br/>
                         </td>        
                     </tr>    
@@ -290,13 +295,16 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
         <?php include_once 'includes/footer.php'; ?>
         <script type="text/javascript">
             //code for the tooltip and add to cart
-            $("#gallery-result a.add-to-cart-link").live("click", function(event) {
-                $(".bubble").css({"top": event.pageY - 190 - 2, "left": event.pageX -321});
+            $("#gallery-result a.add-to-cart-link").live("click", function(event) {                                
+                var left = $(this).position().left;
+                var top = $(this).position().top;
+                //$(".bubble").css({"top": event.pageY - 190 - 2, "left": event.pageX - 321});
+                $(".bubble").css({'top': top-165, 'left': left-100});
                 $(".bubble").hide();
                 $(".bubble").fadeIn('slow');
                 $("#txtQty,#txtDesc").val("");
                 $("#txtQty").focus();
-                //set pro id in hidden variable
+                //set pro id in hidden variable                
                 var pro_id = $(this).attr('href').split('#')[1];
                 $("#current-item").val(pro_id);
             });
