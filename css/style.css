@@ -675,6 +675,7 @@ li:hover .sub-level .sub-level {
 {
     text-align: right;
     font-weight: bold;
+    color: #2C1564;
 }
 .valign-top
 {
@@ -689,6 +690,7 @@ li:hover .sub-level .sub-level {
 {
     font-weight: bold;
     font-size: large;
+    color: #2C1564;
 }
 button,input[type=button],input[type=submit],input[type=reset],.styled-button {
     -moz-box-shadow:inset 0px 1px 0px 0px #5e5e5e;
