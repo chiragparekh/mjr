@@ -663,8 +663,8 @@ li:hover .sub-level .sub-level {
 }
 
 #footer span{
-    float:right;
-    margin:13px 20px 0 0;
+    float:left;
+    margin:13px 13px;
     font-family:Arial, Helvetica, sans-serif;
     font-size:11px;
 }
@@ -725,6 +725,18 @@ input[type=text],input[type=password],textarea
     border-radius:4px;
     border:1px solid #999999;
     padding:2px;
+}
+.required
+{
+    color:red;
+    font-weight: bold;    
+    font-family:Verdana,Arial;
+}
+.success
+{
+    color:green;
+    font-weight: bold;    
+    font-family:Verdana,Arial;
 }
 /* /general */
 

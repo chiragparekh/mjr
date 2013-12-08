@@ -1,4 +1,5 @@
 <?php session_start(); ?>
+<?php if(isset($_SESSION['userid'])){header("location:index.php");} ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -45,9 +46,9 @@
                     // Specify the validation error messages
                     messages: {
                         txtLoginPassword: {
-                            required: "*"
+                            required: ""
                         },
-                        txtLoginEmail: {required:"*",email:"<br/>Invalid email"}
+                        txtLoginEmail: {required:"",email:"<br/>Invalid email"}
                     },
                     submitHandler: function(form) {
                         form.submit();
@@ -76,15 +77,15 @@
                     },
                     // Specify the validation error messages
                     messages: {
-                        txtCompName: "*",
-                        txtContPerson: "*",
-                        txtPassword: "*",
-                        txtEmail: {required: "*", email: "<br/>Invalid email"},
-                        txtRepeatPassword: {equalTo: "<br/>Passwords must be match.", required: "*"},
-                        txtContNumber: "*",
+                        txtCompName: "",
+                        txtContPerson: "",
+                        txtPassword: "",
+                        txtEmail: {required: "", email: "<br/>Invalid email"},
+                        txtRepeatPassword: {equalTo: "<br/>Passwords must be match.", required: ""},
+                        txtContNumber: "",
                         //txtAddr: "*",
                         //txtState: "*",
-                        txtCity: "*",
+                        txtCity: "",
                         //txtZipCode: "*"
                     },
                     submitHandler: function(form) {
@@ -130,11 +131,14 @@
                                     Login
                                 </caption>
                                 <tr>
+                                    <td colspan="2"><span class="required">*</span> - fields are required</td>
+                                </tr>
+                                <tr>
                                     <td class="pull-right valign-top">
                                         Email
                                     </td>
                                     <td>
-                                        <input type="text" name="txtLoginEmail" id="txtLoginEmail" />
+                                        <input type="text" name="txtLoginEmail" id="txtLoginEmail" /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -142,7 +146,7 @@
                                         Password
                                     </td>
                                     <td>
-                                        <input type="password" name="txtLoginPassword" id="txtLoginPassword" />
+                                        <input type="password" name="txtLoginPassword" id="txtLoginPassword" /><span class="required">*</span>
                                     </td>
                                 </tr>                        
                                 <tr>
@@ -150,6 +154,7 @@
                                         <input type="submit" name="btnLogin" value="Login" />
                                     </td>
                                 </tr>
+                                
                                 <tr>
                                     <td colspan="2" align="center">
                                         <div id="loginmsg">
@@ -162,9 +167,9 @@
                                                 $password = md5(mysql_real_escape_string(trim($_POST['txtLoginPassword'])));
 
                                                 if ($email == "" || $password == "") {
-                                                    echo "Please provide login email and password";
+                                                    echo "<span class=\"required\">Please provide login email and password</span>";
                                                 } else if (filter_var($email,FILTER_VALIDATE_EMAIL)==FALSE) {
-                                                    echo "Invalid email";
+                                                    echo "<span class=\"required\">Invalid email</span>";
                                                 } else {
                                                     $sel = "select id from tbl_user where email like '$email' and password like '$password' and type='user'";
                                                     $rs = mysql_query($sel);
@@ -180,19 +185,19 @@
                                                         $rs = mysql_query($sel);
                                                         $r = mysql_fetch_array($rs);
                                                         if (intval($r['is_approve']) == 1) {
-                                                            echo "Logged in successfully. Please wait...";
+                                                            echo "<span class=\"success\">Logged in successfully. Please wait...</span>";
                                                             $_SESSION['userid'] = $id;
                                                             $_SESSION['company'] = $r['company_name'];
                                                             echo '<script> window.location="index.php"; </script>';
                                                         } else {
-                                                            echo "Your approval is still pending.";
+                                                            echo "<span class=\"required\">Your approval is still pending.</span>";
                                                         }
                                                         //}
                                                         //else{
                                                         //    echo "Please confirm your account.";
                                                         //}
                                                     } else {
-                                                        echo "Invalid email or password. Please try again";
+                                                        echo "<span class=\"required\">Invalid email or password. Please try again</span>";
                                                     }
                                                 }
                                                 $con->CloseConnection();
@@ -201,6 +206,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                
                             </table>
                         </form>
                     </div>
@@ -210,6 +216,9 @@
                                 <caption class="tbl-caption">
                                     Register
                                 </caption>
+                                <tr>
+                                    <td colspan="2" align="left"><span class="required">*</span> - fields are required</td>
+                                </tr>
                                 <tr>
                                     <td colspan="2" align="center">
                                         <div id="regmsg">
@@ -230,15 +239,15 @@
                                                 $zipCode = mysql_real_escape_string(trim($_POST['txtZipCode']));
 
                                                 if ($compName == "" || $contPerson == "" || $email == "" || $password == "" || $repeatPassword == "" || $contNumber == "" || $city == "" ) {
-                                                    echo "Please fill required fields";
+                                                    echo "<span class=\"required\">Please fill required fields</span>";
                                                 } else if (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
-                                                    echo "Invalid email";
+                                                    echo "<span class=\"required\">Invalid email</span>";
                                                 } else if ($password != $repeatPassword) {
-                                                    echo "Passwords must be match";
+                                                    echo "<span class=\"required\">Passwords must be match</span>";
                                                 } else {
                                                     $rs = mysql_query("select id from tbl_user where email like '$email'");
                                                     if (mysql_num_rows($rs) > 0) {
-                                                        echo "This email is already registered.";
+                                                        echo "<span class=\"required\">This email is already registered.</span>";
                                                     } else {
                                                         $random = md5(rand());
                                                         $md5password = md5($password);
@@ -246,19 +255,18 @@
                                                                 . " values('$compName','$contPerson','$email','$md5password','$contNumber','$address','$city','$state','$zipCode','user','$random')";
                                                         if (mysql_query($ins)) {
                                                             $id = md5(mysql_insert_id());
-                                                            $subject = 'Manojkumar Jayntilal Ranpara Jewels - Confirmation link';
-                                                            $message = 'Click this link to confirm your account : ';
-                                                            //$message .= 'http://www.mjrjewels.com/confirm-account.php?auth='. $random.'&id='.$id;
-                                                            $message .= 'http://localhost/mjr/confirm-account.php?auth=' . $random . '&id=' . $id;
+                                                            //$subject = 'Manojkumar Jayntilal Ranpara Jewels - Confirmation link';
+                                                            //$message = 'Click this link to approve your account : ';                                                            
+                                                            $message = 'http://localhost/mjr/confirm-account.php?auth=' . $random . '&id=' . $id;
                                                             $headers = "From: admin@mjrjewels.com" . "\r\n";
-                                                            $message = stripslashes($message);
-                                                            mail($email, $subject, $message, $headers);
+                                                            //$message = stripslashes($message);
+                                                            //mail($email, $subject, $message, $headers);
                                                             $message.="&flg=manager";
                                                             $message = stripslashes($message);
                                                             mail("manojranpara@ymail.com", "New User Registration", "A new user has recently registered.(Company Name: $compName, Contact Person: $contPerson, Email: $email, Contact No.: $contNumber, Address: $address, City: $city, State: $state, Zip Code: $zipCode). Click this link to approve this account or approve from admin panel. " . $message, $headers);
-                                                            echo "You are registered.<br/>Your account is still in pending approval.";
+                                                            echo "<span class=\"success\">You are registered.<br/>Your account is still in pending approval.</span>";
                                                         } else {
-                                                            echo "Unable to register";
+                                                            echo "<span class=\"required\">Unable to register</span>";
                                                         }
                                                     }
                                                 }
@@ -273,7 +281,7 @@
                                         Company Name
                                     </td>
                                     <td>
-                                        <input type="text" name="txtCompName" id="txtCompName" />
+                                        <input type="text" name="txtCompName" id="txtCompName" /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -281,7 +289,7 @@
                                         Contact Person
                                     </td>
                                     <td>
-                                        <input type="text" name="txtContPerson" id="txtContPerson" />
+                                        <input type="text" name="txtContPerson" id="txtContPerson" /><span class="required">*</span>
                                     </td>
                                 </tr>                        
                                 <tr>
@@ -289,7 +297,7 @@
                                         Email
                                     </td>
                                     <td>
-                                        <input  type="text" name="txtEmail" id="txtEmail" />
+                                        <input  type="text" name="txtEmail" id="txtEmail" /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -297,7 +305,7 @@
                                         Password
                                     </td>
                                     <td>
-                                        <input  type="password" name="txtPassword" id="txtPassword" />
+                                        <input  type="password" name="txtPassword" id="txtPassword" /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -305,7 +313,7 @@
                                         Repeat Password
                                     </td>
                                     <td>
-                                        <input type="password" name="txtRepeatPassword" id="txtRepeatPassword" />
+                                        <input type="password" name="txtRepeatPassword" id="txtRepeatPassword" /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -313,7 +321,7 @@
                                         Contact Number
                                     </td>
                                     <td>
-                                        <input type="text" name="txtContNumber" id="txtContNumber" />
+                                        <input type="text" name="txtContNumber" id="txtContNumber" /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -337,7 +345,7 @@
                                         City
                                     </td>
                                     <td>
-                                        <input type="text" name="txtCity" id="txtCity" />
+                                        <input type="text" name="txtCity" id="txtCity" /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>

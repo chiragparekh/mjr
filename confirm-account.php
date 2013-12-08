@@ -1,5 +1,5 @@
 <?php
-if (!isset($_GET['id']) || !isset($_GET["auth"])) {
+if (!isset($_GET['id']) || !isset($_GET["auth"]) || !isset($_GET["flg"])) {
     header("location: login.php");
 }
 ?>
@@ -56,15 +56,14 @@ if (!isset($_GET['id']) || !isset($_GET["auth"])) {
                         if (mysql_query($query)) {
                             ?>
                             <h2>
-                                <?php echo (isset($_GET['flg']) && $_GET['flg']=="manager")?"User is approved successfully.":"Your account is confirmed successfully.<br/><a href=\"login.php\" style=\"font-size:18px\">Click here to login</a>"?><br />
-                                
+                                User is approved successfully.                                
                             </h2>
                             <?php
                         }
                     } else {
                         ?>
                         <h2>
-                            Unable to confirm your account.               
+                            Unable to approve user.               
                         </h2>
                         <?php
                     }
