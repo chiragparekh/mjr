@@ -5,7 +5,7 @@ if (isset($_POST["btnConfirm"])) {
     $con = new MySQL();
     $q = "select o.order_date as o_date,sc.name as sc_name,p.name as name,p.weight as weight,o.product_qty as qty,o.product_desc as descr from tbl_order o inner join tbl_product p on o.product_id=p.id inner join tbl_sub_category sc on p.sub_category_id=sc.id order by o.order_date desc";
     $date = date("d-m-Y");
-    $filename = $date;
+    $filename = "Order_Log_".$date;
     $result = mysql_query($q);
     $file_ending = "xls";
 //header info for browser
