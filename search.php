@@ -158,7 +158,7 @@
                     $con->CloseConnection();
                 }
                 ?>
-                <table style="color: #DBCBFF;margin-left:5px;margin-right:5px" cellpadding="8">
+                <table style="color: #DBCBFF;margin-left:5px;margin-right:5px" cellpadding="4">
                     <tr>
                         <td class="pull-right" style="color: #DBCBFF">Min. Weight</td>
                         <td>

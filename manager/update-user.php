@@ -9,7 +9,7 @@ if (!isset($_GET['q'])) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-        <title>User Detail</title>
+        <title>Update User</title>
 
         <?php include_once "includes/common-css-js.php"; ?>
 
@@ -32,7 +32,7 @@ if (!isset($_GET['q'])) {
             <div class="titleArea">
             <div class="wrapper">
                 <div class="pageTitle">
-                    <h5>User Detail</h5>
+                    <h5>Update User</h5>
                 </div>
                 <div class="clear"></div>
             </div>
@@ -49,65 +49,74 @@ if (!isset($_GET['q'])) {
             $r = mysql_fetch_array($rs);
             $con->CloseConnection();
             ?>
+            <form style="margin-top:20px;" action="update-user2.php" method="post" class="form" id="validate">
+                <input type="hidden" name="hidId" value="<?php echo $_GET['q']; ?>" />
                 <fieldset>
                     <div class="widget" style="margin-top: 20px;">
                         <div class="title">
                             <img class="titleIcon" alt="" src="images/icons/dark/view.png" />
-                            <h6>User Detail</h6>
+                            <h6>Update User</h6>
                         </div>
                         <div class="formRow">
-                            <label>Company Name</label>
+                            <label>Company Name&nbsp;<span class="req">*</span></label>
                             <div class="formRight">
-                                <?php echo $r['company_name']; ?>
+                                <input type="text" value="<?php echo $r['company_name']; ?>" id="txtCompName" name="txtCompName" class="validate[required]" />
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
-                            <label>Contact Person</label>
+                            <label>Contact Person&nbsp;<span class="req">*</span></label>
                             <div class="formRight">
-                                <?php echo $r['contact_person']; ?>
+                                <input type="text" value="<?php echo $r['contact_person']; ?>" id="txtContPerson" name="txtContPerson" class="validate[required]" />
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
-                            <label>Email</label>
+                            <label>Email&nbsp;<span class="req">*</span></label>
                             <div class="formRight">
-                                <?php echo $r['email']; ?>
+                                <input type="text" value="<?php echo $r['email']; ?>" id="txtEmail" name="txtEmail" class="validate[required]" />
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
-                            <label>Contact No.</label>
+                            <label>New Password</label>
                             <div class="formRight">
-                                <?php echo $r['contact_no']; ?>
+                                <input type="text" value="" id="txtNewPass" name="txtNewPass" />
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="formRow">
+                            <label>Contact No.&nbsp;<span class="req">*</span></label>
+                            <div class="formRight">
+                                <input type="text" value="<?php echo $r['contact_no']; ?>" id="txtContNo" name="txtContNo" class="validate[required]" />
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
                             <label>Address</label>
                             <div class="formRight">
-                                <?php echo $r['address']; ?>
+                                <textarea name="txtAddr" id="txtAddr"><?php echo $r['address']; ?></textarea>
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
-                            <label>City</label>
+                            <label>City&nbsp;<span class="req">*</span></label>
                             <div class="formRight">
-                                <?php echo $r['city']; ?>
+                                <input type="text" value="<?php echo $r['city']; ?>" id="txtCity" name="txtCity" class="validate[required]" />
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
                             <label>State</label>
                             <div class="formRight">
-                                <?php echo $r['state']; ?>
+                                <input type="text" value="<?php echo $r['state']; ?>" id="txtState" name="txtState"  />
                             </div>
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
                             <label>Zip Code</label>
                             <div class="formRight">
-                                <?php echo $r['zip_code']; ?>
+                                <input type="text" value="<?php echo $r['zip_code']; ?>" id="txtZipCode" name="txtZipCode"  />
                             </div>
                             <div class="clear"></div>
                         </div>
@@ -118,15 +127,13 @@ if (!isset($_GET['q'])) {
                             </div>
                             <div class="clear"></div>
                         </div>
-                        <div>
-                            <a href="all-user.php" title="" class="button blueB" style="margin: 5px;">
-                                <img src="images/icons/light/goBack.png" alt="" class="icon">
-                                    <span>Back</span>
-                            </a>
+                        <div class="formSubmit">
+                            <input type="submit" class="redB" name="btnSubmit" value="save" />
                         </div>
                         <div class="clear"></div>
                     </div>
                 </fieldset>
+            </form>
         </div>
 
         <?php include_once "includes/footer.php"; ?>   

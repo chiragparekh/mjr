@@ -109,7 +109,7 @@
                 border-radius: 4px;
                 -moz-border-radius: 4px;
                 -webkit-border-radius: 4px;
-                border: 1px solid transparent;
+                border: 1px solid transparent;                
                 float: right;
                 padding: 10px;
             }
@@ -127,7 +127,12 @@
                 <div class="clear"></div>
                 <div class="custom-message" style="font-weight: bold;color: red;background-color: white">You are required to either log in or sign up to see this content of site.</div>
                 <?php } ?>
+                <?php if (isset($_GET['manager']) && $_GET['manager'] == "1") { ?>
+                <div class="clear"></div>
+                <div class="custom-message" style="font-weight: bold;color: green;background-color: white">Fill user detail in Register form, click on Register button and then approve from admin panel.</div>
+                <?php } ?>
                 <div class="content" style="background-color: transparent;">
+                    
                     <div id="divLogin">
                         <form id="login-form" onsubmit="javascript:validateLoginForm()" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
                             <table cellpadding="5">
@@ -214,6 +219,7 @@
                             </table>
                         </form>
                     </div>
+                     
                     <div id="divRegister">
                         <form id="reg-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                             <table cellpadding="5">

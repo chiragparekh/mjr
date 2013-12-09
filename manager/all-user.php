@@ -310,7 +310,7 @@ $msg = new Message();
                                                 <a class="tipS" title="Detail" href="user-detail.php?q=<?php echo $r["id"]; ?>">
                                                     <img style="width: 10px;height: 10px" alt="" src="images/icons/color/grid.png" />
                                                 </a>
-                                                <a class="tipS" title="Edit" href="edit-user.php?q=<?php echo $r["id"]; ?>">
+                                                <a class="tipS" title="Update" href="update-user.php?q=<?php echo $r["id"]; ?>">
                                                     <img style="width: 10px;height: 10px" alt="" src="images/icons/edit.png" />
                                                 </a>
                                                 <a onclick="javascript: return confirm('Do you really want to delete this user?');" class="tipS" title="Delete" href="delete-user.php?q=<?php echo $r["id"]; ?>">
