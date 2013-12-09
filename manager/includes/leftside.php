@@ -56,7 +56,7 @@
             </a>
         </li>
         <li class="forms">
-            <a href="#" title="User Order Log">
+            <a href="order-log.php" title="User Order Log">
                 <span>Order Log</span>
             </a>
         </li>
