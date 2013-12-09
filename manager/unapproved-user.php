@@ -333,7 +333,7 @@ $msg = new Message();
 
                                             <td class="actBtns">
                                                 <a onclick="javascript:return confirm('Are you sure to approve?')" class="tipS" title="Approve" href="unapproved-user.php?q=<?php echo $r["id"]; ?>">
-                                                    <img alt="" src="images/icons/edit.png" />
+                                                    <img alt="" src="images/icons/color/tick.png" />
                                                 </a>
                                             </td>
 

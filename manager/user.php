@@ -336,7 +336,7 @@ $msg = new Message();
                                             </td>
                                             <td class="actBtns">
                                                 <a onclick="javascript:return confirm('Are you sure to unapprove?')" class="tipS" title="Unapprove" href="user.php?q=<?php echo $r["id"]; ?>">
-                                                    <img alt="" src="images/icons/edit.png" />
+                                                    <img alt="" src="images/icons/color/minus-circle.png" />
                                                 </a>
                                             </td>
                                         </tr>
