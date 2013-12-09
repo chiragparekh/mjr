@@ -14,7 +14,27 @@
         <style type="text/css">
             .lst
             {
+                border-radius: 2px;
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                border: 1px solid white;                
                 width: 100%;
+            }
+            .lst option
+            {
+                border-radius: 2px;
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                border: 1px solid gray;
+                margin:2px;
+            }
+            .weightDiv
+            {
+                border-radius: 2px;
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                border: 1px solid white;
+                background-color: white;color:black;padding: 4px;
             }
         </style>
 
@@ -162,7 +182,7 @@
                     <tr>
                         <td class="pull-right" style="color: #DBCBFF">Min. Weight</td>
                         <td>
-                            <div id="min-weight-val" style="background-color: white;color:black;padding: 4px"></div>
+                            <div id="min-weight-val" class="weightDiv"></div>
                         </td>
                     </tr>
 
@@ -202,7 +222,7 @@
                     <tr>
                         <td class="pull-right" style="color: #DBCBFF">Max. Weight</td>
                         <td>
-                            <div id="max-weight-val" style="background-color: white;color:black;padding: 4px"></div>
+                            <div id="max-weight-val" class="weightDiv"></div>
                         </td>
                     </tr>
                     <tr>
