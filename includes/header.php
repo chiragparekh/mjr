@@ -13,7 +13,7 @@
                         <a onmouseover="javascript:this.style.color='white'" onmouseout="javascript:this.style.color='#DBCBFF'" style="font-weight: bold;color: #DBCBFF;" href="logout.php">Logout</a>
                         <a title="View Order Cart" href="cart.php">                            
                             <div class="cart">                                
-                                <span style="color: white;margin-right: 5px;font-family: verdana;font-size: 12px;margin-top: 13px;">Selected Items (<?php echo (isset($_SESSION["cart"]))?count($_SESSION["cart"]):0 ?>)</span>
+                                <span style="color: white;font-family: verdana;font-size: 12px;margin-top: 13px;">&nbsp;&nbsp;Selected Items</span>
                                 <img src="images/cart.png" width="36" height="40" alt="" />
                             </div>
                         </a>

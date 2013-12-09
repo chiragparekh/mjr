@@ -107,14 +107,22 @@
             include_once './includes/connection.php';
             $con = new MySQL();
             $rs = mysql_query("select p.id as pid,p.name as name, p.image_path as image_path,p.weight as weight,p.description as description,sc.name as sub_cat_name from  tbl_sub_category sc inner join tbl_product p on p.sub_category_id=sc.id order by p.id desc limit 10");
-            while ($row = mysql_fetch_array($rs)) {
+            if (mysql_num_rows($rs) > 0) {
+                while ($row = mysql_fetch_array($rs)) {
+                    ?>
+                    <div class="product">
+                        <div class="pro-heading"><h1 class="center"><?php echo ucwords($row['name']); ?></h1></div>
+                        <div class="pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $row["sub_cat_name"]; ?>/<?php echo $row["image_path"]; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $row["sub_cat_name"]; ?>/<?php echo $row["image_path"]; ?>" width="180" height="160" alt="" /></a></div>
+                        <div class="pro-detail"><a href="product.php?q=<?php echo $row["pid"] ?>">View Detail</a><a href="product.php">Add to Cart</a></div>
+                    </div>
+                    <?php
+                }
+            }
+            else{
                 ?>
-                <div class="product">
-                    <div class="pro-heading"><h1 class="center"><?php echo ucwords($row['name']); ?></h1></div>
-                    <div class="pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $row["sub_cat_name"]; ?>/<?php echo $row["image_path"]; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $row["sub_cat_name"]; ?>/<?php echo $row["image_path"]; ?>" width="180" height="160" alt="" /></a></div>
-                    <div class="pro-detail"><a href="product.php?q=<?php echo $row["pid"] ?>">View Detail</a><a href="product.php">Add to Cart</a></div>
-                </div>
-                <?php
+            <div class="clear"></div>
+            <div class="custom-message">No Product Found</div>
+            <?php
             }
             $con->CloseConnection();
             ?>

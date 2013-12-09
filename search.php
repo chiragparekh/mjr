@@ -11,7 +11,12 @@
         </script>-->
         <script src="js/jquery.1.7.1.min.js"></script>
 
-
+        <style type="text/css">
+            .lst
+            {
+                width: 100%;
+            }
+        </style>
 
         <script type="text/javascript" src="./fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
@@ -19,6 +24,7 @@
         <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
 
         <script type="text/javascript" src="js/jquery.blockUI.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bubble-tooltip.css" media="screen"/>
 
         <script type="text/javascript">
             $(document).ready(function()
@@ -36,7 +42,56 @@
                     searchProduct(1);
                 });
                 //searchProduct(1);
+                $(".bubble").hide();
             });
+            function addToCart(pro_id) {
+                //logic of add to cart           
+                var pro_id = $("#current-item").val();
+                var qty = document.getElementById("txtQty").value;
+                var desc = document.getElementById("txtDesc").value;
+                if (qty.trim() == "") {
+                    qty = 0;
+                }
+                if (desc.trim() == "") {
+                    desc = "";
+                }
+                //if all validation works perfectly
+                block();
+                var formData = {pro_id: pro_id, qty: qty, desc: desc};
+                $.ajax({
+                    url: "ajax-add-to-cart.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        if (data.trim() == "added") {
+                            alert("Item added to your order.")
+                        } else if (data.trim() == "already-added") {
+                            alert("Item already added to your order.")
+                        }
+                        changeAddToCartLink();
+                        //closeDetailForm();
+                        $(".bubble").fadeOut('slow');
+                        $.unblockUI();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        $.unblockUI();
+                        $(".bubble").fadeOut('slow');
+                    }
+                });
+
+                return false;
+            }
+            function changeAddToCartLink() {
+                var pro_id = $("#current-item").val();
+                $("#add-to-cart-link-" + pro_id).attr("href", "javascript:void(0)");
+                $("#add-to-cart-link-" + pro_id).attr("class", "");
+
+                /*$("#add-to-cart-link-" + pro_id).css({"background-color": "#E4D5FF", "border-radius": "5px", "color": "#322453", "width": "75px", "text-align": "center", "height": "14px", "padding": "5px", "text-decoration": "none", "margin-top": "5px", "-webkit-border-radius": "5px", "-moz-border-radius": "5px"});*/
+                $("#add-to-cart-link-" + pro_id).css({"color": "#d8c6ff","font-weight":"bold"});
+                $("#add-to-cart-link-" + pro_id).html("Item added");
+            }
             function block()
             {
                 $.blockUI(
@@ -90,8 +145,7 @@
     </head>
     <body>
         <?php include_once 'includes/header.php'; ?>
-        <div class="category">
-            <br /> 
+        <div class="category">            
             <div style="color: #DBCBFF;font-weight: bold;text-align: center;font-size:18px;text-decoration: none;"> Search Product</div>		
             <div style="margin: 10px 10px;">
                 <?php
@@ -121,7 +175,6 @@
 
             // Wait until the document is ready.
             $(function() {
-
                 // Run noUiSlider
                 $('.noUiSlider').noUiSlider({
                     range: [1, <?php echo $maxweight; ?>],
@@ -163,7 +216,7 @@
                             Category
                         </td>
                         <td>
-                            <select name="lstCategory" id="lstCategory">
+                            <select class="lst" name="lstCategory" id="lstCategory">
                                 <option value="-1">- - Select - -</option>
                                 <?php
                                 include_once './includes/connection.php';
@@ -184,7 +237,7 @@
                             Sub Category
                         </td>
                         <td>
-                            <select onchange="searchProduct(1)" name="lstSubCategory" id="lstSubCategory">
+                            <select class="lst" onchange="searchProduct(1)" name="lstSubCategory" id="lstSubCategory">
                                 <option value="-1">- - Select - -</option>
                             </select>
                         </td>
@@ -207,9 +260,56 @@
 
             <div id="search-result">
             </div>
+            <div class="bubble">
+                <input type="hidden" id="current-item" value="-1"/>
+                <table align="center" style="margin:10px">
+                    <tr>                        
+                        <td>
+                            <input type="text" name="txtQty" id="txtQty" placeholder="Enter quantity" style="width:100%"/>
+                        </td>
+                    </tr>            
+                    <tr>                        
+                        <td>
+                            <textarea name="txtDesc" id="txtDesc" rows="3" style="width:100%;font-family:verdana;font-size: 12px" placeholder="Enter description"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            <input onclick="addToCart()" type="button" id="btnAddToCart" value="Add to cart"/>
+                            <input onclick="javascript:$('.bubble').fadeOut('slow')" type="button" id="btnAddToCart" value="Close"/>
+                            <br/>
+                        </td>        
+                    </tr>    
+                </table>
+            </div>
         </div>
         <!--right-content-->
         <!--endo-of-search-->
         <?php include_once 'includes/footer.php'; ?>
+        <script type="text/javascript">
+            //code for the tooltip and add to cart
+            $("#search-result a.add-to-cart-link").live("click", function(event) {
+                var left = $(this).position().left;
+                var top = $(this).position().top;
+                //$(".bubble").css({"top": event.pageY - 190 - 2, "left": event.pageX - 321});
+                $(".bubble").css({'top': top - 165, 'left': left - 100});
+                $(".bubble").hide();
+                $(".bubble").fadeIn('slow');
+                $("#txtQty,#txtDesc").val("");
+                $("#txtQty").focus();
+                //set pro id in hidden variable                
+                var pro_id = $(this).attr('href').split('#')[1];
+                $("#current-item").val(pro_id);
+            });
+            $(document).click(function(e) {
+                if (!$(e.target).is('#search-result .add-to-cart-link')) {
+                    $(".bubble").fadeOut('slow');
+                }
+            });
+            $(".bubble").click(function(e) {
+                e.stopPropagation();
+                return false;
+            });
+        </script>
     </body>
 </html>

@@ -73,11 +73,11 @@ session_start();
                     },
                     // Specify the validation error messages
                     messages: {
-                        name: "*",
-                        email: {required: "*", email: "<br/>Invalid email"},
-                        mobile: "*",
-                        description: "*",
-                        captcha: "*"
+                        name: "",
+                        email: {required: "", email: "<br/>Invalid email"},
+                        mobile: "",
+                        description: "",
+                        captcha: ""
                     },
                     submitHandler: function(form) {
                         form.submit();
@@ -117,11 +117,14 @@ session_start();
                             <table cellpadding="5">
                                 <caption class="tbl-caption"><u>Feedback</u></caption>
                                 <tr>
+                                    <td colspan="2" align="right" ><span class="required">*</span> - fields are required</td>
+                                </tr>
+                                <tr>
                                     <td class="pull-right valign-top">
                                         Name 
                                     </td>
                                     <td>
-                                        <input type="text" name="name"  />
+                                        <input type="text" name="name"  /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -129,7 +132,7 @@ session_start();
                                         Email 
                                     </td>
                                     <td>
-                                        <input type="text" name="email" />
+                                        <input type="text" name="email" /><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -137,7 +140,7 @@ session_start();
                                         Mobile
                                     </td>
                                     <td>
-                                        <input type="text" name="mobile" />
+                                        <input type="text" name="mobile" /><span class="required">*</span>
                                     </td>
                                 </tr>   
                                 <tr>
@@ -145,7 +148,7 @@ session_start();
                                         Description 
                                     </td>
                                     <td>
-                                        <textarea name="description" ></textarea>
+                                        <textarea name="description" ></textarea><span class="required">*</span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -153,7 +156,7 @@ session_start();
                                         <span >Enter Image Text</span>
                                     </td>
                                     <td>
-                                        <input name="captcha" type="text" style="margin-bottom:  5px;" /><br />
+                                        <input name="captcha" type="text" style="margin-bottom:  5px;" /><span class="required">*</span><br />
                                         <img src="captcha.php" />
                                     </td>      
                                 </tr>
@@ -170,17 +173,17 @@ session_start();
                                             $code = mysql_real_escape_string(trim($_POST['captcha']));
 
                                             if ($name == "") {
-                                                echo "Name required";
+                                                echo "<span class=\"required\">Name required</span>";
                                             } else if ($email == "") {
-                                                echo "Email required";
+                                                echo "<span class=\"required\">Email required</span>";
                                             } else if (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
-                                                echo "Invalid email";
+                                                echo "<span class=\"required\">Invalid email</span>";
                                             } else if ($description == "") {
-                                                echo "Description required";
+                                                echo "<span class=\"required\">Description required</span>";
                                             } else if ($code == "") {
-                                                echo "Image Text required";
+                                                echo "<span class=\"required\">Image Text required</span>";
                                             } else if ($_SESSION["code"] != $code) {
-                                                echo "Incorrect Image Text";
+                                                echo "<span class=\"required\">Incorrect Image Text</span>";
                                             } else {
                                                 $q = "insert into tbl_feedback(name,email,mobile,content) values('$name','$email','$mobile','$description')";
                                                 if (mysql_query($q) > 0) {

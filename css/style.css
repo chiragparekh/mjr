@@ -289,6 +289,7 @@ li:hover .sub-level .sub-level {
 .category{
     float:left;
     width:250px;
+    margin-top: 30px;
 }
 .category img{
     float:left;
@@ -393,7 +394,7 @@ li:hover .sub-level .sub-level {
     background:url(../images/heading-pointer.png) no-repeat;
     font-family:Arial, Helvetica, sans-serif;
     font-size:18px;
-    color:#fff;
+    color:#DBCBFF;
     margin:30px 0 0 15px;
     padding: 0 0 5px 30px;
     width:655px;

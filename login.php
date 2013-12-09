@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php if(isset($_SESSION['userid'])){header("location:index.php");} ?>
+<?php //if(isset($_SESSION['userid'])){header("location:index.php");}  ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -48,7 +48,7 @@
                         txtLoginPassword: {
                             required: ""
                         },
-                        txtLoginEmail: {required:"",email:"<br/>Invalid email"}
+                        txtLoginEmail: {required: "", email: "<br/>Invalid email"}
                     },
                     submitHandler: function(form) {
                         form.submit();
@@ -123,6 +123,10 @@
         <div class="right-content">
             <div class="pro-name">
                 <h1>Login / Register</h1>
+                <?php if (isset($_GET['auth']) && $_GET['auth'] == "false") { ?>
+                <div class="clear"></div>
+                <div class="custom-message" style="font-weight: bold;color: red;background-color: white">You are required to either log in or sign up to see this content of site.</div>
+                <?php } ?>
                 <div class="content" style="background-color: transparent;">
                     <div id="divLogin">
                         <form id="login-form" onsubmit="javascript:validateLoginForm()" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
@@ -154,7 +158,7 @@
                                         <input type="submit" name="btnLogin" value="Login" />
                                     </td>
                                 </tr>
-                                
+
                                 <tr>
                                     <td colspan="2" align="center">
                                         <div id="loginmsg">
@@ -168,7 +172,7 @@
 
                                                 if ($email == "" || $password == "") {
                                                     echo "<span class=\"required\">Please provide login email and password</span>";
-                                                } else if (filter_var($email,FILTER_VALIDATE_EMAIL)==FALSE) {
+                                                } else if (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
                                                     echo "<span class=\"required\">Invalid email</span>";
                                                 } else {
                                                     $sel = "select id from tbl_user where email like '$email' and password like '$password' and type='user'";
@@ -206,7 +210,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                
+
                             </table>
                         </form>
                     </div>
@@ -238,7 +242,7 @@
                                                 $state = mysql_real_escape_string(trim($_POST['txtState']));
                                                 $zipCode = mysql_real_escape_string(trim($_POST['txtZipCode']));
 
-                                                if ($compName == "" || $contPerson == "" || $email == "" || $password == "" || $repeatPassword == "" || $contNumber == "" || $city == "" ) {
+                                                if ($compName == "" || $contPerson == "" || $email == "" || $password == "" || $repeatPassword == "" || $contNumber == "" || $city == "") {
                                                     echo "<span class=\"required\">Please fill required fields</span>";
                                                 } else if (filter_var($email, FILTER_VALIDATE_EMAIL) == FALSE) {
                                                     echo "<span class=\"required\">Invalid email</span>";
@@ -271,7 +275,7 @@
                                                     }
                                                 }
                                                 $con->CloseConnection();
-                                            }                                            
+                                            }
                                             ?>
                                         </div>
                                     </td>

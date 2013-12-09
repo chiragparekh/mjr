@@ -1,5 +1,17 @@
 <?php
+
 include_once './includes/connection.php';
+session_start();
+
+function in_array_r($needle, $haystack, $strict = false) {
+    foreach ($haystack as $item) {
+        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
+            return true;
+        }
+    }
+    return false;
+}
+
 $con = new MySQL();
 $minWeight = $_POST["minweight"];
 $maxWeight = $_POST["maxweight"];
@@ -116,8 +128,26 @@ if ($records > 0) {
         <div class="product">
             <div class="pro-heading"><h1 class="center"><?php echo ucwords($row['name']); ?></h1></div>
             <div class="pro-img"><a rel="example_group" href="manager/uploads/original/<?php echo $row["sub_cat_name"]; ?>/<?php echo $row["image_path"]; ?>" title=""><img src="manager/uploads/thumbs/<?php echo $row["sub_cat_name"]; ?>/<?php echo $row["image_path"]; ?>" width="180" height="160" alt="" /></a></div>
-            <div class="pro-detail"><a href="product.php?q=<?php echo $row["pid"] ?>">View Detail</a>
-                <a href="product.php?q=<?php echo $row["pid"] ?>">Add to Cart</a></div>
+            <div class="pro-detail">
+                <a href="product.php?q=<?php echo $row["pid"] ?>">View Detail</a>
+                <?php
+                if (!isset($_SESSION['cart'])) {
+                    ?>
+                    <a class="add-to-cart-link" id="add-to-cart-link-<?php echo $row["pid"] ?>" href="#<?php echo $row["pid"] ?>">Add to Cart</a>
+                    <?php
+                } else {
+                    if (!in_array_r($row['pid'], $_SESSION['cart'])) {
+                        ?>
+                        <a class="add-to-cart-link" id="add-to-cart-link-<?php echo $row["pid"] ?>" href="#<?php echo $row["pid"] ?>">Add to Cart</a>
+                        <?php
+                    } else {
+                        ?>
+                        <a id="add-to-cart-link-<?php echo $row["pid"] ?>" href="javascript:void(0)" style="color:#d8c6ff;font-weight:bold">Item added</a>
+                        <?php
+                    }
+                }
+                ?>            
+            </div>
         </div>
         <?php
     }
