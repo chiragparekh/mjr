@@ -4,7 +4,7 @@
     <ul id="menu" class="nav">
         <li class="dash"><a id="home" href="home.php" title="Dashboard"><span>Dashboard</span></a></li>
         <li class="forms">
-            <a id="photogal" href="#" title="Product">
+            <a id="photogal" href="#" title="Category">
                 <span>Category</span><strong>2</strong>
             </a>
             <ul class="sub">
@@ -13,7 +13,7 @@
             </ul>
         </li>
         <li class="forms">
-            <a id="photogal" href="#" title="Product">
+            <a id="photogal" href="#" title="Sub Category">
                 <span>Sub Category</span><strong>2</strong>
             </a>
             <ul class="sub">

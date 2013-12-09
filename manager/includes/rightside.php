@@ -67,17 +67,17 @@
                     </ul>
                 </li>
                 <li class="forms">
-                    <a href="feedback.php" title="Feedback">
+                    <a href="feedback.php" title="">
                         <span>Feedback</span>
                     </a>
                 </li>
                 <li class="forms">
-                    <a href="#" title="Send Mail to all user">
+                    <a href="#" title="">
                         <span>Send Mail to all User</span>
                     </a>
                 </li>
                 <li class="forms">
-                    <a href="#" title="User Order Log">
+                    <a href="#" title="">
                         <span>Order Log</span>
                     </a>
                 </li>
@@ -85,3 +85,4 @@
         </div>
         <div class="cLine"></div>
     </div>
+    
