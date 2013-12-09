@@ -307,7 +307,7 @@ $msg = new Message();
                                             </td>
                                             <td class="actBtns">                                                
                                                 <a class="tipS" title="View order detail" href="order-log-detail.php?q=<?php echo $r["id"]; ?>">
-                                                    <img style="width: 10px;height: 10px" alt="" src="images/icons/edit.png" />
+                                                    <img style="width: 10px;height: 10px" alt="" src="images/icons/color/grid.png" />
                                                 </a>                                                
                                             </td>
                                         </tr>

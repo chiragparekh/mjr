@@ -77,7 +77,7 @@
                     </a>
                 </li>
                 <li class="forms">
-                    <a href="#" title="">
+                    <a href="order-log.php" title="">
                         <span>Order Log</span>
                     </a>
                 </li>
