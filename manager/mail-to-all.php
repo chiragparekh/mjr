@@ -37,12 +37,7 @@
         <div class="line"></div>
 
         <!-- Main content wrapper -->
-        <div class="wrapper">
-            <br />
-            <a style="margin: 5px;" class="button blueB" title="" href="main-category.php">
-                <img class="icon" alt="" src="images/icons/light/view.png" />
-                <span>View</span>
-            </a>
+        <div class="wrapper">                       
             <?php
             include_once "includes/connection.php";
             $con = new MySQL();
@@ -55,12 +50,18 @@
                 $useremails = substr($useremails, 0, strlen($useremails) - 1);
                 $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
                         'Reply-To: info@mjrjewels.com' . "\r\n" .
-                        'X-Mailer: PHP/' . phpversion();                                
+                        'X-Mailer: PHP/' . phpversion();
                 $message = trim($_POST['txtDesc']);
                 if (!mail($useremails, "Notification from MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
                     ?>
                     <div class="nNote nFailure hideit">
                         <p><strong>FAILURE: </strong>Oops sorry. We are unable to send notification mail to users.</p>
+                    </div>
+                    <?php
+                } else {
+                    ?>
+                    <div class="nNote nSuccess hideit">
+                        <p><strong>SUCCESS: </strong>Mail sent successfully.</p>
                     </div>
                     <?php
                 }
@@ -83,7 +84,7 @@
                             </div><div class="clear"></div>
                         </div>
                         <div class="formSubmit">
-                            <input type="submit" class="redB" name="btnSubmit" value="save" />
+                            <input type="submit" class="redB" name="btnSubmit" value="send" />
                         </div>
                         <div class="clear"></div>
                     </div>
