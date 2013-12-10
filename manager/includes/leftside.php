@@ -51,7 +51,7 @@
             </a>
         </li>
         <li class="forms">
-            <a href="#" title="Send Mail to all user">
+            <a href="mail-to-all.php" title="Send Mail to all user">
                 <span>Send Mail to all User</span>
             </a>
         </li>
