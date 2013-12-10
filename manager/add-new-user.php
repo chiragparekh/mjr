@@ -46,7 +46,7 @@
             if (isset($_POST['btnSubmit'])) {
                 include_once "includes/connection.php";
                 $con = new MySQL();
-                if (trim($_POST['txtCompName']) != "" && trim($_POST['txtContPerson']) != "" && trim($_POST['txtEmail']) != "" && trim($_POST['txtContNo']) != "" && trim($_POST['txtCity']) != "") {
+                if (trim($_POST['txtCompName']) != "" && trim($_POST['txtContPerson']) != "" && trim($_POST['txtEmail']) != "" && trim($_POST['txtNewPass']) != "" && trim($_POST['txtContNo']) != "" && trim($_POST['txtCity']) != "") {
                     $email = trim($_POST['txtEmail']);
                     $cnm = $_POST['txtCompName'];
                     $cper = $_POST['txtContPerson'];
@@ -112,9 +112,9 @@
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
-                            <label>Password</label>
+                            <label>Password&nbsp;<span class="req">*</span></label>
                             <div class="formRight">
-                                <input type="password" value="" id="txtNewPass" name="txtNewPass" />
+                                <input type="password" value="" id="txtNewPass" name="txtNewPass" class="validate[required]" />
                             </div>
                             <div class="clear"></div>
                         </div>
