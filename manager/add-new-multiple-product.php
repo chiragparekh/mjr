@@ -111,7 +111,7 @@
 
 
                     if ($img_type == "image/gif" or $img_type == "image/bmp" or $img_type == "image/jpeg" or $img_type == "image/png") {
-                        if ($cat != "-1" && $subCat != "-1" && trim($desc) != "" && $img_name != "") { //&& trim($weight)!=""
+                        if ($cat != "-1" && $subCat != "-1" && $img_name != "") { //&& trim($weight)!=""
                             if (mysql_query("insert into tbl_product(sub_category_id,name,weight,description,image_path) values($subCat,'" . ucwords($prodName) . "',$weight,'$desc','" . $prod_img_path . $ext . "')")) {
                                 move_uploaded_file($img_tmp_name, "uploads/original/" . $cr[0] . "/" . $prod_img_path . $ext);
                                 $image = new SimpleImage();
@@ -254,9 +254,9 @@
                             <div class="clear"></div>
                         </div>
                         <div class="formRow">
-                            <label>Description:&nbsp;<span class="req">*</span></label>
+                            <label>Description:</label>
                             <div class="formRight">
-                                <textarea name="txtDesc" id="txtDesc" class="validate[required]" ></textarea>
+                                <textarea name="txtDesc" id="txtDesc" ></textarea>
                                 <span style="color: red;">This will be common description for all products</span>
                             </div><div class="clear"></div>
                         </div>
