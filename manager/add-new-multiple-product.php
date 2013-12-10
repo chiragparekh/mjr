@@ -48,12 +48,11 @@
             $con = new MySQL();
             if (isset($_POST['btnSubmit'])) {
                 $pcount = count($_FILES['fileImage']['name']);
+                $proflg = array();
 
                 for ($i = 0; $i < $pcount; $i++) {
-
                     $cat = $_POST['lstCategory'];
                     $subCat = $_POST['lstSubCategory'];
-
 
                     $sel = "SHOW TABLE STATUS LIKE 'tbl_product'";
                     $crs = mysql_query($sel);
@@ -124,12 +123,15 @@
                                 $image->load($p);
                                 $image->resize(150, 150);
                                 $image->save("uploads/thumbs/" . $cr[0] . "/" . $prod_img_path . $ext);
+
+                                $proflg[$i] = "1";
                                 ?>
                                 <div class="nNote nSuccess hideit">
                                     <p><strong>SUCCESS: </strong>New product saved successfully. :<?php echo $img_name ?></p>
                                 </div>
                                 <?php
                             } else {
+                                $proflg[$i] = "0";
                                 ?>
                                 <div class="nNote nFailure hideit">
                                     <p><strong>FAILURE: </strong>Oops sorry. We are unable to save product. Please try again. :<?php echo $img_name ?></p>
@@ -137,6 +139,7 @@
                                 <?php
                             }
                         } else {
+                            $proflg[$i] = "0";
                             ?>
                             <div class="nNote nWarning hideit">
                                 <p><strong>WARNING: </strong>Please provide all of the fields. :<?php echo $img_name ?></p>
@@ -144,9 +147,38 @@
                             <?php
                         }
                     } else {
+                        $proflg[$i] = "0";
                         ?>
                         <div class="nNote nWarning hideit">
                             <p><strong>WARNING: </strong>Please select valid image. :<?php echo $img_name ?></p>
+                        </div>
+                        <?php
+                    }
+                }
+                $flgcnt = 0;
+                for ($i = 0; $i < $pcount; $i++) {
+                    if ($proflg[$i] == 1)
+                        $flgcnt++;
+                }
+                if ($flgcnt > 0) {
+                    $useremailrs = mysql_query("select email from tbl_user where type like 'user'");
+                    $useremails = "";
+                    while ($row = mysql_fetch_array($useremailrs)) {
+                        $useremails.=$row['email'] . ",";
+                    }
+                    $useremails = substr($useremails, 0, strlen($useremails) - 1);
+                    $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
+                            'Reply-To: info@mjrjewels.com' . "\r\n" .
+                            'X-Mailer: PHP/' . phpversion();
+                    if ($flgcnt == 1) {
+                        $message = "New product is recently added in " . $cr['name'] . " sub category. Click this link to see this product <a href=\"http://www.mjrjewels.com/gallery.php?q=" . $subCat . "\">http://www.mjrjewels.com/gallery.php?q=" . $subCat . "</a>";
+                    } else {
+                        $message = "New products are recently added in " . $cr['name'] . " sub category. Click this link to see this product <a href=\"http://www.mjrjewels.com/gallery.php?q=" . $subCat . "\">http://www.mjrjewels.com/gallery.php?q=" . $subCat . "</a>";
+                    }                    
+                    if (!mail($useremails, "Notification about new product arrival in MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
+                        ?>
+                        <div class="nNote nFailure hideit">
+                            <p><strong>FAILURE: </strong>Oops sorry. We are unable to send notification mail to users.</p>
                         </div>
                         <?php
                     }

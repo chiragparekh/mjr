@@ -128,7 +128,25 @@
                         $image->load($p);
                         $image->resize(150, 150);
                         $image->save("uploads/thumbs/" . $cr[0] . "/" . $prod_img_path . $ext);
-                        ?>
+
+                        $useremailrs = mysql_query("select email from tbl_user where type like 'user'");
+                        $useremails = "";
+                        while ($row = mysql_fetch_array($useremailrs)) {
+                            $useremails.=$row['email'] . ",";
+                        }
+                        $useremails = substr($useremails, 0, strlen($useremails) - 1);
+                        $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
+                                'Reply-To: info@mjrjewels.com' . "\r\n" .
+                                'X-Mailer: PHP/' . phpversion();
+                        $message = "A new product is recently added in " . $cr['name'] . " sub category. Click this link to see this product <a href=\"http://www.mjrjewels.com/gallery.php?q=" . $subCat . "\">http://www.mjrjewels.com/gallery.php?q=" . $subCat . "</a>";
+                        if (!mail($useremails, "Notification about new product arrival in MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
+                            ?>
+                            <div class="nNote nFailure hideit">
+                                <p><strong>FAILURE: </strong>Oops sorry. We are unable to send notification mail to users.</p>
+                            </div>
+                            <?php
+                        }
+                        ?>            
                         <div class="nNote nSuccess hideit">
                             <p><strong>SUCCESS: </strong>New product saved successfully.</p>
                         </div>
