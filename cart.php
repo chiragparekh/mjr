@@ -144,14 +144,15 @@
                                     $useremails.=$row['email'] . ",";
                                 }
                                 $useremails = substr($useremails, 0, strlen($useremails) - 1);
-                                $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
-                                        'Reply-To: info@mjrjewels.com' . "\r\n" .
-                                        'X-Mailer: PHP/' . phpversion();
+                                $header = 'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
+                                        'BCC: '.$useremails. "\r\n" .
+                                        'Reply-To: manojranpara@ymail.com' . "\r\n" .
+                                        'X-Mailer: PHP/' . phpversion()."\r\n";
                                 $header .= "MIME-Version: 1.0" . "\r\n";
                                 $header .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
 
                                 $message = trim($_POST['txtDesc']);
-                                if (!mail($useremails, "Notification about Order Confirmation from MJR Jewels website (www.mjrjewels.com)", $mail_string, $header)) {
+                                if (!mail(null, "Notification about Order Confirmation from MJR Jewels website (www.mjrjewels.com)", $mail_string, $header)) {
                                     //failure
                                     $message = "Problem during your order confirmation.";
                                 } else {

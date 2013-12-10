@@ -49,10 +49,11 @@
                 }
                 $useremails = substr($useremails, 0, strlen($useremails) - 1);
                 $header = 'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
-                        'Reply-To: info@mjrjewels.com' . "\r\n" .
-                        'X-Mailer: PHP/' . phpversion();
+                        'BCC: '.$useremails. "\r\n" .
+                        'Reply-To: manojranpara@ymail.com' . "\r\n" .
+                        'X-Mailer: PHP/' . phpversion()."\r\n";
                 $message = trim($_POST['txtDesc']);
-                if (!mail($useremails, "Notification from MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
+                if (!mail(null, "Notification from MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
                     ?>
                     <div class="nNote nFailure hideit">
                         <p><strong>FAILURE: </strong>Oops sorry. We are unable to send notification mail to users.</p>
