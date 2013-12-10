@@ -1,9 +1,55 @@
+<?php include_once "includes/checksession.php"; ?>
+<?php
+if (isset($_POST["btnExcel"])) {
+    include_once './includes/connection.php';
+    $con = new MySQL();
+    $user_id=$_POST['user_id'];
+    $q = "select o.order_date as o_date,sc.name as sc_name,p.name as name,p.weight as weight,o.product_qty as qty,o.product_desc as descr from tbl_order o inner join tbl_product p on o.product_id=p.id inner join tbl_sub_category sc on p.sub_category_id=sc.id where o.user_id=" . $user_id . " order by o.order_date desc";
+    $date = date("d-m-Y");
+    $filename = "Order_Log_" . $date;
+    $result = mysql_query($q);
+    $file_ending = "xls";
+//header info for browser
+    header("Content-Type: application/xls");
+    header("Content-Disposition: attachment; filename=$filename.xls");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+    /*     * *****Start of Formatting for Excel****** */
+//define separator (defines columns in excel & tabs in word)
+    $sep = "\t"; //tabbed character
+//start of printing column names as names of MySQL fields
+    /* for ($i = 0; $i < mysql_num_fields($result); $i++) {
+      echo mysql_field_name($result, $i) . "\t";
+      } */
+    echo "Order Date\tSub Category Name\tProduct Name\tWeight\tQuantity\tDescription";
+    print("\n");
+    print("\n");
+//end of printing column names  
+//start while loop to get data
+    while ($row = mysql_fetch_row($result)) {
+        $schema_insert = "";
+        for ($j = 0; $j < mysql_num_fields($result); $j++) {
+            if (!isset($row[$j]))
+                $schema_insert .= "NULL" . $sep;
+            elseif ($row[$j] != "")
+                $schema_insert .= "$row[$j]" . $sep;
+            else
+                $schema_insert .= "" . $sep;
+        }
+        $schema_insert = str_replace($sep . "$", "", $schema_insert);
+        $schema_insert = preg_replace("/\r\n|\n\r|\n|\r/", " ", $schema_insert);
+        $schema_insert .= "\t";
+        print(trim($schema_insert));
+        print "\n";
+    }
+    return;
+}
+?>
 <?php
 if (!isset($_GET['q']) || $_GET['q'] == "") {
     header("location:order-log.php");
 }
 ?>
-<?php include_once "includes/checksession.php"; ?>
 <?php
 include_once "includes/message.php";
 $msg = new Message();
@@ -88,6 +134,7 @@ $msg = new Message();
                 <div class="widget" style="margin-top:20px;">
                     <div class="title"><h6>User Order Detail</h6></div>
                     <form  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                        <input type="hidden" name="user_id" value="<?php echo $_GET['q'] ?>"/>
                         <table width="100%" cellspacing="0" cellpadding="0" id="checkAll" class="sTable withCheck mTable">
                             <thead>
                                 <tr>                                    
@@ -101,11 +148,12 @@ $msg = new Message();
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <td colspan="8">
+                                    <td colspan="6" align="left">
                                         <div style="float: left;" class="formSubmit">
                                             <a style="margin-left: 10px;" class="button blueB" title="" href="javascript:history.back(-1)">                                                
                                                 <span>Back</span>
-                                            </a>                                            
+                                            </a> 
+                                            <input style="width: auto" type="submit" name="btnExcel" class="button blueB" value="Export to Excel"/>                                                                                                                                            
                                         </div>                                        
                                     </td>
                                 </tr>
@@ -239,7 +287,7 @@ $msg = new Message();
                                             <td>
                                                 <a rel="lightbox" title="" href="uploads/original/<?php echo $r["sc_name"] . "/" . $r["path"]; ?>">
                                                     <img style="height: 60px;width: 60px;border:2px solid #cecece" alt="" src="uploads/thumbs/<?php echo $r["sc_name"] . "/" . $r["path"]; ?>" />
-                                                </a>
+                                                </a>                                                                                          
                                             </td>
 
                                         </tr>
