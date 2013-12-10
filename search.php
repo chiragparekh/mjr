@@ -166,7 +166,8 @@
     <body>
         <?php include_once 'includes/header.php'; ?>
         <div class="category">            
-            <div style="color: #DBCBFF;font-weight: bold;text-align: center;font-size:18px;text-decoration: none;"> Search Product</div>		
+            <img src="images/search.png" width="187" height="40" alt="" />
+            <div class="clear"></div>
             <div style="margin: 10px 10px;">
                 <?php
                 include_once './includes/connection.php';

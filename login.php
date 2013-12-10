@@ -125,7 +125,7 @@
                 <h1>Login / Register</h1>
                 <?php if (isset($_GET['auth']) && $_GET['auth'] == "false") { ?>
                 <div class="clear"></div>
-                <div class="custom-message" style="font-weight: bold;color: red;background-color: white">You are required to either log in or register to see this content of website.</div>
+                <div class="custom-message" style="font-weight: bold;color: red;background-color: white;margin-right: 50px">You are required to either log in or register to see this content of website.</div>
                 <?php } ?>
                 <?php if (isset($_GET['manager']) && $_GET['manager'] == "1") { ?>
                 <div class="clear"></div>
