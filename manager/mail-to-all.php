@@ -37,33 +37,36 @@
         <div class="line"></div>
 
         <!-- Main content wrapper -->
-        <div class="wrapper">            
+        <div class="wrapper">                       
             <?php
+            include_once "includes/connection.php";
+            $con = new MySQL();
             if (isset($_POST['btnSubmit'])) {
-                if (trim($_POST['txtDesc']) != "") {
-                    include_once "includes/connection.php";
-                    $con = new MySQL();
-                    $useremailrs = mysql_query("select email from tbl_user where type like 'user'");
-                    $useremails = "";
-                    while ($row = mysql_fetch_array($useremailrs)) {
-                        $useremails.=$row['email'] . ",";
-                    }
-                    $useremails = substr($useremails, 0, strlen($useremails) - 1);
-                    $header = 'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
-                            'BCC: '.$useremails. "\r\n" .
-                            'Reply-To: manojranpara@ymail.com' . "\r\n" .
-                            'X-Mailer: PHP/' . phpversion();
-                    $message = trim($_POST['txtDesc']);
-                    if (!mail(null, "Notification from MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
-                        ?>
-                        <div class="nNote nFailure hideit">
-                            <p><strong>FAILURE: </strong>Oops sorry. We are unable to send notification mail to users.</p>
-                        </div>
-                        <?php
-                    }
-                    $con->CloseConnection();
+                $useremailrs = mysql_query("select email from tbl_user where type like 'user'");
+                $useremails = "";
+                while ($row = mysql_fetch_array($useremailrs)) {
+                    $useremails.=$row['email'] . ",";
+                }
+                $useremails = substr($useremails, 0, strlen($useremails) - 1);
+                $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
+                        'Reply-To: info@mjrjewels.com' . "\r\n" .
+                        'X-Mailer: PHP/' . phpversion();
+                $message = trim($_POST['txtDesc']);
+                if (!mail($useremails, "Notification from MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
+                    ?>
+                    <div class="nNote nFailure hideit">
+                        <p><strong>FAILURE: </strong>Oops sorry. We are unable to send notification mail to users.</p>
+                    </div>
+                    <?php
+                } else {
+                    ?>
+                    <div class="nNote nSuccess hideit">
+                        <p><strong>SUCCESS: </strong>Mail sent successfully.</p>
+                    </div>
+                    <?php
                 }
             }
+            $con->CloseConnection();
             ?>
             <form  style="margin-top:20px;" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" class="form" id="validate">
                 <fieldset>
@@ -78,8 +81,8 @@
                                 <textarea name="txtDesc" rows="5" id="txtDesc" class="validate[required]" ></textarea>
                             </div><div class="clear"></div>
                         </div>
-                        <div class="formSubmit" style="float: left">
-                            <input type="submit" class="blueB" name="btnSubmit" value="send" />
+                        <div class="formSubmit">
+                            <input type="submit" class="redB" name="btnSubmit" value="send" />
                         </div>
                         <div class="clear"></div>
                     </div>

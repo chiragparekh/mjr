@@ -97,16 +97,67 @@
                                 $con = new MySQL();
                                 $ic = 0;
                                 $date = date("Y-m-d H:i:s");
+                                //generate string for mail
+                                $userdetail = mysql_query("select * from tbl_user where id=" . $_SESSION['userid']);
+                                $r = mysql_fetch_array($userdetail);
+                                $mail_string = '<table align="center" cellpadding="5" border="1" rules="all">
+                                    <tr><td colspan=5 align="center"><h1 style="font-size:16px">Order Details</h1></td></tr>                                    
+                                    <tr style="text-align:left"><td colspan=5 align="left"><table style="text-align:left;font-size:16px"><tr><th>Company Name:</th><td>' . $r['company_name'] . '</td></tr><tr><th>Contact Person:</th><td>' . $r['contact_person'] . '</td></tr><tr><th>Contact No.:</th><td>' . $r['contact_no'] . '</td></tr><tr><th>Email:</th><td>' . $r['email'] . '</td></tr></table></td></tr>
+                                <tr class="heading">
+                                    <th style="width:130px">Product Name</th>
+                                    <th>Weight</th>
+                                    <th>Quantity</th>
+                                    <th style="width:200px">Description</th>
+                                    <th style="width: 70px;">Image</th>                                    
+                                </tr>';
+
                                 foreach ($items as $item) {
-                                    $q = "select p.id as p_id,p.name as name,sc.name as sub_name,p.weight as weight,p.image_path as path from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where p.id in (" . $item["id"] . ")";
+                                    $q = "select p.id as p_id, p.name as name, sc.name as sub_name, p.weight as weight, p.image_path as path from tbl_product p inner join tbl_sub_category sc on p.sub_category_id = sc.id where p.id in (" . $item["id"] . ")";
                                     $result = mysql_query($q);
                                     while ($r = mysql_fetch_array($result)) {
-                                        $q = "insert into tbl_order(user_id,product_id,product_qty,product_desc,order_date) values(" . $_SESSION['userid'] . "," . $r["p_id"] . "," . $item["qty"] . ",'" . trim($item["desc"]) . "','" . $date . "')";
+                                        $qty = 0;
+                                        if (trim($item['qty']) == 0) {
+                                            $qty = "---";
+                                        } else {
+                                            $qty = trim($item['qty']);
+                                        }
+                                        $desc = "";
+                                        if (trim($item['desc']) == "") {
+                                            $desc = "Not Provided";
+                                        } else {
+                                            $desc = trim($item['desc']);
+                                        }
+                                        $path = "http://mjrjewels.com/manager/uploads/thumbs/" . $r["sub_name"] . "/" . $r["path"];
+                                        $mail_string.="<tr align=\"center\"><td>" . $r["name"] . "</td><td>" . $r["weight"] . "</td><td>" . $qty . "</td><td>" . $desc . "</td><td><img width=\"80\" height=\"80\" src=\"".$path."\"/></td></tr>";
+
+                                        $q = "insert into tbl_order(user_id, product_id, product_qty, product_desc, order_date) values(" . $_SESSION['userid'] . ", " . $r["p_id"] . ", " . $item["qty"] . ", '" . trim($item["desc"]) . "', '" . $date . "')";
                                         mysql_query($q);
                                     }
+                                    
                                 }
+                                $mail_string.="</table>";
                                 $_SESSION['cart'] = array_diff($_SESSION['cart'], $_SESSION['cart']);
-                                $message = "You have placed order successfully.We received your order detail and get you back soon.";
+
+                                $useremailrs = mysql_query("select email from tbl_user where type like 'admin' or id=" . $_SESSION['userid']);
+                                $useremails = "";
+                                while ($row = mysql_fetch_array($useremailrs)) {
+                                    $useremails.=$row['email'] . ",";
+                                }
+                                $useremails = substr($useremails, 0, strlen($useremails) - 1);
+                                $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
+                                        'Reply-To: info@mjrjewels.com' . "\r\n" .
+                                        'X-Mailer: PHP/' . phpversion();
+                                $header .= "MIME-Version: 1.0" . "\r\n";
+                                $header .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
+
+                                $message = trim($_POST['txtDesc']);
+                                if (!mail($useremails, "Notification about Order Confirmation from MJR Jewels website (www.mjrjewels.com)", $mail_string, $header)) {
+                                    //failure
+                                    $message = "Problem during your order confirmation.";
+                                } else {
+                                    //success
+                                    $message = "You have placed order successfully.We received your order detail and get you back soon.";
+                                }
                             }
                         } else {
                             $message = "No items found in your order.";
@@ -115,7 +166,8 @@
                     ?>
 
 
-                    <form method="post" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+                    <form method="post" action="<?php echo $_SERVER['PHP_SELF']
+                    ?>">
                         <div class="CSSTableGenerator" id="csstablediv">
                             <table align="center" cellpadding="5" border="1" rules="all" id="csstable">
                                 <tr class="heading">
@@ -169,7 +221,8 @@
                                                 for ($page_counter = 1; $page_counter < 4 + ($pagination_stages * 2); $page_counter++) {
                                                     if ($page_counter == $current_page) {
                                                         $pagination_system.= "<span class='current'>$page_counter</span>";
-                                          $records = mysql_num_rows($rs);          } else {
+                                                        $records = mysql_num_rows($rs);
+                                                    } else {
                                                         $pagination_system.= "<a href='" . $_SERVER['PHP_SELF'] . "?page=" . $page_counter . "'>$page_counter</a>";
                                                     }
                                                 }
