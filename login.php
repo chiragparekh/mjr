@@ -268,7 +268,8 @@
                                                             //$subject = 'Manojkumar Jayntilal Ranpara Jewels - Confirmation link';
                                                             //$message = 'Click this link to approve your account : ';                                                            
                                                             $message = 'http://localhost/mjr/confirm-account.php?auth=' . $random . '&id=' . $id;
-                                                            $headers = "From: admin@mjrjewels.com" . "\r\n";
+                                                            $headers = "From: MJR Jewellers<manojranpara@ymail.com>" . "\r\n".
+                                                                    'Reply-To: manojranpara@ymail.com' . "\r\n";
                                                             //$message = stripslashes($message);
                                                             //mail($email, $subject, $message, $headers);
                                                             $message.="&flg=manager";

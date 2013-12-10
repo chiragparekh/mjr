@@ -137,9 +137,9 @@
                         $useremails = substr($useremails, 0, strlen($useremails) - 1);
                         $header = 'MIME-Version: 1.0' . "\r\n";
                         $header .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                        $header .= 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
+                        $header .= 'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
                                 'BCC: '.$useremails. "\r\n" .
-                                'Reply-To: info@mjrjewels.com' . "\r\n" .
+                                'Reply-To: manojranpara@ymail.com' . "\r\n" .
                                 'X-Mailer: PHP/' . phpversion()."\r\n";
                         $message = "A new product is recently added in " . $cr['name'] . " category. Click this link to see this product <a href=\"http://www.mjrjewels.com/gallery.php?q=" . $subCat . "\">http://www.mjrjewels.com/gallery.php?q=" . $subCat . "</a>";
                         if (!mail(null, "Notification about new product arrival in MJR Jewels website (www.mjrjewels.com)", $message, $header)) {

@@ -49,9 +49,9 @@
                         $useremails.=$row['email'] . ",";
                     }
                     $useremails = substr($useremails, 0, strlen($useremails) - 1);
-                    $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
+                    $header = 'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
                             'BCC: '.$useremails. "\r\n" .
-                            'Reply-To: info@mjrjewels.com' . "\r\n" .
+                            'Reply-To: manojranpara@ymail.com' . "\r\n" .
                             'X-Mailer: PHP/' . phpversion();
                     $message = trim($_POST['txtDesc']);
                     if (!mail(null, "Notification from MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
