@@ -48,7 +48,7 @@
                     $useremails.=$row['email'] . ",";
                 }
                 $useremails = substr($useremails, 0, strlen($useremails) - 1);
-                $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
+                $header = 'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
                         'Reply-To: info@mjrjewels.com' . "\r\n" .
                         'X-Mailer: PHP/' . phpversion();
                 $message = trim($_POST['txtDesc']);
