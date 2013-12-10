@@ -55,7 +55,7 @@ $(document).ready(function()
 			<ul>				
 				<li><img src="images/01.jpg" alt=" " /></li>
 				<li><img src="images/02.jpg" alt=" " /></li>
-				<li><<img src="images/03.jpg" alt=" " /></li>
+				<li><img src="images/03.jpg" alt=" " /></li>
 				<li><img src="images/04.jpg" alt=" " /></li>
 				<li><img src="images/05.jpg" alt=" " /></li>			
 			</ul>

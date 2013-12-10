@@ -72,7 +72,7 @@
 
             if(!isset($_POST['submit'])){
     ?>
-    <div class="loginLogo"><img src="images/mjr-logo.png" alt="" /></div>
+    <div class="loginLogo"><img src="images/mjr-logo-2.png" alt="MJR Jewel" /></div>
     <div class="widget">
 
         <div class="title"><img src="images/icons/dark/files.png" alt="" class="titleIcon" /><h6>Login panel</h6></div>

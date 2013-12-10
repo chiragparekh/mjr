@@ -64,7 +64,7 @@
                         <p><strong>SUCCESS: </strong>Mail sent successfully.</p>
                     </div>
                     <?php
-                }                
+                }
             }
             $con->CloseConnection();
             ?>
@@ -72,11 +72,11 @@
                 <fieldset>
                     <div class="widget" style="margin-top: 20px;">
                         <div class="title">
-                            <img class="titleIcon" alt="" src="images/icons/dark/add.png" />
+                            <img class="titleIcon" alt="" src="images/icons/dark/pencil.png" />
                             <h6>Send mail to all</h6>
                         </div>                        
                         <div class="formRow">
-                            <label>Mail Content Description:</label>
+                            <label>Mail Body:</label>
                             <div class="formRight">
                                 <textarea name="txtDesc" rows="5" id="txtDesc" class="validate[required]" ></textarea>
                             </div><div class="clear"></div>
