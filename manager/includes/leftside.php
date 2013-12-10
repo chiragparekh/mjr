@@ -41,7 +41,7 @@
                 <li><a href="all-user.php" title="">All Users</a></li>
                 <li><a href="user.php" title="">Approved Users</a></li>
                 <li><a href="unapproved-user.php" title="">Unapproved Users</a></li>                
-                <li><a target="_blank" href="../login.php?manager=1" title="">Add New User</a></li>
+                <li><a href="add-new-user.php" title="">Add New User</a></li>
                 <li><a href="export-user.php" title="">Export User</a></li>
             </ul>
         </li>
