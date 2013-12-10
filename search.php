@@ -166,7 +166,7 @@
     <body>
         <?php include_once 'includes/header.php'; ?>
         <div class="category">            
-            <img src="images/search.png" width="187" height="40" alt="" />
+            <img src="images/search.png" width="160" height="25" alt="Search" style="margin-left: 40px;"/>
             <div class="clear"></div>
             <div style="margin: 10px 10px;">
                 <?php
