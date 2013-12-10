@@ -79,7 +79,7 @@
                         <div class="formRow">
                             <label>Mail Content Description:</label>
                             <div class="formRight">
-                                <textarea name="txtDesc" id="txtDesc" class="validate[required]" ></textarea>
+                                <textarea name="txtDesc" rows="5" id="txtDesc" class="validate[required]" ></textarea>
                             </div><div class="clear"></div>
                         </div>
                         <div class="formSubmit">
