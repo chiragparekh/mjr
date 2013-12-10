@@ -138,7 +138,7 @@
                         $header = 'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
                                 'Reply-To: info@mjrjewels.com' . "\r\n" .
                                 'X-Mailer: PHP/' . phpversion();
-                        $message = "A new product is recently added in " . $cr['name'] . " sub category. Click this link to see this product <a href=\"http://www.mjrjewels.com/gallery.php?q=" . $subCat . "\">http://www.mjrjewels.com/gallery.php?q=" . $subCat . "</a>";
+                        $message = "A new product is recently added in " . $cr['name'] . " category. Click this link to see this product <a href=\"http://www.mjrjewels.com/gallery.php?q=" . $subCat . "\">http://www.mjrjewels.com/gallery.php?q=" . $subCat . "</a>";
                         if (!mail($useremails, "Notification about new product arrival in MJR Jewels website (www.mjrjewels.com)", $message, $header)) {
                             ?>
                             <div class="nNote nFailure hideit">
