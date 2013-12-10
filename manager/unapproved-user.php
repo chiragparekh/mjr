@@ -150,6 +150,15 @@ $msg = new Message();
                     $con = new MySQL();
                     $uq = "update tbl_user set is_approve=1 where id=" . $id;
                     if (mysql_query($uq)) {
+                        $mrs=mysql_query("select email from tbl_user where type like 'user' and id=".$id);
+                        $mr=  mysql_fetch_array($mrs);
+                        $header =     'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
+                           'Reply-To: manojranpara@ymail.com' . "\r\n" .
+                          'X-Mailer: PHP/' . phpversion()."\r\n";
+                        if(!mail($mr['email'], "MJR Jewels (www.mjrjewels.com) - Your account is approved.", "Congratulation your account is approved by us. You can now login into our website.", $header))
+                        {
+                            $msg->error("Unable to send approve notification mail to user");
+                        }
                         $msg->success("Selected user is approved successfully");
                     } else {
                         $msg->error("Unable to approve selected user");

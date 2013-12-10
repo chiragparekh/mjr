@@ -56,15 +56,15 @@
                     include_once("includes/connection.php");
                     $con=new MySQL();
                     $rs=mysql_query("select email from tbl_user where type like 'user' and id in(".$ids.")");
-                    $header =     'From: MJR Jewellers<info@mjrjewels.com>' . "\r\n" .
-                           'Reply-To: info@mjrjewels.com' . "\r\n" .
-                          'X-Mailer: PHP/' . phpversion();
+                    $header =     'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
+                           'Reply-To: manojranpara@ymail.com' . "\r\n" .
+                          'X-Mailer: PHP/' . phpversion()."\r\n";
                     echo $msg->success("Mail sent successfully except following recipients :");
                     $fc=0;
                     while($r=mysql_fetch_array($rs))
                     {
                         //echo "Sending mail to " . $r["email"];
-                        $result = mail($r["email"], 'Mail from www.mjrjewels.com', $message, $header);
+                        $result = mail(null, 'Mail from MJR Jewels (www.mjrjewels.com)', $message, $header.'BCC: '.$r["email"]."\r\n");
                         if($result) {
                             //echo $msg->success("To: ".$r["email"]." - Mail Sent");
                         } else {
