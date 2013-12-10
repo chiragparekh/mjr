@@ -64,9 +64,7 @@
                         <p><strong>SUCCESS: </strong>Mail sent successfully.</p>
                     </div>
                     <?php
-                }
-                ?>    
-                <?php
+                }                
             }
             $con->CloseConnection();
             ?>
