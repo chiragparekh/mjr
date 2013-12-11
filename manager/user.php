@@ -100,7 +100,7 @@ $msg = new Message();
                             <div class="widget">
                                 <div class="title"><img src="images/icons/dark/list.png" alt="" class="titleIcon" /><h6>Send E-mail</h6></div>
                                 <div class="formRow">
-                                    <label>Selected emails (confirmed):</label>
+                                    <label>Selected emails:</label>
                                     <div style="border: 1px solid gray;height:150px;overflow:scroll;">
                                         <?php
                                         while ($r = mysql_fetch_array($rs)) {
@@ -157,9 +157,16 @@ $msg = new Message();
                     $con->CloseConnection();
                 }
                 ?>
-                <div class="widget" style="margin-top:20px;">
-                    <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck" /></span><h6>Approved User</h6></div>
-                    <form  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                <form  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                    <div style="float: left;" class="formSubmit">
+                        <input name="btnDelete" class="redB" type="submit" value="Delete Selected" onclick="javascript: return confirm('Do you really want to delete selected user?');" />
+                    </div>
+                    <div style="float: left;" class="formSubmit">
+                        <input name="btnMail" class="blueB" type="submit" value="Send E-mail To Selected" />
+                    </div>
+                    <div class="widget" style="margin-top:20px;">                    
+                        <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck" /></span><h6>Approved User</h6></div>
+
                         <table width="100%" cellspacing="0" cellpadding="0" id="checkAll" class="sTable withCheck mTable">
                             <thead>
                                 <tr>
@@ -178,19 +185,7 @@ $msg = new Message();
             <td style="width: 11%;">Actions</td>
                                     -->
                                 </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="10">
-                                        <div style="float: left;" class="formSubmit">
-                                            <input name="btnDelete" class="redB" type="submit" value="Delete Selected" onclick="javascript: return confirm('Do you really want to delete selected user?');" />
-                                        </div>
-                                        <div style="float: left;" class="formSubmit">
-                                            <input name="btnMail" class="blueB" type="submit" value="Send E-mail To Selected" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tfoot>
+                            </thead>                            
                             <tbody>
                                 <?php
                                 include_once "includes/connection.php";
@@ -306,7 +301,7 @@ $msg = new Message();
                                             <td>
                                                 <?php echo $r['company_name']; ?><br />
                                                 <!--
-            <a onclick="javascript: return confirm('Do you really want to delete this user?');" class="tipS" title="Delete" href="delete-user.php?q=<?php //echo $r["id"];  ?>">
+            <a onclick="javascript: return confirm('Do you really want to delete this user?');" class="tipS" title="Delete" href="delete-user.php?q=<?php //echo $r["id"];    ?>">
                                                     <img alt="Delete" src="images/icons/remove.png" />
                                                 </a>
                                                 -->
@@ -360,11 +355,11 @@ $msg = new Message();
                         <div>
                             <?php echo $pagination; ?> 
                         </div>
-                    </form>
-                </div>
-                <?php
-            }
-            ?>
+                </form>
+            </div>
+            <?php
+        }
+        ?>
         </div>
 
         <?php include_once "includes/footer.php"; ?>   

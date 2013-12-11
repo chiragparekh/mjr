@@ -147,7 +147,10 @@
         </select>
         <div style="float: left;margin: 0px;margin-left:10px" class="formSubmit">
             <input class="greenB" type="submit" value="Filter" />
-        </div>      
+        </div>
+        <div style="float: left;margin: 0px;margin-left:10px" class="formSubmit">
+                                <input onclick="javascript: return confirm('Do you really want to delete selected product?');" name="btnDelete" class="redB" type="submit" value="Delete Selected" />
+                            </div>
         <div class="clear"></div>
         <br />
         <div class="widget" style="margin-top:5px;">
@@ -164,16 +167,7 @@
                         <td style="width: 10%;">Image</td>
                         <td style="width: 11%;">Actions</td>
                     </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <td colspan="7">
-                            <div style="float: left;" class="formSubmit">
-                                <input onclick="javascript: return confirm('Do you really want to delete selected product?');" name="btnDelete" class="redB" type="submit" value="Delete Selected" />
-                            </div>
-                        </td>
-                    </tr>
-                </tfoot>
+                </thead>               
                 <tbody>
                     <?php
                         include_once "includes/connection.php";

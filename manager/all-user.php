@@ -144,10 +144,17 @@ $msg = new Message();
             <?php
             if (!isset($_POST['btnMail'])) {
                 ?>
-                <div class="widget" style="margin-top:20px;">
-                    <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck" /></span><h6>All User</h6></div>
-                    <form  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                        <table width="100%" cellspacing="0" cellpadding="0" id="checkAll" class="sTable withCheck mTable">
+                <form  action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                    <div style="float: left;" class="formSubmit">
+                        <input name="btnDelete" class="redB" type="submit" value="Delete Selected" onclick="javascript: return confirm('Do you really want to delete selected user?');" />
+                    </div>
+                    <div style="float: left;" class="formSubmit">
+                        <input name="btnMail" class="blueB" type="submit" value="Send E-mail To Selected" />
+                    </div>
+                    <div class="widget" style="margin-top:20px;">
+                        <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck" /></span><h6>All User</h6></div>
+
+                        <table width="100%" cellspacing="0" cellpadding="0" id="checkAll" class="sTable withCheck mTable">                            
                             <thead>
                                 <tr>
                                     <td><img alt="" src="images/icons/tableArrows.png"></td>
@@ -164,18 +171,9 @@ $msg = new Message();
                                     -->
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="8">
-                                        <div style="float: left;" class="formSubmit">
-                                            <input name="btnDelete" class="redB" type="submit" value="Delete Selected" onclick="javascript: return confirm('Do you really want to delete selected user?');" />
-                                        </div>
-                                        <div style="float: left;" class="formSubmit">
-                                            <input name="btnMail" class="blueB" type="submit" value="Send E-mail To Selected" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tfoot>
+    <!--                            <tfoot>-->
+
+                            <!--                            </tfoot>-->
                             <tbody>
                                 <?php
                                 include_once "includes/connection.php";
@@ -304,7 +302,7 @@ $msg = new Message();
                                                 <?php echo $r['city']; ?>
                                             </td>
                                             <td>
-                                                <img alt="status" title="<?php echo($r['is_approve']=="1")?"Approved":"Unapproved";?>" style="width: 30px;height:30px" src="images/<?php echo($r['is_approve']=="1")?"approved.png":"unapprove.png";?>" />
+                                                <img alt="status" title="<?php echo($r['is_approve'] == "1") ? "Approved" : "Unapproved"; ?>" style="width: 30px;height:30px" src="images/<?php echo($r['is_approve'] == "1") ? "approved.png" : "unapprove.png"; ?>" />
                                             </td>
                                             <td class="actBtns">
                                                 <a class="tipS" title="Detail" href="user-detail.php?q=<?php echo $r["id"]; ?>">
@@ -338,11 +336,11 @@ $msg = new Message();
                         <div>
                             <?php echo $pagination; ?> 
                         </div>
-                    </form>
-                </div>
-                <?php
-            }
-            ?>
+                </form>
+            </div>
+            <?php
+        }
+        ?>
         </div>
 
         <?php include_once "includes/footer.php"; ?>   

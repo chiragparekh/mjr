@@ -68,14 +68,14 @@
                     <?php
                 }
             }//end of button delete
-            ?>         
+            ?>  
+            <form id="frm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                <div style="float: left;margin-left: 5px; margin-right: 5px;" class="formSubmit">
+                    <input  onclick="javascript: return confirm('Do you really want to delete selected feedback?');" name="btnDelete" class="redB" type="submit" value="Delete Selected" />
+                </div> 
+                <div class="widget" style="margin-top:20px;">
+                    <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck"></span><h6>Feedback</h6></div>
 
-
-
-
-            <div class="widget" style="margin-top:20px;">
-                <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck"></span><h6>Feedback</h6></div>
-                <form id="frm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                     <table width="100%" cellspacing="0" cellpadding="0" id="checkAll" class="sTable withCheck mTable">
                         <thead>
                             <tr>
@@ -86,16 +86,7 @@
                                 <td>Description</td>
                                 <td style="width: 11%;">Actions</td>
                             </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6">
-                                    <div style="float: left;margin-left: 5px; margin-right: 5px;" class="formSubmit">
-                                        <input  onclick="javascript: return confirm('Do you really want to delete selected feedback?');" name="btnDelete" class="redB" type="submit" value="Delete Selected" />
-                                    </div>                     
-                                </td>
-                            </tr>
-                        </tfoot>
+                        </thead>                        
                         <tbody>
                             <?php
                             include_once "includes/connection.php";
@@ -138,8 +129,8 @@
                             ?>        
                         </tbody>
                     </table>
-                </form>
-            </div>
+            </form>
+        </div>
         </div>
         <?php include_once "includes/footer.php"; ?>   
 

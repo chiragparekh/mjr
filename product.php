@@ -401,7 +401,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
             </div>
             <div class="sub-product">
                 <div class="sub-pro-heading"><h1 class="center"  id="pro-name-h2"><?php echo $name ?></h1></div>
-                <div class="sub-pro-img"><a id="pro-image-link" rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="<?php echo $name ?>"><img id="pro-image" src="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="240" alt="" /></a></div>
+                <div class="sub-pro-img"><a id="pro-image-link" rel="example_group" href="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" title="<?php echo $name ?>"><img id="pro-image" src="manager/uploads/original/<?php echo $sub_name ?>/<?php echo $path ?>" width="280" height="280" alt="" /></a></div>
             </div>   
             <div class="product-detail">
                 <samp style="float:right;margin:0px;margin-right:10px">
@@ -415,7 +415,7 @@ if (!isset($_GET['q']) || $_GET['q'] == "") {
                     <a id="add-to-cart-link" href="javascript:openDetailForm()">Add to Cart </a><a href="cart.php">View Selected Items</a>                    
                 </samp>                                
                 <div class="clear"></div>
-                <div id="pro-detail-form" style=" width: 300px; margin-left: 10px;">
+                <div id="pro-detail-form" style=" width: 300px; margin-left: 10px;margin-top:20px">
                     <form>
                         <table>
                             <tr>
