@@ -267,7 +267,7 @@
                                                             $id = md5(mysql_insert_id());
                                                             //$subject = 'Manojkumar Jayntilal Ranpara Jewels - Confirmation link';
                                                             //$message = 'Click this link to approve your account : ';                                                            
-                                                            $message = 'http://localhost/mjr/confirm-account.php?auth=' . $random . '&id=' . $id;
+                                                            $message = 'http://www.mjrjewels.com/confirm-account.php?auth=' . $random . '&id=' . $id;
                                                             $headers = "From: MJR Jewellers<manojranpara@ymail.com>" . "\r\n".
                                                                     'Reply-To: manojranpara@ymail.com' . "\r\n";
                                                             //$message = stripslashes($message);

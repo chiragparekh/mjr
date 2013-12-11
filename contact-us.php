@@ -188,6 +188,13 @@ session_start();
                                                 $q = "insert into tbl_feedback(name,email,mobile,content) values('$name','$email','$mobile','$description')";
                                                 if (mysql_query($q) > 0) {
                                                     echo "<span style=\"color:green;font-weight:bold;font-size:13px\">Thank you for your valuable feedback</span>";
+                                                    $headers = "From: " . $name . "<" . $email . ">" . "\r\n" .
+                                                            'Reply-To: ' . $email . "\r\n";
+                                                    if (!mail("manojranpara@ymail.com", "Feedback is given in MJR Jewel website", "Following is detail for this feedback.\n\nName: $name\nEmail: $email\nMobile.: $mobile\nDescription: $description", $headers)) {
+                                                        ?>
+                                                        <span class="required">Unable to send feedback mail.</span>
+                                                        <?php
+                                                    }
                                                 }
                                             }
                                             $con->CloseConnection();
