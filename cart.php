@@ -13,9 +13,54 @@
         <script type="text/javascript" src="./fancybox/jquery.fancybox-1.3.4.pack.js"></script>
         <link rel="stylesheet" type="text/css" href="./fancybox/jquery.fancybox-1.3.4.css" media="screen" />        
         <link rel="stylesheet" type="text/css" href="css/pagination-style.css" media="screen"/>
+        <link rel="stylesheet" type="text/css" href="css/bubble-tooltip.css" media="screen"/>
+        <script type="text/javascript" src="js/jquery.blockUI.js"></script>
         <script>
             !window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
         </script>
+        <style>
+            .bubble 
+            {
+                position: absolute;
+                width: 210px;
+                height: 150px;
+                padding: 0px;
+                background: #decefd;
+                border: #674cad solid 3px;
+                -webkit-border-radius: 7px;
+                -moz-border-radius: 7px;
+                border-radius: 7px;
+            }
+
+            .bubble:after 
+            {
+                content: "";
+                position: absolute;
+                bottom: -15px;
+                left: 91px;
+                border-style: solid;
+                border-width: 15px 15px 0;
+                border-color: #decefd transparent;
+                display: block;
+                width: 0;
+                z-index: 1;
+            }
+
+            .bubble:before 
+            {
+                content: "";
+                position: absolute;
+                top: 153px;
+                left: 89px;
+                border-style: solid;
+                border-width: 17px 17px 0;
+                border-color: #674cad transparent;
+                display: block;
+                width: 0;
+                z-index: 0;
+            }
+        </style>
+
         <script type="text/javascript">
             <!--//---------------------------------+
         //  Developed by Roshan Bhattarai 
@@ -45,6 +90,68 @@
                     }
                 });
             });
+            $(document).ready(function()
+            {
+                //hide bubble
+                $(".bubble").hide();
+            });
+            function block()
+            {
+                $.blockUI(
+                        {
+                            css: {
+                                border: '2px solid #654E9D',
+                                padding: '4px',
+                                backgroundColor: '#fff',
+                                '-webkit-border-radius': '5px',
+                                '-moz-border-radius': '5px',
+                                'border-radius': '5px',
+                                opacity: .8,
+                                color: '#000',
+                            },
+                            message: "<img alt='Please Wait...' src='images/loader.gif'/>"
+                        }
+                );
+            }
+            function edit() {
+                //logic of edit cart                   
+                var pro_id = $("#current-item").val();
+                var qty = document.getElementById("txtQty").value;
+                var desc = document.getElementById("txtDesc").value;
+                if (qty.trim() == "") {
+                    qty = 0;
+                }
+                if (desc.trim() == "") {
+                    desc = "";
+                }
+                //if all validation works perfectly
+                block();
+                var formData = {pro_id: pro_id, qty: qty, desc: desc};
+                $.ajax({
+                    url: "ajax-edit-cart-item.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        if (data.trim() == "1") {
+                            alert("Item updated successfully.")
+                            location.reload();
+                        }
+                        $(".bubble").fadeOut('slow');
+                        $.unblockUI();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        $.unblockUI();
+                        $(".bubble").fadeOut('slow');
+                    }
+                });
+                $(".bubble").fadeOut('slow');
+                $.unblockUI();
+
+
+                return false;
+            }
         </script>
         <script type="text/javascript">
             function printDiv() {
@@ -71,6 +178,28 @@
                 <!--<div style="float: right;margin-right: 55px;margin-top: 5px;">
                     <a style="font-weight: bold;color: #DBCBFF;" href="order-log.php">View Order History</a>
                 </div>-->
+                <div class="bubble" style="width:auto">
+                    <input type="hidden" id="current-item" value="-1"/>
+                    <table align="center" style="margin:10px">
+                        <tr>                        
+                            <td>
+                                <input type="text" name="txtQty" id="txtQty" placeholder="Enter quantity" style="width:100%"/>
+                            </td>
+                        </tr>            
+                        <tr>                        
+                            <td>
+                                <textarea name="txtDesc" id="txtDesc" rows="3" style="width:100%;font-family:verdana;font-size: 12px" placeholder="Enter description"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <input onclick="edit()" type="button" id="btnEdit" value="Edit"/>
+                                <input onclick="javascript:$('.bubble').fadeOut('slow')" type="button" id="btnAddToCart" value="Close"/>
+                                <br/>
+                            </td>        
+                        </tr>    
+                    </table>
+                </div>
                 <div class="content" style="background: none">
                     <?php
                     if (isset($_POST['btnClear'])) {
@@ -128,12 +257,11 @@
                                             $desc = trim($item['desc']);
                                         }
                                         $path = "http://mjrjewels.com/manager/uploads/thumbs/" . $r["sub_name"] . "/" . $r["path"];
-                                        $mail_string.="<tr align=\"center\"><td>" . $r["name"] . "</td><td>" . $r["weight"] . "</td><td>" . $qty . "</td><td>" . $desc . "</td><td><img width=\"80\" height=\"80\" src=\"".$path."\"/></td></tr>";
+                                        $mail_string.="<tr align=\"center\"><td>" . $r["name"] . "</td><td>" . $r["weight"] . "</td><td>" . $qty . "</td><td>" . $desc . "</td><td><img width=\"80\" height=\"80\" src=\"" . $path . "\"/></td></tr>";
 
                                         $q = "insert into tbl_order(user_id, product_id, product_qty, product_desc, order_date) values(" . $_SESSION['userid'] . ", " . $r["p_id"] . ", " . $item["qty"] . ", '" . trim($item["desc"]) . "', '" . $date . "')";
                                         mysql_query($q);
                                     }
-                                    
                                 }
                                 $mail_string.="</table>";
                                 $_SESSION['cart'] = array_diff($_SESSION['cart'], $_SESSION['cart']);
@@ -145,9 +273,9 @@
                                 }
                                 $useremails = substr($useremails, 0, strlen($useremails) - 1);
                                 $header = 'From: MJR Jewellers<manojranpara@ymail.com>' . "\r\n" .
-                                        'BCC: '.$useremails. "\r\n" .
+                                        'BCC: ' . $useremails . "\r\n" .
                                         'Reply-To: manojranpara@ymail.com' . "\r\n" .
-                                        'X-Mailer: PHP/' . phpversion()."\r\n";
+                                        'X-Mailer: PHP/' . phpversion() . "\r\n";
                                 $header .= "MIME-Version: 1.0" . "\r\n";
                                 $header .= "Content-type:text/html;charset=iso-8859-1" . "\r\n";
 
@@ -281,7 +409,7 @@
                                     } else {
                                         $ic = 0;
                                         foreach ($items as $item) {
-                                            $q = "select p.name as name,sc.name as sub_name,p.weight as weight,p.image_path as path from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where p.id in (" . $item["id"] . ")";
+                                            $q = "select p.id as p_id,p.name as name,sc.name as sub_name,p.weight as weight,p.image_path as path from tbl_product p inner join tbl_sub_category sc on p.sub_category_id=sc.id where p.id in (" . $item["id"] . ")";
                                             $result = mysql_query($q);
                                             while ($r = mysql_fetch_array($result)) {
                                                 ?>
@@ -296,7 +424,7 @@
                                                         </a>
                                                         <!--<img width="80" height="80" src="<?php echo "manager/uploads/thumbs/" . $r["sub_name"] . "/" . $r["path"] ?>" />-->
                                                     </td>
-                                                    <td align="center"><a href="edit-cart.php?id=<?php echo $item["id"] ?>&name=<?php echo $r["name"] ?>&qty=<?php echo $item["qty"] ?>&desc=<?php echo $item["desc"] ?>"><img src="images/edit.png" width="25" height="25" alt="Edit Cart Item"/></a> <a onclick="javascript:return confirm('Are you sure you want to delete?')" href="cart.php?q=<?php echo $item["id"] ?>&o=delete"><img src="images/delete.png" width="25" height="25" lt="Delete Cart Item"/></a></td>
+                                                    <td align="center"><a href="#<?php echo $r['p_id']; ?>" id="edit-link" href="javascript:void(0)"><img id="edit-link-img" src="images/edit.png" width="25" height="25" alt="Edit Cart Item"/></a> <a onclick="javascript:return confirm('Are you sure you want to delete?')" href="cart.php?q=<?php echo $item["id"] ?>&o=delete"><img src="images/delete.png" width="25" height="25" lt="Delete Cart Item"/></a></td>
                                                 </tr>
                                                 <?php
                                             }
@@ -338,6 +466,7 @@
                         <div class="clear"></div>
                         <div style="" align="left"><?php echo $pagination_system; ?></div></br>
                         <div class="clear"></div>
+                        <input type="hidden" name="current-item" id="current-item" value="" />                        
                     </form>                    
                 </div>                 
             </div>
@@ -345,5 +474,56 @@
         </div>
         <!--endo-of-cart-->
         <?php include_once 'includes/footer.php'; ?>
+        <script type="text/javascript">
+            //code for the tooltip and add to cart
+            $("#edit-link").live("click", function(event) {
+                var left = $(this).position().left;
+                var top = $(this).position().top;
+                //$(".bubble").css({"top": event.pageY - 190 - 2, "left": event.pageX - 321});
+                $(".bubble").css({'top': top - 185, 'left': left - 100});
+                $(".bubble").hide();
+                $(".bubble").fadeIn('slow');
+                $("#txtQty,#txtDesc").val("");
+                $("#txtQty").focus();
+                //set pro id in hidden variable                
+                var pro_id = $(this).attr('href').split('#')[1];
+                $("#current-item").val(pro_id);
+
+
+                //set value of qty and desc when edit button clicked
+                var pro_id = $("#current-item").val();
+                var formData = {pro_id: pro_id};
+                $.ajax({
+                    url: "ajax-get-cart-item-details.php",
+                    type: "POST",
+                    data: formData,
+                    dataType: 'json',
+                    success: function(data, textStatus, jqXHR)
+                    {
+                        //alert(data);
+                        if (data.qty != 0)
+                            $("#txtQty").val(data.qty);
+                        if (data.desc != "")
+                            $("#txtDesc").val(data.desc);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        $.unblockUI();
+                        $(".bubble").fadeOut('slow');
+                    }
+                });
+            });
+            $(document).click(function(e) {
+
+                if (!$(e.target).is('#edit-link') && !$(e.target).is("#edit-link-img")) {
+                    $(".bubble").fadeOut('slow');
+                }
+            });
+            $(".bubble").click(function(e) {
+                e.stopPropagation();
+                return false;
+            });
+        </script>
+
     </body>
 </html>
