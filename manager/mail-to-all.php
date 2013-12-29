@@ -82,7 +82,7 @@
                                 <textarea name="txtDesc" rows="5" id="txtDesc" class="validate[required]" ></textarea>
                             </div><div class="clear"></div>
                         </div>
-                        <div class="formSubmit">
+                        <div class="formSubmit" style="float: left">
                             <input type="submit" class="redB" name="btnSubmit" value="send" />
                         </div>
                         <div class="clear"></div>

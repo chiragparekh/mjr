@@ -171,9 +171,18 @@ $msg = new Message();
                                     -->
                                 </tr>
                             </thead>
-    <!--                            <tfoot>-->
-
-                            <!--                            </tfoot>-->
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <div style="float: left;" class="formSubmit">
+                                            <input name="btnDelete" class="redB" type="submit" value="Delete Selected" onclick="javascript: return confirm('Do you really want to delete selected user?');" />
+                                        </div>
+                                        <div style="float: left;" class="formSubmit">
+                                            <input name="btnMail" class="blueB" type="submit" value="Send E-mail To Selected" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
                             <tbody>
                                 <?php
                                 include_once "includes/connection.php";

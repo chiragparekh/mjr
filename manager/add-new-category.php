@@ -170,7 +170,7 @@
                         </div><div class="clear"></div>
                     </div>
                     -->
-                    <div class="formSubmit">
+                    <div class="formSubmit" style="float: left">
                         <input type="submit" class="redB" name="btnSubmit" value="save" />
                     </div>
                     <div class="clear"></div>

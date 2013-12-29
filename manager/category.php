@@ -125,7 +125,7 @@
                 <div class="clear"></div>
                 <div class="widget" style="margin-top:20px;">
                     <div class="title"><span class="titleIcon"><input type="checkbox" name="titleCheck" id="titleCheck"></span><h6>Category</h6></div>
-                    <!--<form onsubmit="javascript: return confirm('Do you really want to delete selected category?');" action="<?php //echo $_SERVER['PHP_SELF'];  ?>" method="post">-->
+                    <!--<form onsubmit="javascript: return confirm('Do you really want to delete selected category?');" action="<?php //echo $_SERVER['PHP_SELF'];   ?>" method="post">-->
                     <table width="100%" cellspacing="0" cellpadding="0" id="checkAll" class="sTable withCheck mTable">
                         <thead>
                             <tr>
@@ -134,7 +134,18 @@
                                 <td class="sortCol">Parent Category Name</td>
                                 <td style="width: 11%;">Actions</td>
                             </tr>
-                        </thead>                       
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <div style="float: left;" class="formSubmit">
+                                        <div style="float: left;margin: 0px;margin-left:10px" class="formSubmit">
+                                            <input onclick="javascript: return confirm('Do you really want to delete selected category?');" name="btnDelete" class="redB" type="submit" value="Delete Selected" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
                         <tbody>
                             <?php
                             include_once "includes/connection.php";

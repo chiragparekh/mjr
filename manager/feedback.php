@@ -86,7 +86,16 @@
                                 <td>Description</td>
                                 <td style="width: 11%;">Actions</td>
                             </tr>
-                        </thead>                        
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6">
+                                    <div style="float: left;margin-left: 5px; margin-right: 5px;" class="formSubmit">
+                                        <input  onclick="javascript: return confirm('Do you really want to delete selected feedback?');" name="btnDelete" class="redB" type="submit" value="Delete Selected" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
                         <tbody>
                             <?php
                             include_once "includes/connection.php";

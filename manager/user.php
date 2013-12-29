@@ -185,7 +185,20 @@ $msg = new Message();
             <td style="width: 11%;">Actions</td>
                                     -->
                                 </tr>
-                            </thead>                            
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="10">
+                                        <div style="float: left;" class="formSubmit">
+                                            <input name="btnDelete" class="redB" type="submit" value="Delete Selected" onclick="javascript: return confirm('Do you really want to delete selected user?');" />
+                                        </div>
+                                        <div style="float: left;" class="formSubmit">
+                                            <input name="btnMail" class="blueB" type="submit" value="Send E-mail To Selected" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+
                             <tbody>
                                 <?php
                                 include_once "includes/connection.php";
@@ -301,7 +314,7 @@ $msg = new Message();
                                             <td>
                                                 <?php echo $r['company_name']; ?><br />
                                                 <!--
-            <a onclick="javascript: return confirm('Do you really want to delete this user?');" class="tipS" title="Delete" href="delete-user.php?q=<?php //echo $r["id"];    ?>">
+            <a onclick="javascript: return confirm('Do you really want to delete this user?');" class="tipS" title="Delete" href="delete-user.php?q=<?php //echo $r["id"];      ?>">
                                                     <img alt="Delete" src="images/icons/remove.png" />
                                                 </a>
                                                 -->
