@@ -670,6 +670,10 @@ li:hover .sub-level .sub-level {
     font-size:11px;
 }
 
+#footer span a{
+    color:black;	
+	text-decoration:underline;
+}
 
 /* general */
 .pull-right
